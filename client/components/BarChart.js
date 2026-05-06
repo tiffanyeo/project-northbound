@@ -13,11 +13,11 @@ let data = {
         [
             {
                 label: "lala",
-                points: 30
+                value: 30
             },
             {
                 label: "lola",
-                points: 32
+                value: 32
             }
         }
     ],
@@ -26,13 +26,13 @@ let data = {
     
 }
 */
+/* OM man vill ha en liggande chart behöver man inte ange sideways, annars anropar man sideways = false */
 
 export class BarChart extends HTMLElement{
     constructor(object, data, sideways = true){
         super();
         this.attachShadow({mode: "open"});
 
-        this.parent = this.parentNode;
         this.hw = object;
         this.data = data;
         this.sideways = sideways;
@@ -63,7 +63,7 @@ export class BarChart extends HTMLElement{
                 .call(d3.axisLeft(yScale))
                 .selectAll("text")
                 .attr("font-size", "12px")
-                .attr("font-family", "monospace");
+                .attr("font-family", "monospace"); 
 
             svg.append("g")
                 .attr("transform", `translate(0,${hPadding + hViz})`)
@@ -82,7 +82,38 @@ export class BarChart extends HTMLElement{
                 .attr("height", yScale.bandwidth())
                 .attr("fill", "#3EB51C")
                 .attr("stroke", "#a8eb95a6")
+        } else {
+            const xScale = d3.scaleBand(this.data.bars.map(d=> d.label),[wPadding, wPadding + wViz])
+                                .paddingInner(.2)
+                                .paddingOuter(.5);
+            const yScale = d3.scaleLinear([this.data.min, this.data.max], [hPadding + hViz, hPadding])
+            
+            svg.append("g")
+                .attr("transform", `translate(0, ${hPadding + hViz})`)
+                .call(d3.axisBottom(xScale))
+                .selectAll("text")
+                .attr("font-size", "12px")
+                .attr("font-family", "monospace");
+            
+            svg.append("g")
+                .attr("transform", `translate(${wPadding}, 0)`)
+                .call(d3.axisLeft(yScale))
+                .selectAll("text")
+                .attr("font-size", "12px")
+                .attr("font-family", "monospace");
+            
+            svg.selectAll("rect")
+                .data(this.data.bars)
+                .enter()
+                .append("rect")
+                .attr("x", d=> xScale(d.label))
+                .attr("y", d=> yScale(d.value))
+                .attr("width", xScale.bandwidth())
+                .attr("height", d=> yScale(this.data.min) - yScale(d.value))
+                .attr("fill", "#3EB51C")
+        
         }
+
         
     }
 

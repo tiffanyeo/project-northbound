@@ -21,13 +21,13 @@ export class TestView extends HTMLElement{
             min: 0
         };
         const hw = {
-            hSvg: 300,
-            wSvg: 400,
+            hSvg: 400,
+            wSvg: 800,
             wPadding: 80,
             hPadding: 50
         }
 
-        return new BarChart(hw, data);
+        return new BarChart(hw, data, false);
     }
     render(){
         this.shadowRoot.innerHTML = `
