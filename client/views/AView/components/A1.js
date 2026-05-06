@@ -18,8 +18,8 @@ class A1 extends HTMLElement {
 
         let projection = d3.geoMercator()
             .center([62.8457, 4.0843])
-            .scale(800)
-            .translate([1500, 1500])
+            .scale(1125)
+            .translate([2000, 2000])
 
         let path = d3.geoPath().projection(projection)
 
@@ -27,7 +27,9 @@ class A1 extends HTMLElement {
             .data(responseData.parsedContent)
             .enter()
             .append("path")
-            .attr("d", path);
+            .attr("d", path)
+            .attr("fill", "#0D1A2E")
+            .attr("stroke", "#00FF00")
 
 
 
@@ -37,11 +39,16 @@ class A1 extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <style>
                 svg {
-                    border: 3px solid green;
+                    
                 }
-            </style>
+                path:hover {
+                    cursor: pointer;
+                    fill: rgba(0, 255, 0, 0.14);
+                }
 
-            <svg width="1500" height="800"></svg>
+            </style>    
+
+            <svg width="100%" height="100vh"></svg>
         
         `
 
