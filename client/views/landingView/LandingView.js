@@ -1,0 +1,16 @@
+class LandingView {
+
+    constructor() {
+
+    }
+
+
+
+
+    render() {
+
+    }
+
+
+
+}
