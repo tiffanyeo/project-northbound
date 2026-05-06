@@ -13,11 +13,11 @@ let data = {
         [
             {
                 label: "lala",
-                points: 30
+                value: 30
             },
             {
                 label: "lola",
-                points: 32
+                value: 32
             }
         }
     ],
@@ -63,7 +63,7 @@ export class BarChart extends HTMLElement{
                 .call(d3.axisLeft(yScale))
                 .selectAll("text")
                 .attr("font-size", "12px")
-                .attr("font-family", "monospace");
+                .attr("font-family", "monospace"); 
 
             svg.append("g")
                 .attr("transform", `translate(0,${hPadding + hViz})`)
