@@ -2,123 +2,153 @@
     "participants": [
         {
             "id": 272,
-            "name": "P226"
+            "name": "Aikon",
+            "locationId": 5
         },
         {
             "id": 291,
-            "name": "P204"
+            "name": "Skai",
+            "locationId": 2
         },
         {
             "id": 205,
-            "name": "P205"
+            "name": "PølsAI",
+            "locationId": 3
         },
         {
             "id": 71,
-            "name": "P033"
+            "name": "Preben",
+            "locationId": 3
         },
         {
             "id": 223,
-            "name": "P187"
+            "name": "AIKEA",
+            "locationId": 4
         },
         {
             "id": 245,
-            "name": "P145"
+            "name": "AIafjallajökull",
+            "locationId": 1
         },
         {
             "id": 190,
-            "name": "P243"
+            "name": "Kaitla",
+            "locationId": 1
         },
         {
             "id": 210,
-            "name": "P045"
+            "name": "Pony",
+            "locationId": 1
         },
         {
             "id": 165,
-            "name": "P066"
+            "name": "Sauna",
+            "locationId": 5
         },
         {
             "id": 224,
-            "name": "P159"
+            "name": "Tommy Salo",
+            "locationId": 5
         },
         {
             "id": 124,
-            "name": "P294"
+            "name": "Hygge",
+            "locationId": 3
         },
         {
             "id": 150,
-            "name": "P131"
+            "name": "Hytta",
+            "locationId": 2
         },
         {
             "id": 27,
-            "name": "P230"
+            "name": "Gaiser",
+            "locationId": 1
         },
         {
             "id": 261,
-            "name": "P071"
+            "name": "Björn",
+            "locationId": 4
         },
         {
             "id": 178,
-            "name": "P232"
+            "name": "Laionai",
+            "locationId": 5
         },
         {
             "id": 2,
-            "name": "P012"
+            "name": "NorwAI",
+            "locationId": 2
         },
         {
             "id": 26,
-            "name": "P190"
+            "name": "StatAI",
+            "locationId": 2
         },
         {
             "id": 11,
-            "name": "P064"
+            "name": "KirunAI",
+            "locationId": 4
         },
         {
             "id": 118,
-            "name": "P007"
+            "name": "NokAI",
+            "locationId": 5
         },
         {
             "id": 234,
-            "name": "P295"
+            "name": "SSAIB",
+            "locationId": 4
         },
         {
             "id": 148,
-            "name": "P240"
+            "name": "KAI",
+            "locationId": 5
         },
         {
             "id": 121,
-            "name": "P090"
+            "name": "HurtigAI",
+            "locationId": 2
         },
         {
             "id": 85,
-            "name": "P281"
+            "name": "SpotifAI",
+            "locationId": 4
         },
         {
             "id": 172,
-            "name": "P285"
+            "name": "Fjorden",
+            "locationId": 2
         },
         {
             "id": 103,
-            "name": "P078"
+            "name": "Viking",
+            "locationId": 4
         },
         {
             "id": 25,
-            "name": "P128"
+            "name": "Grøn",
+            "locationId": 3
         },
         {
             "id": 154,
-            "name": "P049"
+            "name": "ØreByte",
+            "locationId": 3
         },
         {
             "id": 195,
-            "name": "P296"
+            "name": "Wulkaino",
+            "locationId": 1
         },
         {
             "id": 135,
-            "name": "P278"
+            "name": "Björk",
+            "locationId": 1
         },
         {
             "id": 235,
-            "name": "P147"
+            "name": "LEGO",
+            "locationId": 3
         }
     ]
 }

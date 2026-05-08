@@ -2,23 +2,23 @@
     "locations": [
         {
             "id": 1,
-            "name": "L01"
+            "name": "Iceland"
         },
         {
             "id": 2,
-            "name": "L02"
+            "name": "Norway"
         },
         {
             "id": 3,
-            "name": "L03"
+            "name": "Denmark"
         },
         {
             "id": 4,
-            "name": "L04"
+            "name": "Sweden"
         },
         {
             "id": 5,
-            "name": "L05"
+            "name": "Finland"
         }
     ]
 }

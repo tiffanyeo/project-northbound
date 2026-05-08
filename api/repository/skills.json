@@ -2,23 +2,23 @@
     "skills": [
         {
             "id": 1,
-            "name": "S01"
+            "name": "Speed"
         },
         {
             "id": 2,
-            "name": "S02"
+            "name": "Accuracy"
         },
         {
             "id": 3,
-            "name": "S03"
+            "name": "Token Power"
         },
         {
             "id": 4,
-            "name": "S04"
+            "name": "Intelligence"
         },
         {
             "id": 5,
-            "name": "S05"
+            "name": "Creativity"
         }
     ]
 }
