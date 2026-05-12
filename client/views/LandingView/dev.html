@@ -16,10 +16,17 @@
         }
     </style>
 
-    <terminal-prompt 
-        text-array='["Hej 1","Det här är sentence 2","Och sentence 3"]'
-        input-on-arrInx='[0]'
-    ></terminal-prompt>
+    <terminal-prompt text-array='[
+        "Hej! Vad vill du göra?",
+        "Skriv A, B eller C:"
+    ]' input-steps='{
+        "1": {
+            "A": "Du valde A – bra val!",
+            "B": "Du valde B – nice!",
+            "C": "Du valde C – coolt!"
+        }
+    }'></terminal-prompt>
+
 
     <script type="module" src="dev.js"></script>
 </body>

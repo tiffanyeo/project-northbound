@@ -1,131 +1,166 @@
 
 /* 
     <terminal-prompt 
-        text-array='["Hej 1","Det här är sentence 2","Och sentence 3"]'
-        input-on-arrInx='[2,3]'
+        text-array='["Hej 1","Hej 2","Välj A eller B","Du valde A","Du valde B"]'
+        input-on-arrInx='[2]'
+        fallouts='{
+            "2": { "A": 3, "B": 4 }
+        }'
     ></terminal-prompt>
 */
 
 class TerminalPrompt extends HTMLElement {
-
     constructor() {
         super();
         this.attachShadow({ mode: "open" });
+
+        this.textArr = [];
+        this.inputSteps = {};
+        this.currentIndex = 0;
     }
 
     connectedCallback() {
+        this.textArr = JSON.parse(this.getAttribute("text-array") || "[]");
+        this.inputSteps = JSON.parse(this.getAttribute("input-steps") || "{}");
+
         this.render();
-        this.service();
-    }
-
-    style() {
-        return `
-            .terminal {
-
-            }
-            
-            .userInput {
-                backgroundColor: rgb(58, 57, 57);
-            }
-                
-            .userInput {
-                outline: none;
-                display: inline-block;
-                min-width: 10px;
-            }
-
-            .cursor {
-                display: inline-block;
-                margin-left: 2px;
-            }
-        `;
+        this.run();
     }
 
     render() {
         this.shadowRoot.innerHTML = `
-            <style>${this.style()}</style>
+            <style>
+                .terminal {
+                    background: black;
+                    color: #00ff00;
+                    font-family: monospace;
+                    padding: 10px;
+                    min-height: 200px;
+                }
+
+                .line {
+                    margin-bottom: 6px;
+                }
+
+                .input-line {
+                    display: flex;
+                }
+
+                .cursor {
+                    width: 8px;
+                    background: #00ff00;
+                    margin-left: 4px;
+                    animation: blink 0.7s infinite;
+                }
+
+                @keyframes blink {
+                    0% { opacity: 1; }
+                    50% { opacity: 0; }
+                    100% { opacity: 1; }
+                }
+            </style>
+
             <div class="terminal">
-                <div class="terminal-output"></div>
-                <div class="terminal-input"></div>
+                <div class="output"></div>
+                <div class="input"></div>
             </div>
         `;
     }
 
-    service() {
+    async run() {
+        while (this.currentIndex < this.textArr.length) {
+            const line = this.textArr[this.currentIndex];
 
-        const raw = this.getAttribute("text-array");
-        const textArr = raw ? JSON.parse(raw) : [];
-        const inputIndexes = this.getAttribute("input-on-arrInx");
-        const outputElem = this.shadowRoot.querySelector(".terminal-output");
+            await this.typeLine(line);
 
-        let index = 0;
+            // Om detta index kräver input
+            if (this.inputSteps[this.currentIndex]) {
+                const userInput = await this.waitForInput();
+                this.printUserInput(userInput);
 
-        // Print sentences
-        const nextSentence = () => {
+                const step = this.inputSteps[this.currentIndex];
 
-            if (index >= textArr.length) return;
+                // Om input matchar ett definierat svar
+                if (step[userInput]) {
+                    const output = step[userInput];
 
-            const sentence = textArr[index];
+                    // Om output är en array → lägg till flera meningar
+                    if (Array.isArray(output)) {
+                        this.textArr.push(...output);
+                    } else {
+                        this.textArr.push(output);
+                    }
 
-            const p = document.createElement("p");
-            outputElem.appendChild(p);
-
-            this.typeText(sentence, p, 40);
-
-            const totalTime = sentence.length * 40 + 300;
-
-            setTimeout(() => {
-
-                // Open input if the sentence inx matches
-                if (inputIndexes.includes(index)) {
-                    this.showInputField();
+                } else {
+                    this.textArr.push("Jag förstod inte. Försök igen.");
                 }
-
-                index++;
-                nextSentence();
-
-            }, totalTime);
-        };
-
-        nextSentence();
-
-    }
-
-    typeText(text, element, speed = 80) {
-        let i = 0;
-
-        const interval = setInterval(() => {
-            element.textContent += text[i];
-            i++;
-
-            if (i >= text.length) {
-                clearInterval(interval);
             }
-        }, speed);
+
+            this.currentIndex++;
+        }
     }
 
-    showInputField() {
+    typeLine(text) {
+        return new Promise(resolve => {
+            const out = this.shadowRoot.querySelector(".output");
+            const line = document.createElement("div");
+            line.className = "line";
+            out.appendChild(line);
 
-        const inputContainer = this.shadowRoot.querySelector(".terminal-input");
+            let i = 0;
+            const interval = setInterval(() => {
+                line.textContent += text[i];
+                i++;
 
-        inputContainer.innerHTML = `
-            <span class="prompt">></span>
-            <span class="userInput" contenteditable="true"></span>
-            <span class="cursor">|</span>
-        `;
-
-        this.startCursorBlink();
-
+                if (i >= text.length) {
+                    clearInterval(interval);
+                    resolve();
+                }
+            }, 35);
+        });
     }
 
-    startCursorBlink() {
-        const cursor = this.shadowRoot.querySelector(".cursor");
+    waitForInput() {
+        return new Promise(resolve => {
+            const inputDiv = this.shadowRoot.querySelector(".input");
+            inputDiv.innerHTML = "";
 
-        setInterval(() => {
-            cursor.style.opacity = cursor.style.opacity === "0" ? "1" : "0";
-        }, 500);
+            const wrapper = document.createElement("div");
+            wrapper.className = "input-line";
+
+            const input = document.createElement("span");
+            input.textContent = "";
+
+            const cursor = document.createElement("span");
+            cursor.className = "cursor";
+
+            wrapper.appendChild(input);
+            wrapper.appendChild(cursor);
+            inputDiv.appendChild(wrapper);
+
+            const keyHandler = (e) => {
+                if (e.key === "Enter") {
+                    document.removeEventListener("keydown", keyHandler);
+                    inputDiv.innerHTML = "";
+                    resolve(input.textContent.trim());
+                } else if (e.key === "Backspace") {
+                    input.textContent = input.textContent.slice(0, -1);
+                } else if (e.key.length === 1) {
+                    input.textContent += e.key;
+                }
+            };
+
+            document.addEventListener("keydown", keyHandler);
+        });
     }
 
+    printUserInput(input) {
+        const out = this.shadowRoot.querySelector(".output");
+        const line = document.createElement("div");
+        line.className = "line";
+        line.textContent = "> " + input;
+        out.appendChild(line);
+    }
 }
 
 customElements.define("terminal-prompt", TerminalPrompt);
