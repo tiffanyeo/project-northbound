@@ -1,7 +1,5 @@
-
 // DATA
-
-export const DB = {
+const DB = {
     coaches: [],
     disciplines: [],
     locations: [],
@@ -10,11 +8,6 @@ export const DB = {
     skills: [],
     trainers: []
 };
-
-
-// function createFilename(entity) {
-//     return `./api/repository/${entity}.json`;
-// }
 
 async function readDB() {
 

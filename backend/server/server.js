@@ -16,7 +16,7 @@ async function handler(request) {
 
     if (url.pathname == "/getjsoncountrys") {
         console.log("HSHSH")
-        let jsonFileContent = await Deno.readTextFile("./client/selectedCountrys.json");
+        let jsonFileContent = await Deno.readTextFile("../repository/selectedCountrys.json");
         let parsedContent = JSON.parse(jsonFileContent);
 
         return new Response(JSON.stringify({ parsedContent }), { status: 200, header: headersCORS });
@@ -25,22 +25,22 @@ async function handler(request) {
     if (url.pathname == "/getdatasetquery") {
         let entity = url.searchParams.get("entity");
 
-        let jsonFileContent = await Deno.readTextFile(`./api/repository/${entity}.json`);
+        let jsonFileContent = await Deno.readTextFile(`../repository/${entity}.json`);
 
         let parsedContent = JSON.parse(jsonFileContent);
         return new Response(JSON.stringify(parsedContent), { status: 200, header: headersCORS });
     }
 
     const serveDirResponse = await serveDir(request, {
-        fsRoot: ".",
+        fsRoot: "../../",
         urlRoot: "",
         showDirListing: true
     })
 
     // Om vi vill navigera med sökvägen, så att deno inte ger oss 404
     if (request.status == 404) {
-        return serveDir(new Request(new URL("client/index.html", request.url)), {
-            fsRoot: ".",
+        return serveDir(new Request(new URL("/index.html", request.url)), {
+            fsRoot: "../../",
             urlRoot: ""
         });
 

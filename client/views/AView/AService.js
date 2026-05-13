@@ -1,18 +1,16 @@
 import DB from "../../../api/services/DBAccessTest.js";
 
-let season = DB.seasons[0].competitionDays;
+// TEST ANALYZE OF DATA FOR COMPETInG TIMESS OF PARTICIPANTS IN ONE SEASON
+let season = DB.seasons[2];
+let compDays = season.competitionDays;
+
 console.log(season)
 let totalParticipants = {};
 
-// for (let i = 0; i < seasons[0].competitionDays; i++) {
-
-//     if (i !== 2) {
-
-for (let i = 0; i < season.length; i++) {
+for (let i = 0; i < compDays.length; i++) {
 
 
-
-    for (let event of season[i].events) {
+    for (let event of compDays[i].events) {
 
         for (let participant of event.scores) {
 
@@ -31,8 +29,7 @@ for (let i = 0; i < season.length; i++) {
     }
 
 }
-//     }
-// }
+
 
 console.log(totalParticipants);
 console.log(Object.keys(totalParticipants).length)
