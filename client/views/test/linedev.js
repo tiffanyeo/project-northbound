@@ -1,6 +1,3 @@
-import DB from "../../../api/services/DBAccessTest.js";
-console.log("HEJ!")
-
 //Creating linechart
 const container = document.querySelector("#line");
 
