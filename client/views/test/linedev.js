@@ -1,5 +1,64 @@
-//Creating linechart
 const container = document.querySelector("#line");
+
+const data = [
+  {
+    season: "2021",
+    matches: [
+        { match: 1, points: 15 },
+        { match: 2, points: 10 },
+        { match: 3, points: 10 },
+        { match: 4, points: 15 },
+        { match: 5, points: 6 },
+        { match: 6, points: 6 },
+        { match: 7, points: 15 },
+        { match: 8, points: 10 },
+        { match: 9, points: 10 },
+        { match: 10, points: 15 },
+        { match: 11, points: 6 },
+        { match: 12, points: 15 },
+        { match: 13, points: 10 },
+        { match: 14, points: 10 },
+        { match: 15, points: 6 },
+        { match: 16, points: 6 },
+        { match: 17, points: 3 },
+        { match: 18, points: 3 },
+        { match: 19, points: 3 },
+        { match: 20, points: 6 },
+        { match: 21, points: 6 },
+        { match: 22, points: 6 }
+    ]
+  },
+  {
+    season: "2022",
+    matches: [
+        { match: 1, points: 15 },
+        { match: 2, points: 10 },
+        { match: 3, points: 10 },
+        { match: 4, points: 15 },
+        { match: 5, points: 6 },
+        { match: 6, points: 6 },
+        { match: 7, points: 15 },
+        { match: 8, points: 10 },
+        { match: 9, points: 10 },
+        { match: 10, points: 15 },
+        { match: 11, points: 6 },
+        { match: 12, points: 15 },
+        { match: 13, points: 10 },
+        { match: 14, points: 10 },
+        { match: 15, points: 6 },
+        { match: 16, points: 6 },
+        { match: 17, points: 3 },
+        { match: 18, points: 3 },
+        { match: 19, points: 3 },
+        { match: 20, points: 6 },
+        { match: 21, points: 6 },
+        { match: 22, points: 6 },
+        { match: 23, points: 15 },
+        { match: 24, points: 10 },
+        { match: 25, points: 10 }
+    ]
+  }
+];
 
 let offset = 0;
 
@@ -99,6 +158,7 @@ seasons.forEach((s, sindex) => {
             d3.select(this).attr("fill", "transparent")
         })
 });
+
 
 
 
