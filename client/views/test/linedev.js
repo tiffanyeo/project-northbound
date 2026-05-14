@@ -125,6 +125,8 @@ svg.selectAll(".season-line")
     .attr("stroke", "#33CE96")
     .attr("stroke-width", 2);
 
+//BridgeLine//
+
 for (let i = 0; i < seasons.length - 1; i++) {
   const end = seasons[i].matches[seasons[i].matches.length - 1];
   const start = seasons[i+1].matches[0];
@@ -137,6 +139,7 @@ for (let i = 0; i < seasons.length - 1; i++) {
     .attr("stroke", "#33CE96");
 }
 
+
 svg.append("line")
   .attr("x1", xScale(0))
   .attr("y1", yScale(0))
@@ -144,6 +147,46 @@ svg.append("line")
   .attr("y2", yScale(seasons[0].matches[0].points))
   .attr("stroke", "#33CE96");
 
+
+///Bridge Area//
+
+const bridgeArea = d3.area()
+                    .x(d=> xScale(d.x))
+                    .y0(yScale(0))
+                    .y1(d=> yScale(d.points))
+
+
+for (let i = 0; i < seasons.length - 1; i++) {
+  const end = seasons[i].matches[seasons[i].matches.length - 1];
+  const start = seasons[i+1].matches[0];
+
+  const bridge = [
+    { x: end.x,   points: end.points },
+    { x: start.x, points: start.points }
+  ];
+
+  svg.append("path")
+    .datum(bridge)
+    .attr("id", "b2")
+    .attr("fill", "transparent")
+    .attr("stroke", "none")
+    .attr("d", bridgeArea);
+}
+const first = seasons[0].matches[0];
+const firstBridge = [
+    {x:0, points: 0},
+    {x: first.x, points: first.points}
+]
+
+
+svg.append("path")
+    .datum(firstBridge)
+    .attr("id", "b1")
+    .attr("fill", "transparent")
+    .attr("stroke", "none")
+    .attr("d", bridgeArea)
+
+//appending area for seasons
 seasons.forEach((s, sindex) => {
     svg.append("path")
         .datum(s.matches)
@@ -153,9 +196,14 @@ seasons.forEach((s, sindex) => {
         .attr("d", areaMaker)
         .on("mouseover", function(){
             d3.select(this).attr("fill", "#33ce956d");
+            this.id == "S2" ? d3.select("#b2").attr("fill", "#33ce956d") : "";
+            this.id == "S1" ? d3.select("#b1").attr("fill", "#33ce956d") : "";
+            
         })
         .on("mouseout", function(){
             d3.select(this).attr("fill", "transparent")
+            d3.select("#b2").attr("fill", "transparent");
+            d3.select("#b1").attr("fill", "transparent");
         })
 });
 
