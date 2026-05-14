@@ -113,8 +113,6 @@ export class BarChart extends HTMLElement{
                 .attr("fill", "#3EB51C")
         
         }
-
-        
     }
 
     render(){
