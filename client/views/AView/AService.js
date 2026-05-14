@@ -30,9 +30,9 @@ for (let i = 0; i < compDays.length; i++) {
 
 }
 
-
 console.log(totalParticipants);
 console.log(Object.keys(totalParticipants).length)
+// TEST END
 
 
 
@@ -48,7 +48,7 @@ class AService {
     }
 
     getSeason() {
-        if (!this.chosenSeasonNum) {
+        if (!this.chosenSeasonNum && this.chosenSeasonNum != 0) {
             return DB.seasons;
         } else {
             let filterdSeason = this.DB.seasons.find(season => season.year == this.chosenSeasonNum);
@@ -66,6 +66,19 @@ class AService {
         }
     }
 
+    getParticipantName(participantId) {
+        if (!participantId) {
+            return;
+        }
+
+        let participantName = this.DB.participants.find(participant => participant.id == participantId);
+        if (!participantName) {
+            return;
+        }
+        return participantName.name;
+
+    }
+
     getAllScore() {
 
         for (let compDay of this.getSeason()["competitionDays"]) {
@@ -81,9 +94,11 @@ class AService {
 
                             if (!this.totalScore.some(partici => partici.id == participant.participantId)) {
 
-                                console.log("hehjj")
+                                let participantName = this.getParticipantName(participant.participantId);
 
-                                this.totalScore.push({ id: participant.participantId, score: participant.score });
+                                console.log(participant.participantId);
+
+                                this.totalScore.push({ id: participant.participantId, name: participantName, score: participant.score });
 
                             } else {
 
@@ -112,7 +127,7 @@ class AService {
 
 
 
-new AService("Debugging", 1, 3);
+new AService("Debugging", 0, 3);
 
 
 
