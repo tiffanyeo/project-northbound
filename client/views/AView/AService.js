@@ -36,7 +36,7 @@ console.log(Object.keys(totalParticipants).length)
 
 
 
-class AService {
+export class AService {
 
     constructor(discipline, season, locationId) {
         this.DB = DB;
@@ -44,11 +44,11 @@ class AService {
         this.chosenSeasonNum = season;
         this.locationId = locationId;
         this.totalScore = [];
-        this.getAllScore();
+        this.getParticipantsByLocation();
     }
 
     getSeason() {
-        if (!this.chosenSeasonNum && this.chosenSeasonNum != 0) {
+        if (this.chosenSeasonNum == null || this.chosenSeasonNum == null) {
             return DB.seasons;
         } else {
             let filterdSeason = this.DB.seasons.find(season => season.year == this.chosenSeasonNum);
@@ -119,15 +119,61 @@ class AService {
             }
         }
         console.log(this.totalScore);
+        return this.totalScore;
     }
 
 
+    getParticipantsByLocation() {
+        console.log(this.getSeason())
+        for (let property of this.getSeason()) {
 
+            for (let compDay of property.competitionDays) {
+
+                if (this.locationId == compDay.locationId) {
+
+                    for (let event of compDay.events) {
+
+                        for (let participant of event.scores) {
+
+                            if (!this.totalScore.some(partici => partici.id == participant.participantId)) {
+
+                                let participantName = this.getParticipantName(participant.participantId);
+
+
+                                this.totalScore.push({ id: participant.participantId, name: participantName, score: participant.score });
+
+                            } else {
+
+                                for (let partici of this.totalScore) {
+
+                                    if (partici.id == participant.participantId) {
+
+                                        partici.score += participant.score;
+
+                                    }
+
+
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        console.log(this.totalScore);
+        return this.totalScore;
+    }
 }
 
 
 
-new AService("Debugging", 0, 3);
+
+
+
+
+
+new AService(null, null, 3);
 
 
 

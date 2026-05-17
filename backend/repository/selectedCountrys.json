@@ -5732,6 +5732,7 @@
                 62.7898967841579,
                 16.739754033053558
             ],
+            "countryId": 4,
             "iso3": "SWE",
             "status": "Member State",
             "name": "Sweden",
@@ -9502,6 +9503,7 @@
                 55.9633982422569,
                 10.046298414692636
             ],
+            "countryId": 3,
             "iso3": "DNK",
             "status": "Member State",
             "name": "Denmark",
@@ -29908,6 +29910,7 @@
                 64.44817113990787,
                 14.084800836706737
             ],
+            "countryId": 2,
             "iso3": "NOR",
             "status": "Member State",
             "name": "Norway",
@@ -34510,6 +34513,7 @@
                 64.50042200031842,
                 26.266370864887225
             ],
+            "countryId": 5,
             "iso3": "FIN",
             "status": "Member State",
             "name": "Finland",
@@ -38874,6 +38878,7 @@
                 64.99758837371617,
                 -18.605467191288948
             ],
+            "countryId": 1,
             "iso3": "ISL",
             "status": "Member State",
             "name": "Iceland",

@@ -1,5 +1,8 @@
 //VIEWS
+import "./views/countryLandingView/countryLandingView.js";
+
 import "./views/AView/AView.js";
+
 import "./views/AView/AService.js";
 
 

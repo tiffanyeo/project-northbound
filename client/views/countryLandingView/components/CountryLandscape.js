@@ -1,10 +1,11 @@
-class A1 extends HTMLElement {
+class CountryLandscape extends HTMLElement {
 
     constructor() {
         super();
         this.attachShadow({ mode: "open" });
         this.render();
         this.d3Logic();
+        this.addEventListeners();
     }
 
 
@@ -30,8 +31,28 @@ class A1 extends HTMLElement {
             .attr("d", path)
             .attr("fill", "#0D1A2E")
             .attr("stroke", "#00FF00")
+            .attr("id", d => d.properties.countryId)
+
+    }
+
+    addEventListeners() {
+        let svg = this.shadowRoot.querySelector("svg");
 
 
+        svg.addEventListener("click", (event) => {
+            console.log(event.target)
+            if (event.target.tagName == "path") {
+                let data = { id: event.target.id, path: event.target.getAttribute("d") };
+
+                let customEvent = new CustomEvent("selected-country", {
+                    detail: data
+                });
+
+                window.dispatchEvent(customEvent);
+            }
+
+
+        })
 
     }
 
@@ -56,4 +77,4 @@ class A1 extends HTMLElement {
 
 }
 
-customElements.define("a1-comp", A1);
+customElements.define("country-landing", CountryLandscape);
