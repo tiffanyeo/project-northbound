@@ -1,14 +1,12 @@
-// import { DB } from "../services/DBAccess.js"
+import { DB } from "../services/DBAccess.js"
 
 // SHOW COUNTRIES AI-MODS
-if (false) {
-    for (let currCountry of DB.locations) {
+for (let currCountry of DB.locations) {
 
-        for (const currAI of DB.participants) {
-            if (currAI.locationId == currCountry.id) {
-                console.log(`${currCountry.name}s AI models:`, currAI.name);
-            }
+    for (const currAI of DB.participants) {
+        if (currAI.locationId == currCountry.id) {
+            console.log(`${currCountry.name}s AI models:`, currAI.name);
         }
-
     }
+
 }

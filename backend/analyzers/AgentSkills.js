@@ -1,10 +1,10 @@
 import { DB } from "./DBAccess.js"
 
 /* 
-    calcSkillFactor(participantId, skillId) == skillFactor (all time)
-    calcSkillFactor(participantId, skillId, seasonYear) == skillFactor (that season)
+    calcAgentSkills(participantId, skillId) == skillFactor (all time)
+    calcAgentSkills(participantId, skillId, seasonYear) == skillFactor (that season)
 */
-export function calcSkillFactor(participantId, skillId, seasonYear = null) {
+export function calcAgentSkills(participantId, skillId, seasonYear = null) {
 
     // SKILL-FACTOR RANGE (1-100)
     const minSkillFactor = 1;
