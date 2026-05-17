@@ -12,7 +12,7 @@ export const DB = {
 
 
 function createFilename(entity) {
-    return `./api/repository/${entity}.json`;
+    return `./backend/repository/${entity}.json`;
 }
 
 async function readDB() {
