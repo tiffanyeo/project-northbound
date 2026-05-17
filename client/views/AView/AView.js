@@ -26,17 +26,11 @@ class AView {
                 #A1View {
                     display: flex;
                     
-                    
+                    height: 100vh;
                     justify-content: center;
                     align-items: center;    
-                    gap:100px;
+                    gap: 200px;
                 }
-
-                country-side, graph-viz{
-                    width: 100%;
-                    height: 100%;
-                }
-
              
                
             </style>

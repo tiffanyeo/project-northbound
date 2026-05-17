@@ -81,7 +81,7 @@ export class AService {
 
     getAllScore() {
 
-        for (let compDay of this.getSeason()["competitionDays"]) {
+        for (let property of this.getSeason()) {
 
             if (this.locationId == compDay.locationId) {
 
@@ -120,6 +120,54 @@ export class AService {
         }
         console.log(this.totalScore);
         return this.totalScore;
+    }
+
+    getParticipantsByDiscipline() {
+
+        for (let property of this.getSeason()) {
+
+            for (let compDay of property.competitionDays) {
+
+                if (this.locationId == compDay.locationId) {
+
+                    for (let event of compDay.events) {
+
+                        // Denna kollar bara om en det är en disciplines, men inte om det är alla disciplines, kollar över det sen
+
+                        if (event.disciplineId == this.getDiscipline().id) {
+
+                            for (let participant of event.scores) {
+
+                                if (!this.totalScore.some(partici => partici.id == participant.participantId)) {
+
+                                    let participantName = this.getParticipantName(participant.participantId);
+
+                                    console.log(participant.participantId);
+
+                                    this.totalScore.push({ id: participant.participantId, name: participantName, score: participant.score });
+
+                                } else {
+
+                                    for (let partici of this.totalScore) {
+
+                                        if (partici.id == participant.participantId) {
+
+                                            partici.score += participant.score;
+
+                                        }
+
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return this.totalScore;
+
     }
 
 

@@ -14,7 +14,8 @@ class CountrySide extends HTMLElement {
     d3Logic(path) {
         let svg = d3.select(this.shadowRoot).select("svg");
 
-        svg.append("path").attr("d", path).attr("fill", "#0D1A2E").attr("stroke", "#00FF00");
+        svg.append("path").attr("d", path).attr("fill", "#0D1A2E").attr("stroke", "#00FF00").attr("transform", "translate(-500, 0) scale(0.7)");
+
 
     }
 
@@ -26,7 +27,7 @@ class CountrySide extends HTMLElement {
             
         </style>
 
-        <svg width="100%" height="100%"></svg>
+        <svg width="500px" height="700"></svg>
 
         `
 
