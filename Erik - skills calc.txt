@@ -1,0 +1,71 @@
+RÄKNA UT SKILLS:
+I ett event har vi fem disciplines med participant id och score för participant
+
+för varje discipline har vi id och skillfactors, med de olika skillsen i factorn
+
+Vi vill veta vilken skill en participant, eller vilken factor den har, hur bra den är på en viss skill?
+
+För att veta var de var bättre, så kan man jämföra per discipline för varje participant, för att se disciplinerna de är bra på
+
+Exempel. för participant 1
+
+VI går genom alla event de varit med i, och hittar deras score i det eventet
+
+Så för discipline1 så kollar vi för discipline1 och för participant1 och adderar alla score för den, och adderar det med disciplinens skillfactor
+
+
+ETT Exempel
+
+Discipline: SCHACK
+SKILLS: MEMORY - 21,
+STYRKA - 5,
+AGILITY - 1
+
+
+Discipline: TENNIS
+SKILLS: MEMORY - 5,
+STYRKA - 15,
+AGILITY - 21
+
+
+Nu vill jag veta hur bra en participant är för en skill
+
+DÅ måste man vikta den för sammma skill i varje discipline, så man viktar upp de
+
+Så för en participant, tar jag alla participant score från event för just en discipline och multiplicerar med disciplinens skill som vi är ute efter
+
+Då adderar vi nästa discipline med samma skills, och då adderar vi bara ihop med det ovan med discipline 1
+
+Vi fortsätter addera tills alla 5 disciplines är adderade 
+
+Slutligt så har vi participants average skill genom alla disciplinen.
+
+Såhär kan det se ut exempelvis: S1 = event.filter(D1, p1).reduce(sum)/length + D1(S1) + event.filter(D2, p1).reduce(sum) * D2(S1)/length
+
+Sedan delar vi allt dedär med antalet gånger man spelat, alltså length med varje Discipline(Skill), för att få ett medelvärde 
+ 
+
+
+REDUCE METHOD:
+
+Reduce är en array metod som tar emot två argument, fR, initial
+fR: ska vara en function som tar emot svå argument, accumelator och current som returnerar något
+Så reduce anropar funktionen för varje iteration i arrayen, då kommer accumelator tilldelas initial och current kommer vara första elementet i arrayen
+Den kommer sedan returnera X
+
+Nästa iteration, den föregående X som returnerades innan kommer vara accumelator och current blir nästa iteration, och där returnerar x utifrån det
+Det kommer köras om och om med alla X som returneras tills sista X retunreras.
+
+Detta kan användas för att addera alla tal i en array, exempelvis [10, 15, 2].reduce(fs, 0)
+let fs = function (acc, current){
+    return acc + current;
+}
+iteration0: acc = 0, current = 10 returns 10;
+iteration1: acc = 10, current 15 returns 25;
+iteration2: acc = 25, current 2 returns 27;
+Hela reduce kommer returnera 27 så det blir slut X värdet.
+
+
+function totalScoreSum(acc, current){
+    return acc + current.score;
+}
