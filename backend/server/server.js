@@ -1,5 +1,6 @@
-import { serveDir } from "jsr:@std/http/file-server";
 
+import { serveDir } from "jsr:@std/http/file-server";
+import "../services/DB.js"
 
 async function handler(request) {
 
