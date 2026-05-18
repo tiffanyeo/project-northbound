@@ -1,5 +1,4 @@
 
-
 const DB = {
     coaches: [],
     disciplines: [],

@@ -26,7 +26,7 @@ let data = {
 
 export class RadarChart extends HTMLElement {
 
-    constructor() {
+    constructor(heightWidth, data) {
         super();
         this.attachShadow({ mode: "open" });
         this.heightWidth = heightWidth;
