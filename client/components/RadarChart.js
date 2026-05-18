@@ -18,6 +18,7 @@ let data = {
             value: 60
         }
     ],
+    title: "ØreByte"
     max: 100,
     min: 0,
     color: "#3EB51C"
@@ -40,7 +41,7 @@ export class RadarChart extends HTMLElement {
 
     // normalize each axis value (0–1)
     normalizeData() {
-        
+
         const { min, max } = this.data;
         const normalizedAxes = [];
 
@@ -64,7 +65,7 @@ export class RadarChart extends HTMLElement {
 
     // build svg path string from array of points
     buildPath(points) {
-        
+
         let path = "";
         points.forEach((currPoint, currIndex) => {
             if (currIndex === 0) {
@@ -76,22 +77,23 @@ export class RadarChart extends HTMLElement {
 
         path += "Z";
         return path;
-        
+
     }
 
     d3Logic() {
-        
+
         const svg = d3.select(this.shadowRoot.querySelector("#radarchart"));
         const { hSvg, wSvg, hPadding, wPadding } = this.heightWidth;
         const color = this.data.color || "#3EB51C";
+        const title = this.data.title || "TITLEES";
 
         // center point of the chart
         const cx = wSvg / 2;
-        const cy = hSvg / 2;
+        const cy = (hSvg / 2) + 20;
 
         // max radius accounting for padding
         const maxRadius = Math.min(wSvg - wPadding * 2, hSvg - hPadding * 2) / 2;
-        
+
         const normalizedAxes = this.normalizeData();
         const numAxes = normalizedAxes.length;
 
@@ -101,7 +103,7 @@ export class RadarChart extends HTMLElement {
         // DRAW BACKGROUND GRID RINGS
         const gridLevels = 5;
         for (let currLevel = 1; currLevel <= gridLevels; currLevel++) {
-            
+
             const currRadius = (currLevel / gridLevels) * maxRadius;
             const currRingPoints = [];
 
@@ -123,7 +125,7 @@ export class RadarChart extends HTMLElement {
 
         // DRAW AXIS SPOKES (center -> tip) AND LABELS
         normalizedAxes.forEach((axis, currIndex) => {
-            
+
             const currAngle = angleSlice * currIndex;
             const currOuterPoint = this.convertAngles(currAngle, maxRadius, cx, cy);
 
@@ -147,7 +149,7 @@ export class RadarChart extends HTMLElement {
                 .attr("font-family", "monospace")
                 .attr("fill", "#cccccc")
                 .text(axis.label);
-                
+
         });
 
         // DRAW DATA POLYGON
@@ -178,6 +180,17 @@ export class RadarChart extends HTMLElement {
                 .attr("r", 4)
                 .attr("fill", color);
         });
+
+        // ADD TITLE
+        svg.append("text")
+            .attr("x", cx)
+            .attr("y", hSvg - 5)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "20px")
+            .attr("font-family", "monospace")
+            .attr("font-weight", "bold")
+            .attr("fill", color)
+            .text(title);
     }
 
     render() {
@@ -185,7 +198,7 @@ export class RadarChart extends HTMLElement {
             <svg id="radarchart" width="${this.heightWidth.wSvg}" height="${this.heightWidth.hSvg}"></svg>
         `;
     }
-    
+
 }
 
 customElements.define("radar-chart", RadarChart);
