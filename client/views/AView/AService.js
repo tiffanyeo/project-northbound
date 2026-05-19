@@ -173,6 +173,7 @@ export class AService {
 
     getParticipantsByLocation() {
         console.log(this.getSeason())
+
         for (let property of this.getSeason()) {
 
             for (let compDay of property.competitionDays) {

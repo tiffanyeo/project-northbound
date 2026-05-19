@@ -1,4 +1,5 @@
 import { AService } from "../AService.js";
+import { ASections } from "../newAService.js";
 
 class GraphViz extends HTMLElement {
 
@@ -12,9 +13,11 @@ class GraphViz extends HTMLElement {
 
 
     getParticipantsScoreByLocation(locationId) {
-        this.locationId = locationId;
-        let participantsByLocation = new AService(null, null, locationId);
-        let data = participantsByLocation.getParticipantsByLocation();
+        // this.locationId = locationId;
+        // let participantsByLocation = new AService(null, null, locationId);
+        // let data = participantsByLocation.getParticipantsByLocation();
+        let data = ASections.getAverageScoreLocation(locationId);
+        console.log(data)
         this.d3Logic(data);
     }
 
@@ -29,7 +32,7 @@ class GraphViz extends HTMLElement {
     async d3Logic(data) {
         let svg = d3.select(this.shadowRoot.querySelector("svg"))
             .attr("width", 500)
-            .attr("height", 750)
+            .attr("height", 600)
 
         // Rensa allt ur SVG elementet genom selectAll * och remove()
         svg.selectAll("*").remove();
@@ -48,12 +51,12 @@ class GraphViz extends HTMLElement {
 
         let scaleX = d3.scaleLinear()
             .domain([0, getMax()])
-            .range([50, 150]);
+            .range([50, 175]);
 
         let scaleY = d3.scaleBand()
             .domain(data.map(object => object.name))
-            .range([20, 700])
-            .paddingInner(0.75);
+            .range([50, 550])
+            .paddingInner(0.7);
 
         let containerGroup = svg.selectAll(".bar-group")
             .data(data)
@@ -63,50 +66,56 @@ class GraphViz extends HTMLElement {
 
 
 
-        let leftAxisScale = d3.axisLeft(scaleY);
-        let axisLeft = containerGroup.append("g")
-            .call(leftAxisScale)
-            .attr("transform", `translate(100, 0)`);
+        // let leftAxisScale = d3.axisLeft(scaleY);
+        // let axisLeft = containerGroup.append("g")
+        //     .call(leftAxisScale)
+        //     .attr("transform", `translate(100, 0)`);
 
-        axisLeft.selectAll("line").remove();
-        axisLeft.select(".domain").remove();
-        axisLeft.selectAll("text")
-            .style("font-size", "16px")
-            .style("fill", "white");
+        // axisLeft.selectAll("line").remove();
+        // axisLeft.select(".domain").remove();
+        // axisLeft.selectAll("text")
+        //     .style("font-size", "16px")
+        //     .style("fill", "white");
 
 
 
         // BACKGROUNDS RECTS
         containerGroup.append("rect")
-            .attr("x", 50)
+            .attr("x", 150)
             .attr("y", d => scaleY(d.name))
-            .attr("width", 150)
+            .attr("width", 215)
             .attr("height", scaleY.bandwidth())
             .attr("fill", "white")
             .attr("rx", 2)
             .attr("ry", 2)
-            .attr("transform", `translate(180, 0)`);
 
 
         // VALUE RECTS
         containerGroup.append("rect")
-            .attr("x", 50)
+            .attr("x", 150)
             .attr("y", d => scaleY(d.name))
             .attr("width", d => scaleX(d.score))
             .attr("height", scaleY.bandwidth())
             .attr("fill", "#5FD5EC")
             .attr("rx", 2)
             .attr("ry", 2)
-            .attr("transform", `translate(180, 0)`);
+
 
 
         // SCORE TEXT
         containerGroup.append("text")
-            .attr("x", 410)
-            .attr("y", d => scaleY(d.name))
+            .attr("x", 450)
+            .attr("y", d => scaleY(d.name) + 15)
             .text(d => d.score)
             .style("fill", "white")
-            .style("font-size", "12px");
+            .style("font-size", "18px");
+
+        containerGroup.append("text")
+            .attr("x", 5)
+            .attr("y", d => scaleY(d.name) + 15)
+            .text(d => d.name)
+            .style("fill", "white")
+            .style("font-size", "18px");
 
 
     }
@@ -220,13 +229,18 @@ class GraphViz extends HTMLElement {
                 stroke: green;
                 cursor: pointer;
             }
+            
+            .bar-group {
+                display: flex;
+                align-items: center;
+            }
 
         </style>
         <div id="vizBox">
 
             <div id="topPart">
                 <p>AI MODELS</p>
-                <p>HIGHEST SCORE</p>
+                <p>AVERAGE SCORE</p>
             </div>
 
             <svg></svg>

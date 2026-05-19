@@ -141,13 +141,88 @@
             "locationId": 1
         },
         {
-            "id": 135,  
+            "id": 135,
             "name": "Björk",
             "locationId": 1
         },
         {
             "id": 235,
             "name": "LEGO",
+            "locationId": 3
+        },
+        {
+            "id": 128,
+            "name": "Fjord",
+            "locationId": 2
+        },
+        {
+            "id": 140,
+            "name": "Blixt",
+            "locationId": 4
+        },
+        {
+            "id": 119,
+            "name": "Sampo",
+            "locationId": 5
+        },
+        {
+            "id": 104,
+            "name": "Tycho",
+            "locationId": 3
+        },
+        {
+            "id": 183,
+            "name": "Hekla",
+            "locationId": 1
+        },
+        {
+            "id": 35,
+            "name": "Fridtjof",
+            "locationId": 2
+        },
+        {
+            "id": 186,
+            "name": "Åke",
+            "locationId": 4
+        },
+        {
+            "id": 139,
+            "name": "Kajo",
+            "locationId": 5
+        },
+        {
+            "id": 298,
+            "name": "Roald",
+            "locationId": 2
+        },
+        {
+            "id": 118,
+            "name": "Frosti",
+            "locationId": 1
+        },
+        {
+            "id": 251,
+            "name": "Brim",
+            "locationId": 2
+        },
+        {
+            "id": 74,
+            "name": "Tieto",
+            "locationId": 5
+        },
+        {
+            "id": 192,
+            "name": "Aksel",
+            "locationId": 2
+        },
+        {
+            "id": 149,
+            "name": "Kari",
+            "locationId": 1
+        },
+        {
+            "id": 14,
+            "name": "Anker",
             "locationId": 3
         }
     ]
