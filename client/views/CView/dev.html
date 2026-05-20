@@ -10,11 +10,228 @@
         body {
             background-color: black;
         }
+
+        .country-agent-container {
+            box-sizing: border-box;
+            padding: 20px;
+            width: 100vw;
+            max-height: 100vh;
+            min-height: 1000px;
+            display: flex;
+            gap: 50px;
+
+        }
+
+        .containers {
+            padding: 5vh;
+        }
+
+        .country-agents {
+            flex: 7;
+        }
+
+        .agent-charts {
+            min-height: 100%;
+            min-width: 100%;
+            justify-content: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .compare-container {
+            flex: 2;
+        }
+
+        .compare-chart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 50px;
+            border: 2px solid greenyellow;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .compare-agent-chart {
+            display: flex;
+            justify-content: center;
+            min-width: 100%;
+            min-height: 200px;
+        }
+
+
+        .title-container {
+            min-height: 100px;
+        }
+
+        .titles {
+            text-align: center;
+            font-family: Courier, monospace;
+            color: white;
+        }
+
+
+
+
+        .custom-dropdown {
+            position: relative;
+            width: 220px;
+
+            font-family: monospace;
+            user-select: none;
+        }
+
+        .dropdown-selected {
+            background: #050505;
+            color: #39ff14;
+
+            border: 2px solid #39ff14;
+            border-radius: 10px;
+
+            padding: 12px 16px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 0 8px rgba(57, 255, 20, .5),
+                inset 0 0 8px rgba(57, 255, 20, .15);
+
+            transition: .2s;
+        }
+
+        .dropdown-selected:hover {
+            box-shadow:
+                0 0 14px rgba(57, 255, 20, .8),
+                inset 0 0 12px rgba(57, 255, 20, .2);
+        }
+
+        .dropdown-options {
+            position: absolute;
+
+            top: 110%;
+            left: 0;
+
+            width: 100%;
+
+            background: #050505;
+
+            border: 2px solid #39ff14;
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            display: none;
+
+            z-index: 100;
+        }
+
+        .dropdown-option {
+            padding: 12px 16px;
+
+            color: #39ff14;
+
+            cursor: pointer;
+
+            transition: .15s;
+        }
+
+        .dropdown-option:hover {
+            background: #39ff14;
+            color: black;
+        }
+
+        .custom-dropdown {
+            position: relative;
+            width: 220px;
+
+            font-family: monospace;
+            user-select: none;
+        }
+
+        .dropdown-selected {
+            background: #050505;
+            color: #39ff14;
+
+            border: 2px solid #39ff14;
+            border-radius: 10px;
+
+            padding: 12px 16px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 0 8px rgba(57, 255, 20, .5),
+                inset 0 0 8px rgba(57, 255, 20, .15);
+
+            transition: .2s;
+        }
+
+        .dropdown-selected:hover {
+            box-shadow:
+                0 0 14px rgba(57, 255, 20, .8),
+                inset 0 0 12px rgba(57, 255, 20, .2);
+        }
+
+        .dropdown-options {
+            position: absolute;
+
+            top: 110%;
+            left: 0;
+
+            width: 100%;
+
+            background: #050505;
+
+            border: 2px solid #39ff14;
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            display: none;
+
+            z-index: 100;
+        }
+
+        .dropdown-option {
+            padding: 12px 16px;
+
+            color: #39ff14;
+
+            cursor: pointer;
+
+            transition: .15s;
+        }
+
+        .dropdown-option:hover {
+            background: #39ff14;
+            color: black;
+        }
+
+        .dropdown-options {
+            display: none;
+        }
+
+        .dropdown-options.active {
+            display: block;
+        }
     </style>
+
 </head>
 
 <body>
+
     <script type="module" src="./dev.js"></script>
+    <location-comparison location="4"></location-comparison>
+
 </body>
 
 </html>

@@ -53,18 +53,19 @@ function createRadarChart(type, data) {
         case "agent":
 
             // constraints
-            if (data.agent.participantId == null) return console.log("agent required");
+            if (!data.agent) data.agent = Agents.getAgentsAverage(null, null, null, 1);
 
             // all skills (average)
-            const agentAverage = Agents.getAllSkillFactors(data.agent.participantId)
+            const agentAverage = Agents.getAllSkillFactors(data.agent[0].participantId)
+            const color = DB.participants.find(currA => currA.id === data.agent[0].participantId).color;
+            const labels = Object.keys(agentAverage);
+            const values = Object.values(agentAverage);
             const meta = {
                 min: 0,
                 max: 100,
                 color: data.color || null,
-                title: data.agent.name,
+                title: data.agent[0].name,
             }
-            const labels = agentAverage.map(datum => datum[0])
-            const values = agentAverage.map(datum => datum[1])
 
             // build chart
             const builtData = buildData(labels, values, meta)
@@ -118,8 +119,20 @@ function createRadarChart(type, data) {
 
 }
 
-
-export function buildCountriesAgents(countryId, parent = null) {
-    const dataObj = { parent: parent || document.querySelector("body"), location: { id: countryId } };
+// ALL AGENTS (by country)
+export function buildCountriesAgentsCharts(countryId, parent = null) {
+    const dataObj = {
+        parent: parent || document.querySelector("body"),
+        location: { id: countryId }
+    };
     createRadarChart("location", dataObj)
+}
+
+// ONE AGENT (average skills)
+export function buildAvergeSkillChart(participant = null, parent = null) {
+    const dataObj = {
+        parent: parent || document.querySelector("body"),
+        agent: participant
+    };
+    createRadarChart("agent", dataObj)
 }

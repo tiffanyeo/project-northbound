@@ -1,14 +1,16 @@
 
+import "./components/locationComparison/locationComparison.js"
+
 import { RadarChart } from "../../components/RadarChart.js";
 import { Agents } from "../../services/Agents/Agents.js";
 import { DB } from "../../services/DBAccess.js";
 
-import { buildCountriesAgents } from "./service.js";
-
+import { buildCountriesAgentsCharts } from "./service.js";
+import { buildAvergeSkillChart } from "./service.js";
 
 /* BUILD COUNTRIES TOP AGENTS */
 // ICELAND
-buildCountriesAgents(1)
+/* buildCountriesAgents(1)
 // NORWAY
 buildCountriesAgents(2)
 // DENMARK
@@ -16,13 +18,17 @@ buildCountriesAgents(3)
 // SWEDEN
 buildCountriesAgents(4)
 // FINLAND
-buildCountriesAgents(5)
+buildCountriesAgents(5) */
 
+/* 
 
+const body = document.querySelector("body")
+const agentCharts = document.querySelector(".agent-charts");
+buildCountriesAgentsCharts(5, agentCharts)
 
-
-
-
+const compareChart = document.querySelector(".compare-agent-chart");
+buildAvergeSkillChart(null, compareChart)
+ */
 /* 
 
 const skills = DB["skills"];
