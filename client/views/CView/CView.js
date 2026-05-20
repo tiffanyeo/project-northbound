@@ -1,9 +1,21 @@
 
+import "./components/locationComparison/locationComparison.js"
+
 class CView extends HTMLElement {
+
+    constructor() {
+        super();
+        this.attachShadow({ mode: "open" });
+        this.locationView = this.getAttribute("locationView");
+    }
 
     connectedCallback() {
         this.render();
         this.eListeners();
+        
+        
+        // DEV
+        if(!this.locationView) this.locationView = 1;
     }
 
     style() {
@@ -26,13 +38,13 @@ class CView extends HTMLElement {
         aBtn.addEventListener("click", () => {
             this.scrollView("a");
         });
-        
+
         // Scroll to B-View
         const bBtn = this.querySelector(".b-view-btn");
         bBtn.addEventListener("click", () => {
             this.scrollView("b");
         });
-        
+
     }
 
     scrollView(view) {
@@ -51,6 +63,7 @@ class CView extends HTMLElement {
 
             <section class="view">
                 <h1>View C</h1>
+                <location-comparison location="${this.locationView}"></location-comparison>
                 <button id="a-view">Show locations</button>
             </section>
         `;

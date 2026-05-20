@@ -41,7 +41,6 @@ function buildRadarChart(data, hw, parent) {
     parent.appendChild(radarChart);
 }
 
-
 function createRadarChart(type, data) {
 
     // constraints
@@ -136,3 +135,5 @@ export function buildAvergeSkillChart(participant = null, parent = null) {
     };
     createRadarChart("agent", dataObj)
 }
+
+
