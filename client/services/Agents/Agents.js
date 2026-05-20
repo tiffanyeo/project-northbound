@@ -9,6 +9,7 @@ class agents {
         return skillFactor;
     }
 
+    // { Speed: 72, Accuracy: 70, "Token Power": 95, Intelligence: 60, Creativity: 54 }
     getAllSkillFactors(participantId, seasonYear = null) {
 
         const skillFactors = {};
@@ -46,7 +47,8 @@ class agents {
         };
     }
 
-    getTopAgentsBySkill(skillId, seasonYear = null, limit = 5) {
+    // Object { participantId: 154, name: "ØreByte", skillFactor: 70 },  {}
+    getAgentsAverage (locationId = null, skillId = null, seasonYear = null, limit = 5) {
 
         const topAgents = [];
 
@@ -68,9 +70,20 @@ class agents {
             (a, b) => b.skillFactor - a.skillFactor
         );
 
-        return topAgents.slice(0, limit);
+        // ALL LOCATIONS
+        if (!locationId) {
+            return topAgents.slice(0, limit);
+        }
+
+        // PER LOCATION
+        const locationAgents = DB.participants.filter(p => p.locationId == locationId);
+        const filteredAgents = topAgents.filter(currAgent =>
+            locationAgents.some(currLocAgent => currLocAgent.id === currAgent.participantId)
+        );
+        
+        return filteredAgents.slice(0, limit)
     }
-    
+
     getWorstAgentsBySkill(skillId, seasonYear = null, limit = 5) {
 
         const worstAgents = [];
