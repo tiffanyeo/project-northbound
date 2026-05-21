@@ -25,252 +25,227 @@ export class LocationComparison extends HTMLElement {
         this.render();
         this.eListeners();
 
+        this.updateTitle();
+        this.setupTooltip();
+
         this.buildCountryCharts();
         this.buildComparisonAgent();
     }
 
     style() {
         return `
-                body {
-                    background-color: black;
-                }
-    
-                .country-agent-container {
-                    box-sizing: border-box;
-                    padding: 20px;
-                    width: 100vw;
-                    max-height: 100vh;
-                    min-height: 1000px;
-                    display: flex;
-                    gap: 50px;
-    
-                }
-    
-                .containers {
-                    padding: 5vh;
-                }
-    
-                .country-agents {
-                    flex: 7;
-                }
-    
-                .agent-charts {
-                    min-height: 100%;
-                    min-width: 100%;
-                    justify-content: center;
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 30px;
-                }
-    
-                .compare-container {
-                    flex: 2;
-                }
-    
-                .compare-chart-container {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 50px;
-                    border: 2px solid greenyellow;
-                    padding: 20px;
-                    border-radius: 10px;
-                }
-    
-                .compare-agent-chart {
-                    display: flex;
-                    justify-content: center;
-                    min-width: 100%;
-                    min-height: 200px;
-                }
-    
-    
-                .title-container {
-                    min-height: 100px;
-                }
-    
-                .titles {
-                    text-align: center;
-                    font-family: Courier, monospace;
-                    color: white;
-                }
-    
-    
-    
-    
-                .custom-dropdown {
-                    position: relative;
-                    width: 220px;
-    
-                    font-family: monospace;
-                    user-select: none;
-                }
-    
-                .dropdown-selected {
-                    background: #050505;
-                    color: #39ff14;
-    
-                    border: 2px solid #39ff14;
-                    border-radius: 10px;
-    
-                    padding: 12px 16px;
-    
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-    
-                    cursor: pointer;
-    
-                    box-shadow:
-                        0 0 8px rgba(57, 255, 20, .5),
-                        inset 0 0 8px rgba(57, 255, 20, .15);
-    
-                    transition: .2s;
-                }
-    
-                .dropdown-selected:hover {
-                    box-shadow:
-                        0 0 14px rgba(57, 255, 20, .8),
-                        inset 0 0 12px rgba(57, 255, 20, .2);
-                }
-    
-                .dropdown-options {
-                    position: absolute;
-    
-                    top: 110%;
-                    left: 0;
-    
-                    width: 100%;
-    
-                    background: #050505;
-    
-                    border: 2px solid #39ff14;
-                    border-radius: 10px;
-    
-                    overflow: hidden;
-    
-                    display: none;
-    
-                    z-index: 100;
-                }
-    
-                .dropdown-option {
-                    padding: 12px 16px;
-    
-                    color: #39ff14;
-    
-                    cursor: pointer;
-    
-                    transition: .15s;
-                }
-    
-                .dropdown-option:hover {
-                    background: #39ff14;
-                    color: black;
-                }
-    
-                .custom-dropdown {
-                    position: relative;
-                    width: 220px;
-    
-                    font-family: monospace;
-                    user-select: none;
-                }
-    
-                .dropdown-selected {
-                    background: #050505;
-                    color: #39ff14;
-    
-                    border: 2px solid #39ff14;
-                    border-radius: 10px;
-    
-                    padding: 12px 16px;
-    
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-    
-                    cursor: pointer;
-    
-                    box-shadow:
-                        0 0 8px rgba(57, 255, 20, .5),
-                        inset 0 0 8px rgba(57, 255, 20, .15);
-    
-                    transition: .2s;
-                }
-    
-                .dropdown-selected:hover {
-                    box-shadow:
-                        0 0 14px rgba(57, 255, 20, .8),
-                        inset 0 0 12px rgba(57, 255, 20, .2);
-                }
-    
-                .dropdown-options {
-                    position: absolute;
-    
-                    top: 110%;
-                    left: 0;
-    
-                    width: 100%;
-    
-                    background: #050505;
-    
-                    border: 2px solid #39ff14;
-                    border-radius: 10px;
-    
-                    overflow: hidden;
-    
-                    display: none;
-    
-                    z-index: 100;
-                }
-    
-                .dropdown-option {
-                    padding: 12px 16px;
-    
-                    color: #39ff14;
-    
-                    cursor: pointer;
-    
-                    transition: .15s;
-                }
-    
-                .dropdown-option:hover {
-                    background: #39ff14;
-                    color: black;
-                }
-    
-                .dropdown-options {
-                    display: none;
-                }
-    
-                .dropdown-options.active {
-                    display: block;
-                }
-            `;
+        :host {
+            display: block;
+            background: black;
+            color: #39ff14;
+            font-family: Courier, monospace;
+        }
+
+        .country-title-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .country-title {
+            font-size: 48px;
+            color: #39ff14;
+        }
+
+        .country-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 8px;
+            color: #39ff14;
+            max-width: 1200px;
+            text-align: center;
+            line-height: 130%;
+                        margin: auto;
+        }
+
+        .titles {
+            text-align: center;
+            color: #39ff14;
+            margin: 0;
+        }
+
+        .country-agent-container {
+            display: flex;
+            gap: 50px;
+            padding: 40px;
+        }
+
+        .containers {
+            padding: 20px;
+        }
+
+        .country-agents {
+            flex: 7;
+        }
+
+        .compare-container {
+            flex: 2;
+        }
+
+
+        .agent-charts {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .agent-charts > div,
+        .compare-agent-chart > div {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(57,255,20,0.6);
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            transition: .2s;
+            box-shadow:
+                0 0 6px rgba(57,255,20,0.25),
+                inset 0 0 6px rgba(57,255,20,0.15);
+        }
+
+        radar-chart:hover,{
+            border-color: #39ff14;
+            box-shadow:
+                0 0 12px rgba(57,255,20,0.6),
+                inset 0 0 10px rgba(57,255,20,0.25);
+            transform: translateY(-3px);
+            background-color: white;
+        }
+
+        .compare-chart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 30px;
+
+            border: 1px solid rgba(57,255,20,0.4)
+            border-radius: 12px;
+
+            box-shadow:
+                0 0 15px rgba(57,255,20,0.25),
+                inset 0 0 10px rgba(57,255,20,0.15);
+        }
+
+        .compare-agent-chart {
+            width: 100%;
+            min-height: 200px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .custom-dropdown {
+            position: relative;
+            width: 220px;
+            user-select: none;
+        }
+
+        .dropdown-selected {
+            background: #050505;
+            color: #39ff14;
+            border: 2px solid #39ff14;
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            box-shadow:
+                0 0 8px rgba(57,255,20,0.5),
+                inset 0 0 8px rgba(57,255,20,0.15);
+            transition: .2s;
+        }
+
+        .dropdown-selected:hover {
+            box-shadow:
+                0 0 14px rgba(57,255,20,0.8),
+                inset 0 0 12px rgba(57,255,20,0.2);
+        }
+
+        .dropdown-options {
+            position: absolute;
+            top: 110%;
+            left: 0;
+            width: 100%;
+            background: #050505;
+            border: 2px solid #39ff14;
+            border-radius: 10px;
+            overflow: hidden;
+            display: none;
+            z-index: 100;
+        }
+
+        .dropdown-options.active {
+            display: block;
+        }
+
+        .dropdown-option {
+            padding: 12px 16px;
+            color: #39ff14;
+            cursor: pointer;
+            transition: .15s;
+        }
+
+        .dropdown-option:hover {
+            background: #39ff14;
+            color: black;
+        }
+
+        .tooltip {
+            position: fixed;
+            background: #000;
+            color: #39ff14;
+            border: 1px solid #39ff14;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .15s;
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(57,255,20,.4);
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+        }
+    `;
     }
 
     render() {
         this.shadowRoot.innerHTML = `
             <style>${this.style()}</style>
 
+            <div class="country-title-container">
+                <h1 class="country-title"></h1>
+                <p class="country-subtitle">Here you can view all the agents, that originates from this location, and their skill-sets. You can compare the agents with the agent with the best average skill-set, across all of the locations, or you can choose to compare with one locations best average skill-set agent.</p>
+            </div>
+
+            <div class="tooltip" id="tooltip">
+                Skill values range from 0–100. Higher means stronger performance.
+            </div>
+
             <div class="country-agent-container">
                 <div class="country-agents containers">
                     <div class="title-container">
                         <h1 class="titles">All Agents</h1>
                     </div>
-                    <div class="agent-charts chart-container">
-
-                    </div>
+                    <div class="agent-charts chart-container"></div>
                 </div>
+
                 <div class="compare-container containers">
                     <div class="title-container">
                         <h1 class="titles h1">Top Agent</h1>
                         <h3 class="titles h3">All Locations</h3>
                     </div>
+
                     <div class="compare-chart-container chart-container">
-                        
-                        <div class="compare-agent-chart"> </div>
+                        <div class="compare-agent-chart"></div>
 
                         <div class="custom-dropdown" id="dropdown">
                             <div class="dropdown-selected">ALL LOCATIONS<span>⌄</span></div>
@@ -283,9 +258,7 @@ export class LocationComparison extends HTMLElement {
                                 <div class="dropdown-option" data-value="5">FINLAND</div>
                             </div>
                         </div>
-                        
                     </div>
-
                 </div>
             </div>
         `;
@@ -317,6 +290,42 @@ export class LocationComparison extends HTMLElement {
         });
     }
 
+    
+    
+    updateTitle() {
+        const names = {
+            1: "Iceland",
+            2: "Norway",
+            3: "Denmark",
+            4: "Sweden",
+            5: "Finland"
+        };
+
+        const title = this.shadowRoot.querySelector(".country-title");
+        title.textContent = names[this.location];
+    }
+
+    setupTooltip() {
+
+        const tooltip = this.shadowRoot.querySelector("#tooltip");
+
+        this.shadowRoot.addEventListener("mousemove", (e) => {
+            if (!tooltip.classList.contains("visible")) return;
+            tooltip.style.left = e.clientX + 15 + "px";
+            tooltip.style.top = e.clientY + 15 + "px";
+        });
+
+        this.shadowRoot.addEventListener("mouseover", (e) => {
+            if (e.target.closest(".agent-charts") || e.target.closest(".compare-agent-chart")) {
+                tooltip.classList.add("visible");
+            }
+        });
+
+        this.shadowRoot.addEventListener("mouseout", (e) => {
+            tooltip.classList.remove("visible");
+        });
+    }
+
     // ALL AGENTS (by location)
     buildCountryCharts() {
         const agentCharts = this.shadowRoot.querySelector(".agent-charts");
@@ -338,7 +347,7 @@ export class LocationComparison extends HTMLElement {
         const topAgent = Agents.getAgentsAverage(locationId, null, null, 1);
 
         buildAvergeSkillChart(topAgent, compareChart);
-        
+
     }
 
 }
