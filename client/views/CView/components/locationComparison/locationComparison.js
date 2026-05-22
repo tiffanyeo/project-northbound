@@ -67,7 +67,11 @@ export class LocationComparison extends HTMLElement {
             color: #39ff14;
             margin: 0;
         }
-
+            
+        .page-text {
+            font-size: 20px;
+             color: #adf7a0;
+        }
         .country-agent-container {
             display: flex;
             gap: 50px;
@@ -83,6 +87,9 @@ export class LocationComparison extends HTMLElement {
         }
 
         .compare-container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
             flex: 2;
         }
 
@@ -116,7 +123,7 @@ export class LocationComparison extends HTMLElement {
             transform: translateY(-3px);
             background-color: white;
         }
-
+        
         .compare-chart-container {
             display: flex;
             flex-direction: column;
@@ -139,6 +146,14 @@ export class LocationComparison extends HTMLElement {
             justify-content: center;
         }
 
+        .compare-agent-chart {
+            margin-top: -40px;
+        }
+            
+        .title-location-agent {
+            margin-top: 20px;
+        }
+        
         .custom-dropdown {
             position: relative;
             width: 220px;
@@ -223,7 +238,7 @@ export class LocationComparison extends HTMLElement {
 
             <div class="country-title-container">
                 <h1 class="country-title"></h1>
-                <p class="country-subtitle">Here you can view all the agents, that originates from this location, and their skill-sets. You can compare the agents with the agent with the best average skill-set, across all of the locations, or you can choose to compare with one locations best average skill-set agent.</p>
+                <p class="country-subtitle page-text">Here you can view all the agents, that originates from this location, and their skill-sets. You can compare the agents with the agent with the best average skill-set, across all of the locations, or you can choose to compare with one locations best average skill-set agent.</p>
             </div>
 
             <div class="tooltip" id="tooltip">
@@ -233,18 +248,17 @@ export class LocationComparison extends HTMLElement {
             <div class="country-agent-container">
                 <div class="country-agents containers">
                     <div class="title-container">
-                        <h1 class="titles">All Agents</h1>
+                        <h1 class="titles title-location-agent">All Agents</h1>
                     </div>
                     <div class="agent-charts chart-container"></div>
                 </div>
 
                 <div class="compare-container containers">
-                    <div class="title-container">
-                        <h1 class="titles h1">Top Agent</h1>
-                        <h3 class="titles h3">All Locations</h3>
-                    </div>
-
-                    <div class="compare-chart-container chart-container">
+                
+                <div class="compare-chart-container chart-container">
+                        <div class="title-container">
+                            <h1 class="titles h1">Top Agent</h1>
+                        </div>
                         <div class="compare-agent-chart"></div>
 
                         <div class="custom-dropdown" id="dropdown">
@@ -266,9 +280,9 @@ export class LocationComparison extends HTMLElement {
 
     eListeners() {
 
+        // DROPDOWN
         const options = this.shadowRoot.querySelector(".dropdown-options");
         const selected = this.shadowRoot.querySelector(".dropdown-selected");
-
         this.shadowRoot.addEventListener("click", (e) => {
 
             if (e.target.closest(".dropdown-selected")) {
@@ -288,10 +302,26 @@ export class LocationComparison extends HTMLElement {
             }
 
         });
+
+
+        // RADAR CHARTS 
+
+        this.shadowRoot.addEventListener("click", (e) => {
+
+            const radarChart = e.target.closest("radar-chart");
+            if (radarChart) {
+                console.log(radarChart.participantId);
+                console.log(radarChart.category);
+                console.log(radarChart.categoryId);
+            }
+        })
+
+
+
     }
 
-    
-    
+
+
     updateTitle() {
         const names = {
             1: "Iceland",

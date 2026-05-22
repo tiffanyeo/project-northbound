@@ -24,12 +24,16 @@ function buildData(labels, values, meta = null) {
         }
         return data;
     }
+
     data = {
         axes,
         max: meta.max || 100,
         min: meta.min || 0,
         title: meta.title || null,
         color: meta.color || null,
+        participantId: meta.participantId || null,
+        category: meta.category || null,
+        categoryId: meta.categoryId || null,
     }
     return data;
 }
@@ -45,7 +49,7 @@ function createRadarChart(type, data) {
 
     // constraints
     if (data.parent == null) return console.log("parent required");
-    if (!data.hw) data.hw = { hSvg: 300, wSvg: 300, hPadding: 60, wPadding: 60 };
+    if (!data.hw) data.hw = { hSvg: 280, wSvg: 280, hPadding: 60, wPadding: 60 };
 
     switch (type) {
 
@@ -64,6 +68,9 @@ function createRadarChart(type, data) {
                 max: 100,
                 color: data.color || null,
                 title: data.agent[0].name,
+                participantId: data.agent[0].participantId,
+                category: "average-skills",
+                categoryId: null,
             }
 
             // build chart
@@ -102,6 +109,9 @@ function createRadarChart(type, data) {
                     max: 100,
                     color: data.color || color,
                     title: locAgentsSkills[i].agent.name || "No name?",
+                    participantId: locAgentsSkills[i].agent.participantId,
+                    category: "location-average-skills",
+                    categoryId: data.location.id,
                 }
 
                 // build chart
