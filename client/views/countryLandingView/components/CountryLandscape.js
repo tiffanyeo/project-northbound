@@ -19,7 +19,7 @@ class CountryLandscape extends HTMLElement {
 
         let projection = d3.geoMercator()
             .center([62.8457, 4.0843])
-            .scale(1125)
+            .scale(1150)
             .translate([2000, 2000])
 
         let path = d3.geoPath().projection(projection)
@@ -42,7 +42,7 @@ class CountryLandscape extends HTMLElement {
         svg.addEventListener("click", (event) => {
             console.log(event.target)
             if (event.target.tagName == "path") {
-                let data = { id: event.target.id, path: event.target.getAttribute("d") };
+                let data = { id: event.target.id, path: event.target.getAttribute("d"), boundaries: event.target.getBoundingClientRect() };
 
                 let customEvent = new CustomEvent("selected-country", {
                     detail: data

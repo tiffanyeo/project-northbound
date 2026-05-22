@@ -16,20 +16,27 @@ class GraphViz extends HTMLElement {
         // this.locationId = locationId;
         // let participantsByLocation = new AService(null, null, locationId);
         // let data = participantsByLocation.getParticipantsByLocation();
-        let data = ASections.getAverageScoreLocation(locationId);
-        console.log(data)
+        let data = ASections.mainFilterLocationScore(locationId);
         this.d3Logic(data);
     }
 
     getParticipantsByDisciplines(discipline) {
-        let participants = new AService(discipline, null, this.locationId);
-        let data = participants.getParticipantsByDiscipline();
+        let data = ASections.mainFilterDisciplineScore(discipline)
+        this.d3Logic(data);
+    }
 
+    getParticipantsBySeason(season) {
+        let data = ASections.mainFilterSeasonScore(season);
         this.d3Logic(data);
     }
 
 
     async d3Logic(data) {
+
+        let width = 500;
+        let height = 600;
+        let padding = 50;
+
         let svg = d3.select(this.shadowRoot.querySelector("svg"))
             .attr("width", 500)
             .attr("height", 600)
@@ -50,8 +57,8 @@ class GraphViz extends HTMLElement {
 
 
         let scaleX = d3.scaleLinear()
-            .domain([0, getMax()])
-            .range([50, 175]);
+            .domain([1100, getMax()])
+            .range([125, 225]);
 
         let scaleY = d3.scaleBand()
             .domain(data.map(object => object.name))
@@ -83,7 +90,7 @@ class GraphViz extends HTMLElement {
         containerGroup.append("rect")
             .attr("x", 150)
             .attr("y", d => scaleY(d.name))
-            .attr("width", 215)
+            .attr("width", 225)
             .attr("height", scaleY.bandwidth())
             .attr("fill", "white")
             .attr("rx", 2)
@@ -126,9 +133,10 @@ class GraphViz extends HTMLElement {
         let disciplineDropDownSelections = this.shadowRoot.querySelectorAll("#disciplineDropdown div");
 
         for (let selection of seasonDropDownSelections) {
-            selection.addEventListener("click", () => {
-                console.log(selection.innerHTML)
 
+            selection.addEventListener("click", () => {
+
+                this.getParticipantsBySeason(selection.innerHTML);
 
             })
         }
@@ -136,13 +144,12 @@ class GraphViz extends HTMLElement {
         for (let selection of disciplineDropDownSelections) {
             selection.addEventListener("click", () => {
 
-                console.log(selection.innerHTML)
-
-                this.getParticipantsByDisciplines(selection.innerHTML);
+                this.getParticipantsByDisciplines(selection.id);
 
             })
         }
-        2
+
+
 
     }
 
@@ -163,6 +170,8 @@ class GraphViz extends HTMLElement {
                 flex-direction: column;
                 width: 500px;
                 height: 100%;
+                border: 2px solid #5FD5EC;
+                border-radius: 10px;
                 
             }
             
@@ -170,8 +179,8 @@ class GraphViz extends HTMLElement {
                 display:flex;
                 justify-content: space-between;
                 background-color: #5FD5EC;
-                border-top-left-radius: 10px;
-                border-top-right-radius: 10px;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
                 padding-left: 20px;
                 padding-right: 20px;
             }
@@ -199,7 +208,7 @@ class GraphViz extends HTMLElement {
                 flex-direction: column;
                 gap: 15px;
                 justify-content: center;
-                align-items: center;
+                align-items: start;
                 width: 125px;
                 height: auto;
                 background-color: white;
@@ -210,10 +219,6 @@ class GraphViz extends HTMLElement {
                 left: 0;
             }
             
-            .dropDown div {
-                
-            
-            }
 
             #seasonSelection:hover #seasonDropdown {
                 display: flex;
@@ -265,11 +270,11 @@ class GraphViz extends HTMLElement {
                 <div id="disciplineSelection" class="filterSelection">
                     <p>DISCIPLINES</p>
                     <div id="disciplineDropdown" class="dropDown">
-                        <div>Debugging</div>
-                        <div>Information Disclosure</div>
-                        <div>Spread Disinformation</div>
-                        <div>Analyze data</div>
-                        <div>Track Digital Footprints</div>
+                        <div id="3">Debugging</div>
+                        <div id="5">Information Disclosure</div>
+                        <div id="2">Spread Disinformation</div>
+                        <div id="1">Analyze data</div>
+                        <div id="4">Track Digital Footprints</div>
                     </div>
                 </div>
         

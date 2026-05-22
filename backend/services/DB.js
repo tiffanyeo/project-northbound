@@ -10,7 +10,7 @@ const DB = {
 };
 
 function createFilename(entity) {
-    return `./backend/repository/${entity}.json`;
+    return `../repository/${entity}.json`;
 }
 
 async function readDB() {
@@ -27,7 +27,7 @@ async function readDB() {
 async function clientDBFile() {
     const outputDB = `export const DB = ${JSON.stringify(DB, null, 4)};`;
     await Deno.writeTextFile(
-        "./client/services/DBAccess.js",
+        "../services/DBAccess.js",
         outputDB
     );
 }

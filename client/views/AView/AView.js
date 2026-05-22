@@ -11,9 +11,9 @@ class AView {
 
             let graphVizComp = this.app.querySelector("graph-viz");
             let countrySideComp = this.app.querySelector("country-side");
-
+            console.log(event)
             graphVizComp.getParticipantsScoreByLocation(event.detail.id);
-            countrySideComp.d3Logic(event.detail.path);
+            countrySideComp.windowDetails(event.detail)
 
         })
     }
@@ -25,13 +25,29 @@ class AView {
             <style>
                 #A1View {
                     display: flex;
-                    
+                    position: relative;
                     height: 100vh;
                     justify-content: center;
-                    align-items: center;    
+                    align-items: center;
                     gap: 200px;
+                }   
+
+               country-side, graph-viz {
+                    width: 400px;   
+                    height: 600px;
                 }
-             
+                
+               
+                @keyframes moveIn {
+                    from {
+                        transform: translateX(100%);
+                    }
+
+                    to {
+                        transform: translateX(0%);
+                    }
+                }
+
                
             </style>
 
