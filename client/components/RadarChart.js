@@ -1,28 +1,43 @@
 
 /*
-let object = {
-    hSvg: 0,
-    wSvg: 0,
-    hPadding: 0,
-    wPadding: 0,
-}
+    let heightWidth = {
+        hSvg: 250,
+        wSvg: 250,
+        hPadding: 50,
+        wPadding: 50,
+    }
+        
+    let data = {
+        max: 100,
+        min: 0,
+        axes: [
+            {
+                label: "Speed",
+                value: 99
+            },
+            {
+                label: "Accuracy",
+                value: 6
+            }
+        ],
+        title: "ØreByte",
+        color: "#3EB51C" || null,
+        participantId: "122" || null,
+        category: "skills" || null,
+        categoryId: "2" || null,
+    }
+        
+    // CREATE
+    const radarChart = document.createElement("radar-chart");
+    radarChart.data = data;
+    radarChart.heightWidth = heightWidth;
+    parent.appendChild(radarChart);
     
-let data = {
-    axes: [
-        {
-            label: "Speed",
-            value: 80
-        },
-        {
-            label: "Power",
-            value: 60
-        }
-    ],
-    title: "ØreByte"
-    max: 100,
-    min: 0,
-    color: "#3EB51C"
-}
+    // READ
+    const radarChart = document.querySelector("radar-chart");
+    console.log(radarChart.participantId);
+    - 122
+    
 */
 
 export class RadarChart extends HTMLElement {
@@ -36,7 +51,28 @@ export class RadarChart extends HTMLElement {
 
     connectedCallback() {
         this.render();
+        this.setAttributes()
         this.d3Logic();
+    }
+
+    render() {
+        this.shadowRoot.innerHTML = `
+            <svg
+                id="radarchart"
+                width="${this.heightWidth.wSvg}"
+                height="${this.heightWidth.hSvg}"
+            ></svg>
+        `;
+    }
+
+    // readable data
+    setAttributes() {
+        this.participantId = this.data.participantId || null;
+        this.category = this.data.category || null;
+        this.categoryId = this.data.categoryId || null;
+        this.setAttribute("participantId", this.participantId || "");
+        this.setAttribute("category", this.category || "");
+        this.setAttribute("categoryId", this.categoryId || "");
     }
 
     // normalize each axis value (0–1)
@@ -45,10 +81,10 @@ export class RadarChart extends HTMLElement {
         const { min, max } = this.data;
         const normalizedAxes = [];
 
-        this.data.axes.forEach(axis => {
-            const normalizedValue = (axis.value - min) / (max - min);
+        this.data.axes.forEach(currAxis => {
+            const normalizedValue = (currAxis.value - min) / (max - min);
             normalizedAxes.push({
-                label: axis.label,
+                label: currAxis.label,
                 value: normalizedValue
             });
         });
@@ -80,16 +116,17 @@ export class RadarChart extends HTMLElement {
 
     }
 
+    // initialize logic
     d3Logic() {
 
         const svg = d3.select(this.shadowRoot.querySelector("#radarchart"));
         const { hSvg, wSvg, hPadding, wPadding } = this.heightWidth;
         const color = this.data.color || "#3EB51C";
-        const title = this.data.title || "TITLEES";
+        const title = this.data.title || "TITLE";
 
         // center point of the chart
         const cx = wSvg / 2;
-        const cy = (hSvg / 2) + 20;
+        const cy = (hSvg / 2);
 
         // max radius accounting for padding
         const maxRadius = Math.min(wSvg - wPadding * 2, hSvg - hPadding * 2) / 2;
@@ -107,7 +144,7 @@ export class RadarChart extends HTMLElement {
             const currRadius = (currLevel / gridLevels) * maxRadius;
             const currRingPoints = [];
 
-            normalizedAxes.forEach((axis, currIndex) => {
+            normalizedAxes.forEach((currAxis, currIndex) => {
                 const currAngle = angleSlice * currIndex;
                 const currPoint = this.convertAngles(currAngle, currRadius, cx, cy);
                 currRingPoints.push(currPoint);
@@ -124,7 +161,7 @@ export class RadarChart extends HTMLElement {
         }
 
         // DRAW AXIS SPOKES (center -> tip) AND LABELS
-        normalizedAxes.forEach((axis, currIndex) => {
+        normalizedAxes.forEach((currAxis, currIndex) => {
 
             const currAngle = angleSlice * currIndex;
             const currOuterPoint = this.convertAngles(currAngle, maxRadius, cx, cy);
@@ -144,20 +181,19 @@ export class RadarChart extends HTMLElement {
                 .attr("x", currLabelPos.x)
                 .attr("y", currLabelPos.y)
                 .attr("text-anchor", "middle")
-                .attr("dominant-baseline", "middle")
                 .attr("font-size", "14px")
                 .attr("font-family", "monospace")
                 .attr("fill", "#cccccc")
-                .text(axis.label);
+                .text(currAxis.label);
 
         });
 
         // DRAW DATA POLYGON
         const dataPoints = [];
         // calc each data point position based on its normalized value
-        normalizedAxes.forEach((axis, currIndex) => {
+        normalizedAxes.forEach((currAxis, currIndex) => {
             const currAngle = angleSlice * currIndex;
-            const currRadius = axis.value * maxRadius;
+            const currRadius = currAxis.value * maxRadius;
             const currPoint = this.convertAngles(currAngle, currRadius, cx, cy);
             dataPoints.push(currPoint);
         });
@@ -191,12 +227,6 @@ export class RadarChart extends HTMLElement {
             .attr("font-weight", "bold")
             .attr("fill", color)
             .text(title);
-    }
-
-    render() {
-        this.shadowRoot.innerHTML = `
-            <svg id="radarchart" width="${this.heightWidth.wSvg}" height="${this.heightWidth.hSvg}"></svg>
-        `;
     }
 
 }

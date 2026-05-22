@@ -1,7 +1,9 @@
 import { DB } from "../DBAccess.js"
 
 /* 
+    calcAgentSkills(participantId) == all skillFactors (all time)
     calcAgentSkills(participantId, skillId) == skillFactor (all time)
+    calcAgentSkills(participantId, seasonYear) == all skillFactors (that season)
     calcAgentSkills(participantId, skillId, seasonYear) == skillFactor (that season)
 */
 export function calcAgentSkills(participantId, skillId = null, seasonYear = null) {
@@ -39,6 +41,7 @@ export function calcAgentSkills(participantId, skillId = null, seasonYear = null
     return Math.round(normalized);
 }
 
+
 function calcAverageAllSkills(participantId, seasonYear = null) {
     let total = 0;
     // return average across all skills
@@ -47,6 +50,7 @@ function calcAverageAllSkills(participantId, seasonYear = null) {
     }
     return Math.round(total / DB.skills.length);
 }
+
 
 // FIND SKILL
 function findSkillName(skillId) {
@@ -119,6 +123,7 @@ function calcScoresByPartiAndDisci(seasons) {
     // (all) participanst scores in (all) disciplines 
     return scoresByPartiAndDisci;
 }
+
 
 // CALC INTERMEDIATE VALUES (tot. discipline score * skill weight)
 function calcWeightedScoresInDisci(scoresByPartiAndDisci, skillName) {

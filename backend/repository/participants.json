@@ -3,227 +3,272 @@
         {
             "id": 272,
             "name": "Aikon",
-            "locationId": 5
+            "locationId": 5,
+            "color": "#FF6EFF"
         },
         {
             "id": 291,
             "name": "Skai",
-            "locationId": 2
+            "locationId": 2,
+            "color": "#00FFFF"
         },
         {
             "id": 205,
             "name": "PølsAI",
-            "locationId": 3
+            "locationId": 3,
+            "color": "#FF3CAC"
         },
         {
             "id": 71,
             "name": "Preben",
-            "locationId": 3
+            "locationId": 3,
+            "color": "#FF6B6B"
         },
         {
             "id": 223,
             "name": "AIKEA",
-            "locationId": 4
+            "locationId": 4,
+            "color": "#CCFF00"
         },
         {
             "id": 245,
             "name": "AIafjallajökull",
-            "locationId": 1
+            "locationId": 1,
+            "color": "#00FFD1"
         },
         {
             "id": 190,
             "name": "Kaitla",
-            "locationId": 1
+            "locationId": 1,
+            "color": "#00BFFF"
         },
         {
             "id": 210,
             "name": "Pony",
-            "locationId": 1
+            "locationId": 1,
+            "color": "#BF5FFF"
         },
         {
             "id": 165,
             "name": "Sauna",
-            "locationId": 5
+            "locationId": 5,
+            "color": "#FF9D00"
         },
         {
             "id": 224,
             "name": "Tommy Salo",
-            "locationId": 5
+            "locationId": 5,
+            "color": "#00EAFF"
         },
         {
             "id": 124,
             "name": "Hygge",
-            "locationId": 3
+            "locationId": 3,
+            "color": "#FF00AA"
         },
         {
             "id": 150,
             "name": "Hytta",
-            "locationId": 2
+            "locationId": 2,
+            "color": "#00FFC8"
         },
         {
             "id": 27,
             "name": "Gaiser",
-            "locationId": 1
+            "locationId": 1,
+            "color": "#FF4DC4"
         },
         {
             "id": 261,
             "name": "Björn",
-            "locationId": 4
+            "locationId": 4,
+            "color": "#FF6200"
         },
         {
             "id": 178,
             "name": "Laionai",
-            "locationId": 5
+            "locationId": 5,
+            "color": "#FF2079"
         },
         {
             "id": 2,
             "name": "NorwAI",
-            "locationId": 2
+            "locationId": 2,
+            "color": "#7B61FF"
         },
         {
             "id": 26,
             "name": "StatAI",
-            "locationId": 2
+            "locationId": 2,
+            "color": "#FF6FFF"
         },
         {
             "id": 11,
             "name": "KirunAI",
-            "locationId": 4
-        },  
+            "locationId": 4,
+            "color": "#00CFFF"
+        },
         {
             "id": 18,
             "name": "NokAI",
-            "locationId": 5
+            "locationId": 5,
+            "color": "#D4FF00"
         },
         {
             "id": 234,
             "name": "SSAIB",
-            "locationId": 4
+            "locationId": 4,
+            "color": "#FF00CC"
         },
         {
             "id": 148,
             "name": "KAI",
-            "locationId": 5
+            "locationId": 5,
+            "color": "#FF3F3F"
         },
         {
             "id": 121,
             "name": "HurtigAI",
-            "locationId": 2
+            "locationId": 2,
+            "color": "#FF4500"
         },
         {
             "id": 85,
             "name": "SpotifAI",
-            "locationId": 4
+            "locationId": 4,
+            "color": "#FFDD00"
         },
         {
             "id": 172,
             "name": "Fjordén",
-            "locationId": 2
+            "locationId": 2,
+            "color": "#00FF9F"
         },
         {
             "id": 103,
             "name": "Viking",
-            "locationId": 4
+            "locationId": 4,
+            "color": "#A3FF00"
         },
         {
             "id": 25,
             "name": "Grøn",
-            "locationId": 3
+            "locationId": 3,
+            "color": "#FF8C00"
         },
         {
             "id": 154,
             "name": "ØreByte",
-            "locationId": 3
+            "locationId": 3,
+            "color": "#FF00FF"
         },
         {
             "id": 195,
             "name": "Wulkaino",
-            "locationId": 1
+            "locationId": 1,
+            "color": "#FFE600"
         },
         {
             "id": 135,
             "name": "Björk",
-            "locationId": 1
+            "locationId": 1,
+            "color": "#FF2D55"
         },
         {
             "id": 235,
             "name": "LEGO",
-            "locationId": 3
+            "locationId": 3,
+            "color": "#00D4FF"
         },
         {
             "id": 128,
             "name": "Fjord",
-            "locationId": 2
+            "locationId": 2,
+            "color": "#FF1493"
         },
         {
             "id": 140,
             "name": "Blixt",
-            "locationId": 4
+            "locationId": 4,
+            "color": "#FF0066"
         },
         {
             "id": 119,
             "name": "Sampo",
-            "locationId": 5
+            "locationId": 5,
+            "color": "#9D00FF"
         },
         {
             "id": 104,
             "name": "Tycho",
-            "locationId": 3
+            "locationId": 3,
+            "color": "#FF5500"
         },
         {
             "id": 183,
             "name": "Hekla",
-            "locationId": 1
+            "locationId": 1,
+            "color": "#00F5FF"
         },
         {
             "id": 35,
             "name": "Fridtjof",
-            "locationId": 2
+            "locationId": 2,
+            "color": "#FF9900"
         },
         {
             "id": 186,
             "name": "Åke",
-            "locationId": 4
+            "locationId": 4,
+            "color": "#6EFF6E"
         },
         {
             "id": 139,
             "name": "Kajo",
-            "locationId": 5
+            "locationId": 5,
+            "color": "#FF77FF"
         },
         {
             "id": 298,
             "name": "Roald",
-            "locationId": 2
+            "locationId": 2,
+            "color": "#00AAFF"
         },
         {
             "id": 118,
             "name": "Frosti",
-            "locationId": 1
+            "locationId": 1,
+            "color": "#C0FF00"
         },
         {
             "id": 251,
             "name": "Brim",
-            "locationId": 2
+            "locationId": 2,
+            "color": "#FF00FF"
         },
         {
             "id": 74,
             "name": "Tieto",
-            "locationId": 5
+            "locationId": 5,
+            "color": "#00FFB3"
         },
         {
             "id": 192,
             "name": "Aksel",
-            "locationId": 2
+            "locationId": 2,
+            "color": "#FF3380"
         },
         {
             "id": 149,
             "name": "Kari",
-            "locationId": 1
+            "locationId": 1,
+            "color": "#FF9F1C"
         },
         {
             "id": 14,
             "name": "Anker",
-            "locationId": 3
+            "locationId": 3,
+            "color": "#CC00FF"
         }
     ]
 }

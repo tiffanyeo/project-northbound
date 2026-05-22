@@ -1,28 +1,65 @@
 
+import "./components/locationComparison/locationComparison.js"
+
 import { RadarChart } from "../../components/RadarChart.js";
 import { Agents } from "../../services/Agents/Agents.js";
 import { DB } from "../../services/DBAccess.js";
 
+import { buildCountriesAgentsCharts } from "./service.js";
+import { buildAvergeSkillChart } from "./service.js";
+
+
+
+
+
+
+/* BUILD COUNTRIES TOP AGENTS */
+// ICELAND
+/* buildCountriesAgents(1)
+// NORWAY
+buildCountriesAgents(2)
+// DENMARK
+buildCountriesAgents(3)
+// SWEDEN
+buildCountriesAgents(4)
+// FINLAND
+buildCountriesAgents(5) */
+
+/* 
+
+const body = document.querySelector("body")
+const agentCharts = document.querySelector(".agent-charts");
+buildCountriesAgentsCharts(5, agentCharts)
+
+const compareChart = document.querySelector(".compare-agent-chart");
+buildAvergeSkillChart(null, compareChart)
+ */
+/* 
+
 const skills = DB["skills"];
-console.log("SKILLS", skills)
+// console.log("SKILLS", skills)
 
 const disciplines = DB["disciplines"]
-console.log("DISCIPLINES", disciplines)
+// console.log("DISCIPLINES", disciplines)
 
 const topAgentSkills = Agents.getAllSkillFactors(154)
-/* console.log("TOP AGENTS SKILLS", topAgentSkills)
+// console.log("TOP AGENTS SKILLS", topAgentSkills)
 
 console.log(topAgentSkills["Speed"])
-console.log(skills[0]) */
+console.log(skills[0])  
 
 
 const hw = { hSvg: 300, wSvg: 300, hPadding: 60, wPadding: 60 };
 
-const topAgentsAllSkills = Agents.getTopAgentsBySkill();
+const topAgentsAllSkills = Agents.getAgentsAverage();
 const worstAgentsAllSkills = Agents.getWorstAgentsBySkill();
-console.log("TOP AGENTS", topAgentsAllSkills)
+// console.log("TOP AGENTS", topAgentsAllSkills)
 // console.log("WORST AGENTS", worstAgentsAllSkills)
 
+
+// locationId = null, skillId = null, seasonYear = null, limit = 5
+const finlandTop5 = Agents.getAgentsAverage(5, null, null, 20)
+console.log(finlandTop5);
 
 // ØREBYTE
 const top1 = topAgentsAllSkills[0]
@@ -38,7 +75,8 @@ const dataTop1 = {
     ],
     max: 100,
     min: 0,
-    title: top1["name"]
+    title: `1. ${top1["name"]}`,
+    color: "turquoise"
 };
 chartTop1.data = dataTop1;
 chartTop1.heightWidth = hw;
@@ -57,7 +95,7 @@ const dataTop2 = {
     ],
     max: 100,
     min: 0,
-    title: top2["name"],
+    title: `2. ${top2["name"]}`,
     color: "yellow"
 };
 chartTop2.data = dataTop2;
@@ -77,8 +115,8 @@ const dataTop3 = {
     ],
     max: 100,
     min: 0,
-    title: top3["name"],
-    color: "cyan"
+    title: `3. ${top3["name"]}`,
+    color: "#9d4edd"
 };
 chartTop3.data = dataTop3;
 chartTop3.heightWidth = hw;
@@ -97,7 +135,7 @@ const dataTop4 = {
     ],
     max: 100,
     min: 0,
-    title: top4["name"],
+    title: `4. ${top4["name"]}`,
     color: "coral"
 };
 chartTop4.data = dataTop4;
@@ -117,12 +155,11 @@ const dataTop5 = {
     ],
     max: 100,
     min: 0,
-    title: top5["name"],
+    title: `5. ${top5["name"]}`,
     color: "hotpink"
 };
 chartTop5.data = dataTop5;
 chartTop5.heightWidth = hw;
-
 
 document.body.appendChild(chartTop1);
 document.body.appendChild(chartTop2);
@@ -131,7 +168,4 @@ document.body.appendChild(chartTop4);
 document.body.appendChild(chartTop5);
 
 
-
-
-
-
+ */
