@@ -1,6 +1,6 @@
 // Dataset
 
-const skills = [{
+export const skills = [{
   "id": 1,
   "name": "S01"
 }, {
@@ -17,7 +17,7 @@ const skills = [{
   "name": "S05"
 }]
 
-const locations = [{
+export const locations = [{
   "id": 1,
   "name": "L01"
 }, {
@@ -34,7 +34,7 @@ const locations = [{
   "name": "L05"
 }]
 
-const disciplines = [{
+export const disciplines = [{
   "id": 3,
   "name": "D03",
   "skillFactors": {
@@ -86,7 +86,7 @@ const disciplines = [{
   }
 }]
 
-const participants = [{
+export const participants = [{
   "id": 272,
   "name": "P226"
 }, {
@@ -178,7 +178,7 @@ const participants = [{
   "name": "P147"
 }]
 
-const coaches = [{
+export const coaches = [{
   "id": 1,
   "name": "C01",
   "skillId": 5
@@ -262,7 +262,7 @@ const trainers = [{
   "disciplineId": 5
 }]
 
-const seasons = [{
+export const seasons = [{
   "year": 0,
   "coaches": [{
     "participantId": 35,
@@ -145361,3 +145361,4 @@ const seasons = [{
     }]
   }]
 }];
+
