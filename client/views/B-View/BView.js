@@ -25,14 +25,12 @@ export class BView extends HTMLElement{
         window.addEventListener("selected-agent", (data) =>{
             const app = document.querySelector("#app");
             this.id = data.detail.participantId;
-            app.replaceChildren(new BView(data.detail.participantId))
+            app.appendChild(new BView(data.detail.participantId))
 
         })
     }
     
     connectedCallback(){
-        console.log("rendering BView", this);
-
         this.color = DB.participants.find(p=> p.id == this.id).color;
         const gadfd = this.getAgentDataForDiscipline(this.disciplineId);
         this.render();
@@ -221,7 +219,7 @@ export class BView extends HTMLElement{
         })
 
         this.shadowRoot.querySelector("#backBtn").addEventListener("click", () => {
-            console.log("DENNA MÅSTE KOPPLAS!")
+            this.remove();
         });
 
 
@@ -268,6 +266,14 @@ export class BView extends HTMLElement{
     render(){
         this.shadowRoot.innerHTML = `
         <style>
+
+            :host {
+                position: absolute;
+                inset: 0; 
+                z-index: 1000;
+                background: #0D1A2E;
+            }
+
             #all{
                 margin: 0px auto;
                 color: #3EB51C;
