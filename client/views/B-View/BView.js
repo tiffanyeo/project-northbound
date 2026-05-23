@@ -7,9 +7,9 @@ export class BView extends HTMLElement{
         super();
         this.attachShadow({mode: "open"});
         this.id = agentId;
-        this.color = DB.participants.find(p=> p.id == this.id).color
+        this.color = ""
         this.allSeasons = DB.seasons.length;
-        this.disciplineId = 3;
+        this.disciplineId = disciplineId;
         this.allDisciplines = DB.disciplines;
         this.discipline = this.allDisciplines.find(d=> d.id == this.disciplineId);
         this.discColors = ["#27B2E8", "#F06129", "#4FE125","#C82EF5", "#f40000"];
@@ -22,9 +22,18 @@ export class BView extends HTMLElement{
             wPadding: 24
         }
 
+        window.addEventListener("selected-agent", (data) =>{
+            const app = document.querySelector("#app");
+            this.id = data.detail.participantId;
+            app.replaceChildren(new BView(data.detail.participantId))
+
+        })
     }
     
     connectedCallback(){
+        console.log("rendering BView", this);
+
+        this.color = DB.participants.find(p=> p.id == this.id).color;
         const gadfd = this.getAgentDataForDiscipline(this.disciplineId);
         this.render();
         this.renderAgent();
@@ -127,7 +136,7 @@ export class BView extends HTMLElement{
                     <p>Trainer: ${data.trainer.name}</p>
                     <p>Trainer-Discipline: <span style="color:${this.discColors[data.discipline.id -1]}">${data.discipline.name}</span></p>
                     <p>Coach: ${data.coach.name}</p>
-                    <p>Coach-Skill: <span style="color:${this.skillColors[data.skill.id]}">
+                    <p>Coach-Skill: <span style="color:${this.skillColors[data.skill.id - 1]}">
                         ${data.skill.name}
                     </span></p>
                 </div>
@@ -211,6 +220,10 @@ export class BView extends HTMLElement{
             this.shadowRoot.querySelector("#chart").dispatchEvent(zoomOutEvent);
         })
 
+        this.shadowRoot.querySelector("#backBtn").addEventListener("click", () => {
+            console.log("DENNA MÅSTE KOPPLAS!")
+        });
+
 
 
     }
@@ -255,7 +268,7 @@ export class BView extends HTMLElement{
     render(){
         this.shadowRoot.innerHTML = `
         <style>
-            :host{
+            #all{
                 margin: 0px auto;
                 color: #3EB51C;
                 display: grid;
@@ -435,37 +448,41 @@ export class BView extends HTMLElement{
                 opacity: 0.3;
             }
         </style>
-            <div class="left" class="half">
-                <div class="grid">
-                    <button id="backBtn">&#8592;</button>
-                    <div class="agent"></div>
-                </div>
-                <div class="top-menu">
-                    <p class"label">Progress in Discipline:</p>
-                    <div class="dropdown">
-                        <button id="disc-btn"><p id="disc">${this.discipline.name}</p> <p id="arrow">&#9662;</p></button>
-                        <div class="dropdown-menu">
-                            ${this.createDropDown()}
-                        </div>
+            <div id="all">
+                <div class="left" class="half">
+                    <div class="grid">
+                        <button id="backBtn">&#8592;</button>
+                        <div class="agent"></div>
                     </div>
+                    <div class="top-menu">
+                        <p class"label">Progress in Discipline:</p>
+                        <div class="dropdown">
+                            <button id="disc-btn"><p id="disc">${this.discipline.name}</p> <p id="arrow">&#9662;</p></button>
+                            <div class="dropdown-menu">
+                                ${this.createDropDown()}
+                            </div>
+                        </div>
 
+                    </div>
+                    <div id="chart-container">
+                        <svg id="chart" width="800" height="500"></svg>
+                        <svg id="btn-container" width="800" height="60"></svg>
+                        <button id="all-seasons">All Seasons</button>
+                    </div>
                 </div>
-                <div id="chart-container">
-                    <svg id="chart" width="800" height="500"></svg>
-                    <svg id="btn-container" width="800" height="60"></svg>
-                    <button id="all-seasons">All Seasons</button>
-                </div>
-            </div>
-            <div class="right">
-                <div class="infoCont">
-                ${this.printSeasonInfo()}
-                </div>
-                <div class="radar">
+                <div class="right">
+                    <div class="infoCont">
+                    ${this.printSeasonInfo()}
+                    </div>
+                    <div class="radar">
+                    </div>
                 </div>
             </div>
         `;
-    }
+    }   
     
 }
 
 customElements.define("b-view", BView);
+
+new BView();
