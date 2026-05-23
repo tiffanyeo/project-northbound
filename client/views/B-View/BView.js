@@ -21,13 +21,6 @@ export class BView extends HTMLElement{
             hPadding: 20,
             wPadding: 24
         }
-
-        window.addEventListener("selected-agent", (data) =>{
-            const app = document.querySelector("#app");
-            this.id = data.detail.participantId;
-            app.appendChild(new BView(data.detail.participantId))
-
-        })
     }
     
     connectedCallback(){
@@ -35,13 +28,8 @@ export class BView extends HTMLElement{
         const gadfd = this.getAgentDataForDiscipline(this.disciplineId);
         this.render();
         this.renderAgent();
+        this.renderLineChart();
         this.printRadarData();
-
-        const results = this.getAgentDataForDiscipline(this.disciplineId)
-        
-        const lineContainer = this.shadowRoot.querySelector("#chart");
-        const btnContainer = this.shadowRoot.querySelector("#btn-container")
-        createLineChartForAgent(this.lineHw, results, lineContainer, btnContainer, this);
 
         this.eList();        
     }
@@ -112,6 +100,18 @@ export class BView extends HTMLElement{
         const discipline = DB.disciplines.find(d=> d.id == trainer.disciplineId);
 
         return { coach, skill, trainer, discipline }
+    }
+
+    renderLineChart(){
+        const results = this.getAgentDataForDiscipline(this.disciplineId);
+        
+        const lineContainer = this.shadowRoot.querySelector("#chart");
+        const btnContainer = this.shadowRoot.querySelector("#btn-container");
+
+        lineContainer.innerHTML = "";
+        btnContainer.innerHTML = "";
+
+        createLineChartForAgent(this.lineHw, results, lineContainer, btnContainer, this);
     }
 
     printSeasonInfo(season = undefined){
@@ -200,6 +200,7 @@ export class BView extends HTMLElement{
 
 
         this.shadowRoot.querySelector(".radar").addEventListener("B: discipline-selected", () =>{
+            this.renderLineChart();
             this.printRadarData();
             const results = this.getAgentDataForDiscipline(this.disciplineId);
             const lineContainer = this.shadowRoot.querySelector("#chart");
@@ -230,6 +231,7 @@ export class BView extends HTMLElement{
         const dropItems = this.shadowRoot.querySelectorAll(".list-item");
         dropItems.forEach(item => item.addEventListener("click", () => {
             this.disciplineId = this.allDisciplines.find(d => d.name == item.textContent).id;
+            this.discipline = this.allDisciplines.find(d=> d.id == this.disciplineId);
             const disc = this.shadowRoot.querySelector("#disc")
             disc.innerHTML = item.textContent;
             this.createDropDown();
@@ -280,6 +282,7 @@ export class BView extends HTMLElement{
                 display: grid;
                 grid-template-columns: 2fr 1fr;
                 overflow: clip;
+                background: #0D1A2E;
             }
             .left{
                 margin: 0 auto;
@@ -490,5 +493,3 @@ export class BView extends HTMLElement{
 }
 
 customElements.define("b-view", BView);
-
-new BView();
