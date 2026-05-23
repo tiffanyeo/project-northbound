@@ -37,7 +37,10 @@ class AView {
                     height: 600px;
                 }
                 
-               
+                graph-viz {
+                    animation: moveIn 2s ease-in;
+                }
+
                 @keyframes moveIn {
                     from {
                         transform: translateX(100%);

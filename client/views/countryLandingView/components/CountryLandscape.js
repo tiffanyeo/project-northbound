@@ -36,6 +36,9 @@ class CountryLandscape extends HTMLElement {
             .attr("fill", "#0D1A2E")
             .attr("stroke", "#00FF00")
             .attr("id", d => d.properties.countryId)
+            .attr("class", d => d.properties.name);
+
+
 
     }
 
@@ -71,7 +74,65 @@ class CountryLandscape extends HTMLElement {
                     fill: rgba(0, 255, 0, 0.14);
                 }
 
-            </style>    
+                .Sweden {
+                    animation: moveInTop 3s ease-out;
+                }
+
+                .Denmark {
+                    animation: moveInBottom 3s ease-out;
+                }
+
+                .Norway {
+                    animation: moveInLeft 3.5s ease-out;
+                }
+
+                .Finland {
+                    animation: moveInRight 3.5s ease-out;
+                }
+
+                .Iceland {
+                    animation: moveInTop 4s ease-out;
+                }
+                
+                
+                @keyframes moveInTop {
+                    from {
+                        transform: translateY(-100%);
+                    }
+
+                    to {
+                        transform: translateY(0%);
+                    }
+                }
+
+                @keyframes moveInBottom {
+                    from {
+                        transform: translateY(100%);
+                    }
+
+                    to {
+                        transform: translateY(0%);
+                }   }
+
+                @keyframes moveInLeft {
+                    from {
+                        transform: translateX(-100%);
+                    }
+
+                    to {
+                        transform: translateX(0%);
+                }   }
+
+                @keyframes moveInRight {
+                    from {
+                        transform: translateX(100%);
+                    }
+
+                    to {
+                        transform: translateX(0%);
+                }   }
+
+            </style>        
 
             <svg width="100%" height="100vh"></svg>
         
