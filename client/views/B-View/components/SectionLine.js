@@ -1,10 +1,7 @@
 export default function createLineChartForAgent(hW, results, container, btnCont, hostC){
     const host = hostC;
 
-    if (!createLineChartForAgent._originalResults) {
-        createLineChartForAgent._originalResults = results;
-    }
-    const ORIGINAL_RESULTS = createLineChartForAgent._originalResults;
+    const ORIGINAL_RESULTS = results;
 
     const color = "#3EB51C";
     
@@ -349,6 +346,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 }
 
 function cleanData(results){
+    console.log(results);
     let offset = 0;
     const seasons = results.map((seasonData, index) => {
         let matches = [];
@@ -374,6 +372,7 @@ function cleanData(results){
 
         return{season: seasonData.season, matches}
     });
+    console.log(seasons);
     return seasons;
 
 }
