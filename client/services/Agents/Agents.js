@@ -26,6 +26,7 @@ class agents {
         return skillFactors;
     }
 
+    // { skillName: "Token Power", skillFactor: 98 }
     getBestSkill(participantId, seasonYear = null) {
 
         let bestSkillName = null;
@@ -48,7 +49,7 @@ class agents {
     }
 
     // Object { participantId: 154, name: "ØreByte", skillFactor: 70 },  {}
-    getAgentsAverage (locationId = null, skillId = null, seasonYear = null, limit = 5) {
+    getAgentsAverage(locationId = null, skillId = null, seasonYear = null, limit = 5) {
 
         const topAgents = [];
 
@@ -80,7 +81,7 @@ class agents {
         const filteredAgents = topAgents.filter(currAgent =>
             locationAgents.some(currLocAgent => currLocAgent.id === currAgent.participantId)
         );
-        
+
         return filteredAgents.slice(0, limit)
     }
 

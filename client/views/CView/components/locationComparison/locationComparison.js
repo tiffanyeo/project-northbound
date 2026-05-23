@@ -310,9 +310,9 @@ export class LocationComparison extends HTMLElement {
 
             const radarChart = e.target.closest("radar-chart");
             if (radarChart) {
-                console.log(radarChart.participantId);
-                console.log(radarChart.category);
-                console.log(radarChart.categoryId);
+                console.log("participantId:", radarChart.participantId);
+                console.log("category:", radarChart.category);
+                console.log("categoryId:", radarChart.categoryId);
             }
         })
 

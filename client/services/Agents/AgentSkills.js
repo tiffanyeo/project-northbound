@@ -37,8 +37,7 @@ export function calcAgentSkills(participantId, skillId = null, seasonYear = null
     // NORMALIZE VALUE
     const normalized = normalize(partiWeightedSkillScore, globalMin, globalMax, minSkillFactor, maxSkillFactor);
 
-    // return whole nums
-    return Math.round(normalized);
+    return normalized;
 }
 
 

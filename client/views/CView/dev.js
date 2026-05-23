@@ -1,4 +1,5 @@
 
+import "../../components/BarChart.js"
 import "./components/locationComparison/locationComparison.js"
 
 import { RadarChart } from "../../components/RadarChart.js";
@@ -7,6 +8,101 @@ import { DB } from "../../services/DBAccess.js";
 
 import { buildCountriesAgentsCharts } from "./service.js";
 import { buildAvergeSkillChart } from "./service.js";
+
+
+
+const agent = {
+    "id": 192,
+    "name": "Aksel",
+    "locationId": 2,
+    "color": "#FF3380"
+}
+
+// SECTION 1
+
+
+
+
+
+// SECTION 2 (DISPLAY BEST SKILL, AND PLACEMENT
+const agentBestSkillFactor = Agents.getBestSkill(agent.id)
+const bestSkill = DB["skills"].find(currS => currS.name == agentBestSkillFactor.skillName)
+const allAgentsSkillFactor = []
+for (let currAgent of DB["participants"]) {
+    const currBest = Agents.getSkillFactor(currAgent.id, bestSkill.id);
+    allAgentsSkillFactor.push({
+        name: currAgent.name,
+        id: currAgent.id,
+        skillFactor: currBest,
+        skill: bestSkill.name
+    });
+}
+
+// sort
+allAgentsSkillFactor.sort((a, b) => b.skillFactor - a.skillFactor)
+/* { name: "Björk", id: 135, skillFactor: 100, … } */
+let showPlacement;
+for (let i = 0; i < allAgentsSkillFactor.length; i++) {
+
+    if (allAgentsSkillFactor[i].id === agent.id) {
+
+        // in top 10, show at least 10
+        if (i < 10) {
+            console.log("HEJ")
+            showPlacement = allAgentsSkillFactor.splice(0, 10);
+        } else {
+            console.log("hejhej")
+            // else show placement
+            showPlacement = allAgentsSkillFactor.splice(0, i + 2);
+        }
+
+    }
+}
+
+function buildBarChartData(arr) {
+    const data = [];
+    for (let i = 0; i < arr.length; i++) {
+        data.push({
+            label: `${i + 1}. ${arr[i].name}`,
+            value: arr[i].skillFactor
+        })
+    }
+    return {
+        bars: data,
+        min: 0,
+        max: 100
+    }
+
+}
+
+function createBarChart(chartData, parent) {
+    // SE ÖVER HEIGGHT MODULÄR
+    const hw = {
+        hSvg: 500,
+        wSvg: 600,
+        hPadding: 50,
+        wPadding: 100,
+    }
+    const barChart = document.createElement("bar-chart");
+    barChart.hw = hw;
+    barChart.data = chartData;
+    parent.appendChild(barChart);
+}
+
+const chartData = buildBarChartData(showPlacement)
+const parentElem = document.querySelector(".best-skill-chart")
+createBarChart(chartData, parentElem)
+
+
+
+
+
+// SECTION 3 
+//  sstyle elem?
+
+
+
+
 
 
 

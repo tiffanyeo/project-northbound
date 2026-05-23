@@ -12,229 +12,35 @@
             margin: auto;
             width: 70%;
             text-align: center;
+            color: greenyellow
         }
 
-        body {
-            background-color: black;
-        }
-
-        .country-agent-container {
-            box-sizing: border-box;
-            padding: 20px;
-            width: 100vw;
-            max-height: 100vh;
-            min-height: 1000px;
-            display: flex;
-            gap: 50px;
-
-        }
-
-        .containers {
-            padding: 5vh;
-        }
-
-        .country-agents {
-            flex: 7;
-        }
-
-        .agent-charts {
-            min-height: 100%;
-            min-width: 100%;
-            justify-content: center;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-
-        .compare-container {
-            flex: 2;
-        }
-
-        .compare-chart-container {
+        .agent-popup-container {
+            border: 1px solid blueviolet;
+            padding: 50px;
             display: flex;
             flex-direction: column;
-            align-items: center;
             gap: 50px;
-            border: 2px solid greenyellow;
-            padding: 20px;
-            border-radius: 10px;
         }
 
-        .compare-agent-chart {
+        section {
+            border: 1px solid pink;
+            border-radius: 15px;
+            padding: 10px;
             display: flex;
-            justify-content: center;
-            min-width: 100%;
-            min-height: 200px;
+            flex-direction: column;
+            gap: 15px;
+            
         }
-
-
-        .title-container {
-            min-height: 100px;
+        
+        
+        .info-text {
+            font-size: 18px;
+            line-height: 130%;
         }
-
-        .titles {
-            text-align: center;
-            font-family: Courier, monospace;
-            color: #39ff14;
-        }
-
-        .country-title {
-            color: #39ff14;
-            font-family: Courier, monospace;
-            font-size: 40px;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-
-        .custom-dropdown {
-            position: relative;
-            width: 220px;
-
-            font-family: monospace;
-            user-select: none;
-        }
-
-        .dropdown-selected {
-            background: #050505;
-            color: #39ff14;
-
-            border: 2px solid #39ff14;
-            border-radius: 10px;
-
-            padding: 12px 16px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 0 8px rgba(57, 255, 20, .5),
-                inset 0 0 8px rgba(57, 255, 20, .15);
-
-            transition: .2s;
-        }
-
-        .dropdown-selected:hover {
-            box-shadow:
-                0 0 14px rgba(57, 255, 20, .8),
-                inset 0 0 12px rgba(57, 255, 20, .2);
-        }
-
-        .dropdown-options {
-            position: absolute;
-
-            top: 110%;
-            left: 0;
-
-            width: 100%;
-
-            background: #050505;
-
-            border: 2px solid #39ff14;
-            border-radius: 10px;
-
-            overflow: hidden;
-
-            display: none;
-
-            z-index: 100;
-        }
-
-        .dropdown-option {
-            padding: 12px 16px;
-
-            color: #39ff14;
-
-            cursor: pointer;
-
-            transition: .15s;
-        }
-
-        .dropdown-option:hover {
-            background: #39ff14;
-            color: black;
-        }
-
-        .custom-dropdown {
-            position: relative;
-            width: 220px;
-
-            font-family: monospace;
-            user-select: none;
-        }
-
-        .dropdown-selected {
-            background: #050505;
-            color: #39ff14;
-
-            border: 2px solid #39ff14;
-            border-radius: 10px;
-
-            padding: 12px 16px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 0 8px rgba(57, 255, 20, .5),
-                inset 0 0 8px rgba(57, 255, 20, .15);
-
-            transition: .2s;
-        }
-
-        .dropdown-selected:hover {
-            box-shadow:
-                0 0 14px rgba(57, 255, 20, .8),
-                inset 0 0 12px rgba(57, 255, 20, .2);
-        }
-
-        .dropdown-options {
-            position: absolute;
-
-            top: 110%;
-            left: 0;
-
-            width: 100%;
-
-            background: #050505;
-
-            border: 2px solid #39ff14;
-            border-radius: 10px;
-
-            overflow: hidden;
-
-            display: none;
-
-            z-index: 100;
-        }
-
-        .dropdown-option {
-            padding: 12px 16px;
-
-            color: #39ff14;
-
-            cursor: pointer;
-
-            transition: .15s;
-        }
-
-        .dropdown-option:hover {
-            background: #39ff14;
-            color: black;
-        }
-
-        .dropdown-options {
-            display: none;
-        }
-
-        .dropdown-options.active {
-            display: block;
+        
+        .charts {
+            margin: auto;
         }
     </style>
 
@@ -243,8 +49,52 @@
 <body>
 
     <script type="module" src="./dev.js"></script>
-    <location-comparison location="4"></location-comparison>
-    
+
+
+
+    <div class="agent-popup-container">
+        
+        <!--<h1>Skill Deep Dive</h1> -->
+         
+        <section class="section-1">
+            
+            <div class="title-info-container">
+                <h1 class="agent-name">Viking</h1>
+                <p class="agent-info info-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis possimus natus iure blanditiis error, repellendus nesciunt in accusamus veritatis quas voluptates? Earum a non atque doloribus rerum assumenda architecto es</p>
+            </div>
+
+            <div class="skill-factor-container">
+                <h2 class="title-h2">Skill factors</h2>
+                <div class="charts all-skills-chart"></div>
+                <p class="agent-info info-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis possimus natus iure blanditiis error, repellendus.</p>
+            </div>
+
+        </section>
+
+        <section class="section-2">
+            
+            <div class="best-skill-container container">
+                <h2 class="title-h2">Ranking In Best Skill Factor</h2>
+                <div class="charts best-skill-chart"></div>
+                <p class="info-text best-skill-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis possimus natus iure blanditiis error, repellendus nesciunt in accusamus veritatis quas voluptates? Earum a non atque doloribus rerum assumenda architecto eLorem ipsum dolor sit amet consectetur adipisicing elit. Quis possimus natus iure blanditiis error, repellendus nesciunt in accusamus veritatis quas voluptates? Earum a non atque doloribus rerum assumenda architecto e</p>
+            </div>
+            
+        </section>
+
+        <section class="section-3">
+            
+            <div class="ranking-container container">
+                <h2 class="title-h2">Ranking Across All Skills</h2>
+                <h3 class="ranking-text">34</h3>
+            </div>
+            <p class="info-text">Ranking all time</p>
+            
+        </section>
+
+    </div>
+
+    <!-- <location-comparison location="2"></location-comparison> -->
+
 </body>
 
 
