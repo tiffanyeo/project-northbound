@@ -282,9 +282,12 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                 .duration(300)
                 .ease(d3.easeCubicOut)
                 .attr("display", "block");
+            
+            areaMaker.y1(d=> yScale(d.score))
 
             svg.selectAll(".season-area")
-                .attr("pointer-events", "none")
+                .call(areaMaker)
+            
 
             svg.selectAll(".bridge-line").attr("stroke", "none")
 
@@ -303,6 +306,11 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                 .attr("display", "none");
 
             svg.selectAll(".bridge-line").attr("stroke", color)
+
+            areaMaker.y1(yScale(maxScore + hPadding))
+
+            svg.selectAll(".season-area")
+                .call(areaMaker)
         }
 
 
