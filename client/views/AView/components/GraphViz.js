@@ -1,5 +1,5 @@
 
-import { ASections } from "../newAService.js";
+import { ASections } from "../AViewService.js";
 
 class GraphViz extends HTMLElement {
 
@@ -8,7 +8,6 @@ class GraphViz extends HTMLElement {
         this.attachShadow({ mode: "open" });
         this.locationId;
         this.render();
-        this.addEventListeners();
     }
 
 
@@ -69,21 +68,8 @@ class GraphViz extends HTMLElement {
             .data(data)
             .enter()
             .append("g")
-            .attr("class", "bar-group");
-
-
-
-        // let leftAxisScale = d3.axisLeft(scaleY);
-        // let axisLeft = containerGroup.append("g")
-        //     .call(leftAxisScale)
-        //     .attr("transform", `translate(100, 0)`);
-
-        // axisLeft.selectAll("line").remove();
-        // axisLeft.select(".domain").remove();
-        // axisLeft.selectAll("text")
-        //     .style("font-size", "16px")
-        //     .style("fill", "white");
-
+            .attr("class", "bar-group")
+            .attr("id", d => d.participantId)
 
 
         // BACKGROUNDS RECTS
@@ -124,7 +110,7 @@ class GraphViz extends HTMLElement {
             .style("fill", "white")
             .style("font-size", "18px");
 
-
+        this.addEventListeners();
     }
 
     addEventListeners() {
@@ -150,17 +136,32 @@ class GraphViz extends HTMLElement {
         }
 
 
+        let allAgents = this.shadowRoot.querySelectorAll(".bar-group");
+        console.log(allAgents)
+
+        for (let agent of allAgents) {
+
+            agent.addEventListener("click", (event) => {
+
+                let data = { participantId: event.currentTarget.id };
+
+                let customEvent = new CustomEvent("selected-agent", {
+                    detail: data
+                });
+
+                window.dispatchEvent(customEvent);
+
+            })
+        }
+
 
     }
 
-    // addEventListener() {
+    eventListeners() {
 
-    //     window.addEventListener("selected-country", (event) => {
-    //         console.log("HSHS")
-    //         let countryId = event.detail.id;
-    //         this.getParticipantsScoreByLocation(countryId);
-    //     })
-    // }
+
+    }
+
 
     render() {
         this.shadowRoot.innerHTML = `
