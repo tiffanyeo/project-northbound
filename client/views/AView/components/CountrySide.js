@@ -21,7 +21,7 @@ class CountrySide extends HTMLElement {
 
         svg.attr("viewBox", `${this.boundaries.x}, ${this.boundaries.y}, ${this.boundaries.width}, ${this.boundaries.height}`)
 
-        svg.append("path").attr("d", path).attr("fill", "#0D1A2E").attr("stroke", "#00FF00");
+        svg.append("path").attr("d", path).attr("fill", "#0D1A2E").attr("stroke", "#34D399");
 
         svg.transition()
             .duration(2000)

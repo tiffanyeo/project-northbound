@@ -34,7 +34,7 @@ class CountryLandscape extends HTMLElement {
             .append("path")
             .attr("d", path)
             .attr("fill", "#0D1A2E")
-            .attr("stroke", "#00FF00")
+            .attr("stroke", "#34D399")
             .attr("id", d => d.properties.countryId)
             .attr("class", d => d.properties.name);
 

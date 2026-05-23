@@ -85,6 +85,7 @@ class GraphViz extends HTMLElement {
 
         // VALUE RECTS
         containerGroup.append("rect")
+            // .transition(1000)
             .attr("x", 150)
             .attr("y", d => scaleY(d.name))
             .attr("width", d => scaleX(d.score))
@@ -92,7 +93,6 @@ class GraphViz extends HTMLElement {
             .attr("fill", "#5FD5EC")
             .attr("rx", 2)
             .attr("ry", 2)
-
 
 
         // SCORE TEXT
@@ -109,6 +109,27 @@ class GraphViz extends HTMLElement {
             .text(d => d.name)
             .style("fill", "white")
             .style("font-size", "18px");
+
+
+
+
+        // Move into a method instead
+        let notCompeted = data.filter(participant => participant.competeingTimes == 0);
+        console.log(notCompeted)
+
+        if (notCompeted.length >= 1) {
+            for (let participant of notCompeted) {
+                if (notCompeted.length >= 1) {
+                    let group = this.shadowRoot.getElementById(`${participant.participantId}`);
+                    let rect = group.childNodes[0];
+                    let text = group.childNodes[2];
+
+                    rect.style.fill = "grey";
+                    text.textContent = "DNS";
+                }
+            }
+        }
+
 
         this.addEventListeners();
     }
@@ -169,27 +190,30 @@ class GraphViz extends HTMLElement {
             #vizBox {
                 display: flex;
                 flex-direction: column;
-                width: 500px;
-                height: 100%;
-                border: 2px solid #5FD5EC;
+             
+                background: linear-gradient( 135deg, rgba(44, 59, 79, 0.45) 0%,rgba(26, 38, 52, 0.6) 100%);
+                // border: 2px solid #5FD5EC;
                 border-radius: 10px;
-                
+                box-shadow: 0 0 20px rgb(232, 241, 248, 0.2);
             }
             
             #topPart {
                 display:flex;
                 justify-content: space-between;
-                background-color: #5FD5EC;
-                border-top-left-radius: 5px;
-                border-top-right-radius: 5px;
-                padding-left: 20px;
-                padding-right: 20px;
+                // background-color: #5FD5EC;
+                padding-left: 15px;
+                padding-right: 15px;
+                font-size: 16px;
+                color: white;
+                border-bottom: 1px solid #34D399;
             }
 
             #filters {
                 display: flex;
                 justify-content: center;
-                gap: 100px;
+                gap: 150px;
+                border-top: 1px solid #34D399;
+                padding: 10px;
             }
 
             .filterSelection {
@@ -198,7 +222,8 @@ class GraphViz extends HTMLElement {
                 align-items: center;
                 width: 125px;
                 height: 40px;
-                background-color: #34D399;
+                // background-color: #34D399;
+                color: #34D399;
                 border-radius: 5px;
                 cursor: pointer;
                 position: relative;
@@ -253,7 +278,7 @@ class GraphViz extends HTMLElement {
 
             <div id="filters">
                 <div id="seasonSelection" class="filterSelection">
-                    <p>SEASONS</p>
+                    <p>&#128197 SEASONS</p>
                     <div id="seasonDropdown" class="dropDown">
                         <div>0</div>
                         <div>1</div>
@@ -269,7 +294,7 @@ class GraphViz extends HTMLElement {
                 </div>
 
                 <div id="disciplineSelection" class="filterSelection">
-                    <p>DISCIPLINES</p>
+                    <p>&#127942 DISCIPLINES</p>
                     <div id="disciplineDropdown" class="dropDown">
                         <div id="3">Debugging</div>
                         <div id="5">Information Disclosure</div>

@@ -50,7 +50,6 @@ export const ASections = {
 
             if (participantLocation) {
 
-
                 participantLocation.score += participant.score;
                 participantLocation.competeingTimes++
             }

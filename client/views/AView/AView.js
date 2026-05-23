@@ -33,8 +33,8 @@ class AView {
                 }   
 
                country-side, graph-viz {
-                    width: 400px;   
-                    height: 600px;
+                    width: 500px;   
+                    height: 700px;
                 }
                 
                 graph-viz {
