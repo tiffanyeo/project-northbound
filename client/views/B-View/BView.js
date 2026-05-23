@@ -36,14 +36,7 @@ export class BView extends HTMLElement{
         const btnContainer = this.shadowRoot.querySelector("#btn-container")
         createLineChartForAgent(this.lineHw, results, lineContainer, btnContainer, this);
 
-        this.eList();
-
-        this.addEventListener("B: all-seasons", e => {
-            console.log("HOST fick eventet", e.detail);
-        });
-
-
-        
+        this.eList();        
     }
 
     getAgentDataForDiscipline(disciplineId){
@@ -177,7 +170,6 @@ export class BView extends HTMLElement{
         
         this.addEventListener("B: season-select", (e) => {
             const info = this.shadowRoot.querySelector(".infoCont");
-            console.log(`detail:${e.detail}`);
             info.innerHTML = this.printSeasonInfo(`S${e.detail}`);
 
         })
@@ -202,7 +194,6 @@ export class BView extends HTMLElement{
 
         this.shadowRoot.querySelector(".radar").addEventListener("B: discipline-selected", () =>{
             this.printRadarData();
-            console.log(this.disciplineId);
             const results = this.getAgentDataForDiscipline(this.disciplineId);
             const lineContainer = this.shadowRoot.querySelector("#chart");
             lineContainer.innerHTML = "";
@@ -225,7 +216,6 @@ export class BView extends HTMLElement{
     }
 
     renderDropdownEList(){
-        console.log("rerender!")
         const dropItems = this.shadowRoot.querySelectorAll(".list-item");
         dropItems.forEach(item => item.addEventListener("click", () => {
             this.disciplineId = this.allDisciplines.find(d => d.name == item.textContent).id;
