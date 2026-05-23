@@ -1,4 +1,4 @@
-import { AService } from "../AService.js";
+
 import { ASections } from "../newAService.js";
 
 class GraphViz extends HTMLElement {

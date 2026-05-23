@@ -1,7 +1,8 @@
 // USE FUNCTION, AND ONLY ONE FUNCTION FOR ALL FILTERS, DISCIPLINES, LOCATIONS and SEASONS, and SEND IN THE ARGUMENTS AS AN OBJECT IN FUNCTION
 
-import DB from "../../../api/services/DBAccessTest.js";
+import { DB } from "../../../backend/services/DBAccess.js";
 
+console.log(DB)
 // TEST WITH ARRAY METHODS
 function averageScore(options = { locationId, seasonId, disciplineId }) {
 
@@ -162,7 +163,7 @@ export const ASections = {
         for (let participant of this.totalParticipants.all) {
             console.log(participant)
             let storedParticipant = DB.participants.find(partici => partici.id == participant.participantId);
-
+            console.log(storedParticipant)
             if (storedParticipant.locationId != locationId) {
                 this.totalParticipants.all = this.totalParticipants.all.filter(partici => partici.participantId != storedParticipant.id);
             }

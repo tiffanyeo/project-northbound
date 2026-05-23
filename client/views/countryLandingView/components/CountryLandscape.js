@@ -1,3 +1,5 @@
+import { countries } from "../../../../backend/services/countriesDBAccess.js";
+
 class CountryLandscape extends HTMLElement {
 
     constructor() {
@@ -10,9 +12,11 @@ class CountryLandscape extends HTMLElement {
 
 
     async d3Logic() {
-        let response = await fetch("http://localhost:8000/getjsoncountrys");
-        let responseData = await response.json();
-        console.log(responseData);
+        // let response = await fetch("http://localhost:8000/getjsoncountrys");
+        // let responseData = await response.json();
+        // console.log(responseData);
+
+        let data = countries;
 
         let svg = d3.select(this.shadowRoot)
             .select("svg");
@@ -25,7 +29,7 @@ class CountryLandscape extends HTMLElement {
         let path = d3.geoPath().projection(projection)
 
         svg.selectAll("path")
-            .data(responseData.parsedContent)
+            .data(data)
             .enter()
             .append("path")
             .attr("d", path)
