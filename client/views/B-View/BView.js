@@ -1,4 +1,4 @@
-import DB from "../../../api/services/DBAccessTest.js";
+import { DB } from "../../../backend/services/DBAccess.js";
 import { RadarChart } from "../../components/RadarChart.js";
 import createLineChartForAgent from "./components/SectionLine.js"
 
@@ -15,6 +15,13 @@ export class BView extends HTMLElement{
         this.discColors = ["#27B2E8", "#F06129", "#4FE125","#C82EF5", "#f40000"];
         this.skillColors = ["#94D5FD", "#FA9C89", "#B8FEB0","#E6BBFB", "#FF7171"];
 
+        this.lineHw = {
+            hSvg: 500,
+            wSvg: 800,
+            hPadding: 20,
+            wPadding: 24
+        }
+
     }
     
     connectedCallback(){
@@ -23,17 +30,11 @@ export class BView extends HTMLElement{
         this.renderAgent();
         this.printRadarData();
 
-        const hw = {
-            hSvg: 500,
-            wSvg: 800,
-            hPadding: 20,
-            wPadding: 24
-        }
         const results = this.getAgentDataForDiscipline(this.disciplineId)
         
         const lineContainer = this.shadowRoot.querySelector("#chart");
         const btnContainer = this.shadowRoot.querySelector("#btn-container")
-        createLineChartForAgent(hw, results, lineContainer, btnContainer, this);
+        createLineChartForAgent(this.lineHw, results, lineContainer, btnContainer, this);
 
         this.eList();
 
@@ -201,6 +202,13 @@ export class BView extends HTMLElement{
 
         this.shadowRoot.querySelector(".radar").addEventListener("B: discipline-selected", () =>{
             this.printRadarData();
+            console.log(this.disciplineId);
+            const results = this.getAgentDataForDiscipline(this.disciplineId);
+            const lineContainer = this.shadowRoot.querySelector("#chart");
+            lineContainer.innerHTML = "";
+            const btnContainer = this.shadowRoot.querySelector("#btn-container");
+            btnContainer.innerHTML = "";
+            createLineChartForAgent(this.lineHw, results, lineContainer, btnContainer, this);
         })
 
         this.shadowRoot.querySelector("#all-seasons").addEventListener("click", () => {
@@ -211,6 +219,8 @@ export class BView extends HTMLElement{
             });
             this.shadowRoot.querySelector("#chart").dispatchEvent(zoomOutEvent);
         })
+
+
 
     }
 
@@ -256,13 +266,14 @@ export class BView extends HTMLElement{
         this.shadowRoot.innerHTML = `
         <style>
             :host{
-                margin: 50px auto;
+                margin: 0px auto;
                 color: #3EB51C;
                 display: grid;
                 grid-template-columns: 2fr 1fr;
+                overflow: clip;
             }
             .left{
-                margin: auto;
+                margin: 0 auto;
                 width: 802px;
                 height: min-content;
                 display: flex;
@@ -273,7 +284,8 @@ export class BView extends HTMLElement{
             }
             .right{
                 margin: 0 auto;
-                width: 400px;
+                height: min-content;
+                width: 350px;
                 display: flex;
                 flex-direction: column;
                 gap: 8px;
@@ -318,7 +330,7 @@ export class BView extends HTMLElement{
             }
 
             .agent{
-                margin-bottom: 32px;
+                margin: 32px 0px;
                 width: 200px;
                 padding: 8px;
                 border: 4px solid ${this.color};
@@ -390,7 +402,7 @@ export class BView extends HTMLElement{
             rect.isClicked{
                 fill: #4FE125;
             }
-            #all-seasons{
+            button{
                 margin: 0;
                 background-color: transparent;
                 width: auto;
@@ -403,9 +415,41 @@ export class BView extends HTMLElement{
                 border: 0.5px solid rgba(184, 254, 176, 0.5);
                 border-radius: 4px;
             }
+            button:hover{
+                background-color: rgba(184, 254, 176, 0.2);
+            }
+            .grid{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                align-items: center;
+                justify-content: center;
+
+            }
+            #backBtn{
+                height: 40px;
+                width: 40px;
+                font-size: 32px;
+                padding-bottom: 4px;
+                line-height: 0;
+                border: none;
+            }
+            #backBtn:hover{
+                border: 0.5px solid rgba(184, 254, 176, 0.5);
+            }
+
+            .ygrid path{
+                stroke: none;
+            }
+            .ygrid line {
+                stroke: rgba(184, 254, 176, 0.5);
+                opacity: 0.3;
+            }
         </style>
             <div class="left" class="half">
-                <div class="agent"></div>
+                <div class="grid">
+                    <button id="backBtn">&#8592;</button>
+                    <div class="agent"></div>
+                </div>
                 <div class="top-menu">
                     <p class"label">Progress in Discipline:</p>
                     <div class="dropdown">
@@ -418,7 +462,7 @@ export class BView extends HTMLElement{
                 </div>
                 <div id="chart-container">
                     <svg id="chart" width="800" height="500"></svg>
-                    <svg id="btn-container" width="800" height="40"></svg>
+                    <svg id="btn-container" width="800" height="60"></svg>
                     <button id="all-seasons">All Seasons</button>
                 </div>
             </div>

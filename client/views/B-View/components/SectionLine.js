@@ -31,6 +31,8 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
     const yAxis = d3.axisLeft(yScale)
                     .tickValues([0, 1, 3, 6, 10, 15]);
 
+    const yGrid = d3.axisLeft(yScale).tickSize(-wSvg).tickFormat("");
+
     let dMakerFunc = d3.line()
                         .x(d=> xScale(d.x))
                         .y(d=> yScale(d.score));
@@ -59,6 +61,10 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
             .call(xAxis)
             .selectAll("text")
             .attr("display", "none")
+
+        svg.append("g")
+            .attr("class", "ygrid")
+            .call(yGrid)
 
         svg.selectAll(".season-line")
             .data(seasons)
@@ -208,7 +214,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
             const centerX = (startX + endX) / 2;
 
             const screenX = xScale(centerX)
-            const screenY = 0;
+            const screenY = 20;
 
             btnG.append("rect")
                 .attr("x", screenX - 10)
@@ -252,12 +258,59 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
     function stretchZoom(matches){
         if (matches) {
+
             const newMinX = matches[0].x;
             const newMaxX = matches[matches.length -1].x;
+        
 
             xScale.domain([newMinX, newMaxX]);
+            
+            const tickXs = matches.map(m => m.x);
+
+            xAxis
+              .scale(xScale)
+              .tickValues(tickXs)
+              .tickFormat(x => {
+                  const m = matches.find(m => m.x === x);
+                  return m ? m.matchOfSeason + 1 : "";
+              });
+
+            svg.select(".x-axis")
+                .call(xAxis)
+                .selectAll("text")
+                .transition()
+                .duration(300)
+                .ease(d3.easeCubicOut)
+                .attr("display", "block");
+            
+            areaMaker.y1(d=> yScale(d.score))
+
+            svg.selectAll(".season-area")
+                .call(areaMaker)
+            
+
+            svg.selectAll(".bridge-line").attr("stroke", "none")
+
         } else {
             xScale.domain([0, lastx]);
+            svg.selectAll(".season-area")
+                .attr("pointer-events", "auto")
+
+            xAxis.tickValues(d3.range(0, lastx +1));
+            svg.selectAll(".x-axis")
+                .transition()
+                .duration(300)
+                .ease(d3.easeCubicOut)
+                .call(xAxis)
+                .selectAll("text")
+                .attr("display", "none");
+
+            svg.selectAll(".bridge-line").attr("stroke", color)
+
+            areaMaker.y1(yScale(maxScore + hPadding))
+
+            svg.selectAll(".season-area")
+                .call(areaMaker)
         }
 
 
@@ -279,17 +332,14 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
             .ease(d3.easeCubicOut)
             .attr("d", d=> areaMaker(d))
         
-        svg.selectAll(".x-axis")
-            .transition()
-            .duration(300)
-            .ease(d3.easeCubicOut)
-            .call(xAxis)
         
         svg.selectAll(".bridge-line")
             .transition()
             .duration(300)
-            .style("opacity", 0)
-            .attr("stroke", "none");
+            .attr("x1", d => xScale(d.x1))
+            .attr("y1", d => yScale(d.y1))
+            .attr("x2", d => xScale(d.x2))
+            .attr("y2", d => yScale(d.y2))
     }
 
 
@@ -314,7 +364,8 @@ function cleanData(results){
             for (let j = 0; j < seasonData.scores.length; j++) {
                 matches.push({
                     x: offset + j + 1,
-                    score: seasonData.scores[j].leagueScores
+                    score: seasonData.scores[j].leagueScores,
+                    matchOfSeason: j
                 });
             }
 
