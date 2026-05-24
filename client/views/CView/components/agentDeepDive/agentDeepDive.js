@@ -1,9 +1,5 @@
-import { Agents } from "../../../../services/Agents/Agents.js";
 import { DB } from "../../../../services/DBAccess.js";
-
 import { CService } from "../../CViewService.js";
-// import { buildAvergeSkillChart } from "../../CViewService.js";
-// import { buildCountriesAgentsCharts } from "../../CViewService.js";
 
 export class AgentDeepDive extends HTMLElement {
 
@@ -16,6 +12,7 @@ export class AgentDeepDive extends HTMLElement {
     connectedCallback() {
         this.render();
         this.eListeners();
+
         this.buildSkillSection();
         this.buildBestSkillSection();
         this.buildRankingSection();
@@ -182,163 +179,38 @@ export class AgentDeepDive extends HTMLElement {
     `;
     }
 
+
     eListeners() {
-        // close popup
-        const closeBTN = this.shadowRoot.querySelector(".close");
-        closeBTN.addEventListener("click", () => this.remove());
+        this.shadowRoot.querySelector(".close").addEventListener("click", () => this.remove());
     }
 
     getAgentName() {
-        // get agent name
-        const foundAgent = DB.participants.find(currAgent => currAgent.id === this.participantId);
-        return foundAgent ? foundAgent.name : "Agent";
+        const found = DB.participants.find(a => a.id === this.participantId);
+        return found ? found.name : "Agent";
     }
 
-    // build all skills chart (section 1)
     buildSkillSection() {
-
-        // get all skill factors
-        const allSkills = Agents.getAllSkillFactors(this.participantId);
-
-        // convert data to bar chart format
-        const bars = [];
-        const labels = Object.keys(allSkills);
-        const values = Object.values(allSkills);
-        for (let i = 0; i < labels.length; i++) {
-            bars.push({
-                label: labels[i],
-                value: values[i]
-            });
-        }
-        const chartData = {
-            bars,
-            min: 0,
-            max: 100
-        };
-
-        // create chart
-        const barChart = document.createElement("bar-chart");
-        barChart.hw = {
-            hSvg: 300,
-            wSvg: 700,
-            hPadding: 40,
-            wPadding: 80
-        };
-        barChart.sideways = false;
-        barChart.data = chartData;
-
-        // append chart
-        const chartParent = this.shadowRoot.querySelector(".all-skills-chart");
-        chartParent.appendChild(barChart);
+        const parent = this.shadowRoot.querySelector(".all-skills-chart");
+        CService.buildAgentAllSkillsChart(this.participantId, parent);
     }
 
-    // build best skill ranking (section 1)
     buildBestSkillSection() {
+        const parent = this.shadowRoot.querySelector(".best-skill-chart");
+        const nameElem = this.shadowRoot.querySelector(".best-skill-name");
+        const totalElem = this.shadowRoot.querySelector(".total-agents");
 
-        // get agent best skill
-        const agentBest = Agents.getBestSkill(this.participantId);
-        const bestSkill = DB.skills.find(currSkill => currSkill.name === agentBest.skillName);
-
-        // get (all) agents skillfactors for this skill
-        const allAgentsSkillFactor = [];
-        for (let currAgent of DB.participants) {
-            // this skill
-            const currBest = Agents.getSkillFactor(currAgent.id, bestSkill.id);
-            allAgentsSkillFactor.push({
-                name: currAgent.name,
-                id: currAgent.id,
-                skillFactor: currBest,
-                skill: bestSkill.name
-            });
-        }
-
-        // sort and save ranking
-        allAgentsSkillFactor.sort((a, b) => b.skillFactor - a.skillFactor);
-        for (let i = 0; i < allAgentsSkillFactor.length; i++) {
-            allAgentsSkillFactor[i].rank = i + 1;
-        }
-
-        // show 10 agents
-        const totalAgentsLength = allAgentsSkillFactor.length;
-
-        // find agent index
-        let agentIndex = 0;
-        for (let i = 0; i < totalAgentsLength; i++) {
-            if (allAgentsSkillFactor[i].id == this.participantId) {
-                agentIndex = i;
-                break;
-            }
-        }
-
-        // always show 10 agents
-        const windowSize = 10;
-
-        // default start
-        let startIndex = agentIndex - 5;
-
-        // if agent is in top 10
-        if (agentIndex < 5) startIndex = 0;
-
-        // if agent is near the end
-        if (agentIndex > totalAgentsLength - 6) {
-            startIndex = totalAgentsLength - windowSize;
-            if (startIndex < 0) startIndex = 0;
-        }
-
-        let endIndex = startIndex + windowSize;
-        if (endIndex > totalAgentsLength) endIndex = totalAgentsLength;
-
-        // create data for chart
-        const showPlacement = allAgentsSkillFactor.slice(startIndex, endIndex);
-        const bars = [];
-        for (let i = 0; i < showPlacement.length; i++) {
-            const currPlacement = showPlacement[i];
-            bars.push({
-                label: `${currPlacement.rank}. ${currPlacement.name}`,
-                value: currPlacement.skillFactor
-            });
-        }
-        const chartData = {
-            bars,
-            min: 0,
-            max: 100
-        };
-
-        // create chart
-        const barChart = document.createElement("bar-chart");
-        barChart.hw = {
-            hSvg: 450,
-            wSvg: 700,
-            hPadding: 50,
-            wPadding: 120
-        };
-        barChart.data = chartData;
-        barChart.sideways = true;
-        const parentElem = this.shadowRoot.querySelector(".best-skill-chart");
-        parentElem.appendChild(barChart);
-
-        // add support text
-        const skillNameText = this.shadowRoot.querySelector(".best-skill-name");
-        skillNameText.innerHTML = `Ranking based on <span class="text-highlight">${bestSkill.name}</span>.`;
-        const totalAgents = allAgentsSkillFactor.length;
-        const totalText = this.shadowRoot.querySelector(".total-agents");
-        totalText.innerHTML = `Showing a 10 agent-snippet out of <span class="text-highlight">${totalAgents} total agents </span> in decending order.`;
-
+        CService.buildAgentBestSkillRanking(
+            this.participantId,
+            parent,
+            nameElem,
+            totalElem
+        );
     }
 
-    // build overall ranking (section 1)
     buildRankingSection() {
-
-        // get all agents sorted
-        const all = Agents.getAgentsAverage(null, null, null, 100);
-        const index = all.findIndex(a => a.participantId === this.participantId);
-
-        // show rank
-        const rankingText = this.shadowRoot.querySelector(".ranking-value");
-        rankingText.textContent = `Placement: #${index + 1}`;
-
+        const parent = this.shadowRoot.querySelector(".ranking-value");
+        CService.buildAgentOverallRanking(this.participantId, parent);
     }
-
 }
 
 customElements.define("agent-deepdive-popup", AgentDeepDive);

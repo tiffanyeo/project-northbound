@@ -1,14 +1,5 @@
-
-import { RadarChart } from "../../../../components/RadarChart.js";
 import { Agents } from "../../../../services/Agents/Agents.js";
-import { DB } from "../../../../services/DBAccess.js";
-// import { buildCountriesAgentsCharts } from "../../service.js";
-// import { buildAvergeSkillChart } from "../../service.js";
 import { CService } from "../../CViewService.js";
-
-/*  
-    <location-comparison location="1"></location-comparison>
-*/
 
 export class LocationComparison extends HTMLElement {
 
@@ -18,22 +9,16 @@ export class LocationComparison extends HTMLElement {
     }
 
     connectedCallback() {
-        this.setAttributes()
+        this.location = Number(this.getAttribute("location")) || 1;
+        this.comparison = "all";
+
         this.render();
         this.eListeners();
-
         this.updateTitle();
         this.setupTooltip();
 
         this.buildCountryCharts();
         this.buildComparisonAgent();
-    }
-
-    setAttributes() {
-        this.location = this.getAttribute("location") || 1;
-        this.comparison = "all"
-        console.log(this.location, "LOCATIONS")
-        
     }
     
     style() {
@@ -263,37 +248,40 @@ export class LocationComparison extends HTMLElement {
             </div>
         `;
     }
-
     eListeners() {
 
         // DROPDOWN
         const options = this.shadowRoot.querySelector(".dropdown-options");
         const selected = this.shadowRoot.querySelector(".dropdown-selected");
+
         this.shadowRoot.addEventListener("click", (e) => {
+
             if (e.target.closest(".dropdown-selected")) {
                 options.classList.toggle("active");
-            } else if (e.target.closest(".dropdown-option")) {
-                const chosenCountry = e.target.dataset.value;
-                this.comparison = chosenCountry;
-                selected.innerHTML = `${e.target.innerText}<span>⌄</span>`;
+                return;
+            }
+
+            const opt = e.target.closest(".dropdown-option");
+            if (opt) {
+                this.comparison = opt.dataset.value;
+                selected.innerHTML = `${opt.innerText}<span>⌄</span>`;
                 options.classList.remove("active");
                 this.buildComparisonAgent();
-            } else {
-                options.classList.remove("active");
+                return;
             }
+
+            options.classList.remove("active");
         });
 
-        // RADAR CHARTS 
+        // OPEN POPUP
         this.shadowRoot.addEventListener("click", (e) => {
             const radarChart = e.target.closest("radar-chart");
-            if (radarChart) {
-                // open popup
-                const popup = document.createElement("agent-deepdive-popup");
-                popup.participantId = radarChart.participantId;
-                document.body.appendChild(popup);
-            }
-        })
+            if (!radarChart) return;
 
+            const popup = document.createElement("agent-deepdive-popup");
+            popup.participantId = radarChart.participantId;
+            document.body.appendChild(popup);
+        });
     }
 
     updateTitle() {
@@ -304,53 +292,50 @@ export class LocationComparison extends HTMLElement {
             4: "Sweden",
             5: "Finland"
         };
-
-        // update
-        const title = this.shadowRoot.querySelector(".country-title");
-        title.textContent = names[this.location];
+        this.shadowRoot.querySelector(".country-title").textContent = names[this.location];
     }
 
     setupTooltip() {
         const tooltip = this.shadowRoot.querySelector("#tooltip");
+
         this.shadowRoot.addEventListener("mousemove", (e) => {
             if (!tooltip.classList.contains("visible")) return;
             tooltip.style.left = e.clientX + 15 + "px";
             tooltip.style.top = e.clientY + 15 + "px";
         });
+
         this.shadowRoot.addEventListener("mouseover", (e) => {
-            if (e.target.closest(".agent-charts") || e.target.closest(".compare-agent-chart")) {
+            if (e.target.closest("radar-chart")) {
                 tooltip.classList.add("visible");
             }
         });
-        this.shadowRoot.addEventListener("mouseout", (e) => {
+
+        this.shadowRoot.addEventListener("mouseout", () => {
             tooltip.classList.remove("visible");
         });
     }
 
     // ALL AGENTS (by location)
     buildCountryCharts() {
-        const agentCharts = this.shadowRoot.querySelector(".agent-charts");
-        agentCharts.innerHTML = "";
-        CService.buildCountriesAgentsCharts(this.location, agentCharts);
+        const parent = this.shadowRoot.querySelector(".agent-charts");
+        parent.innerHTML = "";
+        CService.buildCountriesAgentsCharts(this.location, parent);
     }
 
-    // COMPARISON AGENT (all or by location)
+    // TOP AGENT (all or by location)
     buildComparisonAgent() {
+        const parent = this.shadowRoot.querySelector(".compare-agent-chart");
+        parent.innerHTML = "";
 
-        const compareChart = this.shadowRoot.querySelector(".compare-agent-chart");
-        compareChart.innerHTML = "";
+        if (this.comparison === "all") {
+            CService.buildAvergeSkillChart(null, parent);
+            return;
+        }
 
-        // (all locations) top agent
-        if (this.comparison == "all") return CService.buildAvergeSkillChart(null, compareChart);
-
-        // (location) top agent
-        const locationId = this.comparison === "all" ? null : Number(this.comparison);
-        const topAgent = Agents.getAgentsAverage(locationId, null, null, 1);
-
-        CService.buildAvergeSkillChart(topAgent, compareChart);
-
+        const topAgent = Agents.getAgentsAverage(Number(this.comparison), null, null, 1);
+        CService.buildAvergeSkillChart(topAgent, parent);
     }
-
 }
 
 customElements.define("location-comparison", LocationComparison);
+
