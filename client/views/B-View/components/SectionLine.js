@@ -4,12 +4,13 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
     const ORIGINAL_RESULTS = results;
 
     const color = "#3EB51C";
+    const labelColor = "rgb(184, 254, 176)";
     
     let max = 0;
     
     const seasons = cleanData(results)
 
-    const maxScore = Math.max(...seasons.flatMap(s=>s.matches).flatMap(r=>r.score));
+    const maxScore = 15;
 
     let lastSeason = seasons[seasons.length -1];
     let lastx = lastSeason.matches[lastSeason.matches.length -1].x;
@@ -62,6 +63,22 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
         svg.append("g")
             .attr("class", "ygrid")
             .call(yGrid)
+
+        svg.append("text")
+            .attr("class", "x-label")
+            .attr("text-anchor", "center")
+            .attr("x", wSvg / 2 - 20)
+            .attr("y", hSvg - 2)
+            .text("Games")
+            .attr("fill", labelColor);
+
+        svg.append("text")
+            .attr("class", "y-label")
+            .attr("text-anchor", "center")
+            .attr("x", 0)
+            .attr("y", hPadding / 2)
+            .text("Points")
+            .attr("fill", labelColor);
 
         svg.selectAll(".season-line")
             .data(seasons)
@@ -284,7 +301,6 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
             svg.selectAll(".season-area")
                 .call(areaMaker)
-            
 
             svg.selectAll(".bridge-line").attr("stroke", "none")
 
