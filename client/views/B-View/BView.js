@@ -18,7 +18,7 @@ export class BView extends HTMLElement{
         this.lineHw = {
             hSvg: 500,
             wSvg: 800,
-            hPadding: 20,
+            hPadding: 40,
             wPadding: 24
         }
     }
@@ -217,6 +217,7 @@ export class BView extends HTMLElement{
                 composed: true
             });
             this.shadowRoot.querySelector("#chart").dispatchEvent(zoomOutEvent);
+            this.shadowRoot.querySelector(".infoCont").innerHTML = this.printSeasonInfo();
         })
 
         this.shadowRoot.querySelector("#backBtn").addEventListener("click", () => {
@@ -300,11 +301,11 @@ export class BView extends HTMLElement{
                 width: 350px;
                 display: flex;
                 flex-direction: column;
-                gap: 8px;
+                justify-content: space-between;
                 align-items: center;
             }
             .info{
-                padding: 40px;
+                padding: 0px 40px;
                 text-indent: 160px hanging each-line;
             }
             .info h2{
@@ -314,7 +315,7 @@ export class BView extends HTMLElement{
             .infoCont {
                 height: 188px;
                 width: 340px;
-                margin-top: 80px;
+                margin-top: 150px;
                 text-shadow: 1px 1px 3px rgba(184, 254, 176, 0.5);
             }
             .no-info{
