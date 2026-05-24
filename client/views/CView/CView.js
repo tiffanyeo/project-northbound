@@ -1,4 +1,6 @@
 
+import "../../components/BarChart.js"
+import "../../components/RadarChart.js"
 import "./components/locationComparison/locationComparison.js"
 import "./components/agentDeepDive/agentDeepDive.js"
 

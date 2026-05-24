@@ -1,5 +1,7 @@
+
 import { Agents } from "../../../../services/Agents/Agents.js";
 import { CService } from "../../CViewService.js";
+import "../../../../components/RadarChart.js"
 
 export class LocationComparison extends HTMLElement {
 

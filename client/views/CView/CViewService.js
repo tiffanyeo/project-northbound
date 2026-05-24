@@ -40,10 +40,10 @@ class CViewService {
     // DEFAULT RADAR SIZE
     getDefaultRadarChartSize() {
         return {
-            hSvg: 250,
-            wSvg: 250,
+            hSvg: 230,
+            wSvg: 260,
             hPadding: 40,
-            wPadding: 40
+            wPadding: 60
         };
     }
 
@@ -110,14 +110,14 @@ class CViewService {
         if (type === "agent") return this.buildAgentChart(data);
         if (type === "location") return this.buildLocationCharts(data);
 
-        console.log("No chart type found");
     }
 
     // BUILD ALL AGENTS IN COUNTRY
     buildCountriesAgentsCharts(countryId, parent) {
         this.createRadarChart("location", {
             parent,
-            location: { id: countryId }
+            location: { id: countryId },
+            hw: this.getDefaultRadarChartSize()
         });
     }
 
