@@ -17,4 +17,4 @@ class CountryLandingView {
 
 }
 
-new CountryLandingView();
+export const countriesView = new CountryLandingView();
