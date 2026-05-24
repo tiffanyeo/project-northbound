@@ -1,5 +1,6 @@
 import "./components/GraphViz.js";
 import "./components/CountrySide.js";
+import { countriesView } from "../countryLandingView/countryLandingView.js";
 
 class AView {
 
@@ -16,6 +17,7 @@ class AView {
             countrySideComp.windowDetails(event.detail)
 
         })
+
     }
 
 
@@ -29,7 +31,7 @@ class AView {
                     height: 100vh;
                     justify-content: center;
                     align-items: center;
-                    gap: 200px;
+                    gap: 100px;
                 }   
 
                country-side, graph-viz {
@@ -51,10 +53,31 @@ class AView {
                     }
                 }
 
+                #bckButton {
+
+                    position: absolute;
+                    top: 50px;
+                    left: 100px;
+                    background-color: transparent;
+                    font-size: 32px;
+                    width: 40px;
+                    height: 40px;
+                    color: rgba(184, 254, 176);
+                    cursor: pointer;
+                    text-align: center;
+                    border-radius: 4px;
+                }
+
+                #bckButton:hover{
+                    background-color: rgba(184, 254, 176, 0.2);
+                    border: 0.5px solid rgba(184, 254, 176, 0.5);
+                }
+
                
             </style>
 
             <div id="A1View">
+                <div id="bckButton">&#8592;</div>
                 <country-side></country-side>
                 <graph-viz></graph-viz>
             </div>

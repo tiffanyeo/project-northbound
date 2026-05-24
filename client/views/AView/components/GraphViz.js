@@ -41,7 +41,6 @@ class GraphViz extends HTMLElement {
             .attr("height", 600)
 
         // Rensa allt ur SVG elementet genom selectAll * och remove()
-        svg.selectAll("*").remove();
 
 
         function getMax() {
@@ -56,7 +55,7 @@ class GraphViz extends HTMLElement {
 
 
         let scaleX = d3.scaleLinear()
-            .domain([1100, getMax()])
+            .domain([1000, getMax()])
             .range([125, 225]);
 
         let scaleY = d3.scaleBand()
@@ -64,16 +63,18 @@ class GraphViz extends HTMLElement {
             .range([50, 550])
             .paddingInner(0.7);
 
+
         let containerGroup = svg.selectAll(".bar-group")
-            .data(data)
-            .enter()
+            .data(data, d => d.name)
+
+        let newGroup = containerGroup.enter()
             .append("g")
             .attr("class", "bar-group")
             .attr("id", d => d.participantId)
 
 
-        // BACKGROUNDS RECTS
-        containerGroup.append("rect")
+        // BACKGROUND RECTS
+        newGroup.append("rect")
             .attr("x", 150)
             .attr("y", d => scaleY(d.name))
             .attr("width", 225)
@@ -82,33 +83,58 @@ class GraphViz extends HTMLElement {
             .attr("rx", 2)
             .attr("ry", 2)
 
-
-        // VALUE RECTS
-        containerGroup.append("rect")
-            // .transition(1000)
+        // SCORE RECTS
+        newGroup.append("rect")
             .attr("x", 150)
             .attr("y", d => scaleY(d.name))
-            .attr("width", d => scaleX(d.score))
+            .attr("width", 0)
             .attr("height", scaleY.bandwidth())
-            .attr("fill", "#5FD5EC")
+            .attr("fill", d => d.color)
+            // .attr("fill", "#5FD5EC")
             .attr("rx", 2)
             .attr("ry", 2)
-
+            .attr("id", "score-rect")
 
         // SCORE TEXT
-        containerGroup.append("text")
-            .attr("x", 450)
+        newGroup.append("text")
+            .attr("x", 435)
             .attr("y", d => scaleY(d.name) + 15)
             .text(d => d.score)
-            .style("fill", "white")
-            .style("font-size", "18px");
+            .attr("fill", "white")
+            .style("font-size", "18px")
+            .attr("id", "score-text")
 
-        containerGroup.append("text")
-            .attr("x", 5)
-            .attr("y", d => scaleY(d.name) + 15)
+        // AGENT NAME TEXT
+        newGroup.append("text")
+            .attr("x", 35)
+            .attr("y", d => scaleY(d.name) + 20)
             .text(d => d.name)
-            .style("fill", "white")
-            .style("font-size", "18px");
+            .attr("fill", "white")
+            .style("font-size", "18px")
+            .attr("class", "score-rect")
+
+        // AGENT COLOR CIRCLE
+        newGroup.append("circle")
+            .attr("cx", 10)
+            .attr("cy", d => scaleY(d.name) + 15)
+            .attr("r", 8)
+            .attr("fill", d => d.color)
+            .attr("class", "score-rect")
+
+
+        containerGroup.exit().remove()
+
+
+        // MERGING WHOLE GROUP WITH ALL RECT AND CIRCLES AND TEXT
+        let allMerged = containerGroup.merge(newGroup)
+            .transition()
+            .duration(500)
+
+
+        // UPDATING ONLY SELECTED RECT AND TEXT
+        allMerged.select("#score-rect").attr("width", d => scaleX(d.score))
+        allMerged.select("#score-text").text(d => d.score)
+
 
 
 
@@ -143,7 +169,7 @@ class GraphViz extends HTMLElement {
 
             selection.addEventListener("click", () => {
 
-                this.getParticipantsBySeason(selection.innerHTML);
+                this.getParticipantsBySeason(selection.id);
 
             })
         }
@@ -235,14 +261,16 @@ class GraphViz extends HTMLElement {
                 gap: 15px;
                 justify-content: center;
                 align-items: start;
-                width: 125px;
+                width: 100%;
                 height: auto;
                 background-color: white;
                 position: absolute;
                 padding-top: 15px;
                 padding-bottom: 15px;
-                top: 100%;
+                bottom: 100%;
                 left: 0;
+                border-radius: 20px;
+                background-color: #2c3b4f;
             }
             
 
@@ -280,27 +308,57 @@ class GraphViz extends HTMLElement {
                 <div id="seasonSelection" class="filterSelection">
                     <p>&#128197 SEASONS</p>
                     <div id="seasonDropdown" class="dropDown">
-                        <div>0</div>
-                        <div>1</div>
-                        <div>2</div>
-                        <div>3</div>
-                        <div>4</div>
-                        <div>5</div>
-                        <div>6</div>
-                        <div>7</div>
-                        <div>8</div>
-                        <div>9</div>
+                        <div id="0">
+                            <p>Year: 00</p>
+                        </div>
+                        <div id="1">
+                            <p>Year: 01</p>
+                        </div>
+                        <div id="2">
+                            <p>Year: 02</p>
+                        </div>
+                        <div id="3">
+                            <p>Year: 03</p>
+                        </div>
+                        <div id="4">
+                            <p>Year: 04</p>
+                        </div>
+                        <div id="5">
+                            <p>Year: 05</p>
+                        </div>
+                        <div id="6">
+                            <p>Year: 06</p>
+                        </div>
+                        <div id="7">
+                            <p>Year: 07</p>
+                        </div>
+                        <div id="8">
+                            <p>Year: 08</p>
+                        </div>
+                        <div id="9">
+                            <p>Year: 09</p>
+                        </div>
                     </div>
                 </div>
 
                 <div id="disciplineSelection" class="filterSelection">
                     <p>&#127942 DISCIPLINES</p>
                     <div id="disciplineDropdown" class="dropDown">
-                        <div id="3">Debugging</div>
-                        <div id="5">Information Disclosure</div>
-                        <div id="2">Spread Disinformation</div>
-                        <div id="1">Analyze data</div>
-                        <div id="4">Track Digital Footprints</div>
+                        <div id="3">
+                            <p>Debugging</p>
+                        </div>
+                        <div id="5">
+                            <p>Information Disclosure</p>
+                        </div>
+                        <div id="2">
+                            <p>Spread Disinformation</p>
+                        </div>
+                        <div id="1">
+                            <p>Analyze data</p>
+                        </div>
+                        <div id="4">
+                            <p>Track Digitial Footprints</p>
+                        </div>
                     </div>
                 </div>
         

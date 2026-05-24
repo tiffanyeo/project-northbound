@@ -22,6 +22,19 @@ export const ASections = {
         }
     },
 
+    getParticipants: function (participantId) {
+        if (participantId != undefined) {
+            for (let participant of DB.participants) {
+                if (participant.id == participantId) {
+                    return participant;
+                }
+            }
+        } else {
+            return DB.participants;
+        }
+    },
+
+
     manageParticipant: function () {
 
     },
@@ -92,8 +105,10 @@ export const ASections = {
 
                 let savedParticipant = this.totalParticipants.all.find(partici => partici.participantId == participant.participantId);
 
+                let participantColor = this.getParticipants(participant.participantId).color;
+
                 if (!savedParticipant) {
-                    this.totalParticipants.all.push({ participantId: participant.participantId, score: participant.score, competeingTimes: 1 });
+                    this.totalParticipants.all.push({ participantId: participant.participantId, score: participant.score, competeingTimes: 1, color: participantColor });
 
                 } else {
                     savedParticipant.score += participant.score;
