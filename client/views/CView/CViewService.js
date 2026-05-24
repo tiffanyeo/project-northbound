@@ -49,6 +49,8 @@ class CViewService {
     }
 
 
+    // -- RADAR CHART SERVICE --
+    
     buildRadarChart(data, hw, parent) {
 
         const radarChart = document.createElement("radar-chart");
@@ -130,7 +132,6 @@ class CViewService {
         );
     }
 
-
     buildLocationCharts(data) {
 
         // constraints
@@ -162,6 +163,7 @@ class CViewService {
                 skills: agentsSkills
             });
         }
+
 
         // build for every agent:
         for (let i = 0; i < locAgentsSkills.length; i++) {
@@ -244,6 +246,101 @@ class CViewService {
 
         this.createRadarChart("agent", dataObj);
     }
+
+
+    // -- BAR CHART SERVICE --
+
+    buildBarChartData(arr) {
+
+        const data = [];
+
+        for (let i = 0; i < arr.length; i++) {
+
+            data.push({
+                label: `${i + 1}. ${arr[i].name}`,
+                value: arr[i].skillFactor
+            });
+        }
+
+        return {
+            bars: data,
+            min: 0,
+            max: 100
+        };
+    }
+
+    createBarChart(chartData, parent) {
+
+        // MAKE MODULAR LATER! ***
+        const hw = {
+            hSvg: 500,
+            wSvg: 600,
+            hPadding: 50,
+            wPadding: 100,
+        };
+
+        const barChart = document.createElement("bar-chart");
+        barChart.hw = hw;
+        barChart.data = chartData;
+        parent.appendChild(barChart);
+    }
+
+    getAgentsPlacementByBestSkill(agent) {
+
+        const agentBestSkillFactor = Agents.getBestSkill(agent.id);
+
+        const bestSkill = DB["skills"].find(
+            currS => currS.name == agentBestSkillFactor.skillName
+        );
+
+        const allAgentsSkillFactor = [];
+
+        for (let currAgent of DB["participants"]) {
+
+            const currBest = Agents.getSkillFactor(
+                currAgent.id,
+                bestSkill.id
+            );
+
+            allAgentsSkillFactor.push({
+                name: currAgent.name,
+                id: currAgent.id,
+                skillFactor: currBest,
+                skill: bestSkill.name
+            });
+        }
+
+        // sort
+        allAgentsSkillFactor.sort(
+            (a, b) => b.skillFactor - a.skillFactor
+        );
+
+        /* { name: "Björk", id: 135, skillFactor: 100, … } */
+        let showPlacement;
+
+        for (let i = 0; i < allAgentsSkillFactor.length; i++) {
+
+            if (allAgentsSkillFactor[i].id === agent.id) {
+
+                // in top 10, show at least 10
+                if (i < 10) {
+
+                    showPlacement = allAgentsSkillFactor.splice(0, 10);
+
+                } else {
+
+                    // else show placement
+                    showPlacement = allAgentsSkillFactor.splice(0, i + 2);
+                }
+            }
+        }
+
+        return {
+            bestSkill,
+            placement: showPlacement
+        };
+    }
+
 
 }
 
