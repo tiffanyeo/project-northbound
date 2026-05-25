@@ -371,7 +371,6 @@ class GraphViz extends HTMLElement {
             }
 
             .bar-group:hover {
-                stroke: green;
                 cursor: pointer;
             }
             

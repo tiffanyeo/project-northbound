@@ -38,8 +38,6 @@ class CountrySide extends HTMLElement {
 
             svg {
                 position: absolute;
-                
-
             }
 
             @keyframes countryMoveIn {
