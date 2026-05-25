@@ -1,6 +1,8 @@
-import "./components/CountryLandscape.js";
 
-class CountryLandingView {
+import "./components/CountryLandscape.js";
+import "../LandingView/components/TerminalPrompt.js"
+
+export class CountryLandingView {
 
     constructor() {
         this.app = document.querySelector("#app");
@@ -16,5 +18,3 @@ class CountryLandingView {
 
 
 }
-
-export const countriesView = new CountryLandingView();

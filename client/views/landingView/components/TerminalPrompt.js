@@ -229,7 +229,7 @@ class TerminalPrompt extends HTMLElement {
                 const terminal = this.shadowRoot.querySelector(".terminal");
                 terminal.style.transition = "opacity 1s ease";
                 terminal.style.opacity = "0";
-                setTimeout(() => this.remove(), 1000);
+                setTimeout(() => this.remove(), 600);
             }, 3500);
         });
     }
