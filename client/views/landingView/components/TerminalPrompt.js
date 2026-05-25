@@ -16,8 +16,8 @@ class TerminalPrompt extends HTMLElement {
     connectedCallback() {
         this.loadText();
         this.render();
-        this.eListeners()
-        this.printLines(this.lines, () => this.showInput());
+        this.eListeners();
+        this.initTerminal();
     }
 
     style() {
@@ -30,6 +30,7 @@ class TerminalPrompt extends HTMLElement {
                 align-items: center;
                 justify-content: center;
             }
+                
             .terminal {
                 background: #0D1A2E;
                 color: #34D399;
@@ -72,6 +73,7 @@ class TerminalPrompt extends HTMLElement {
             .line {
                 margin-bottom: 4px;
             }
+                
             .input-line {
                 display: flex;
                 margin-top: 8px;
@@ -102,6 +104,7 @@ class TerminalPrompt extends HTMLElement {
                 animation: blink 0.7s infinite;
                 box-shadow: 0 0 8px #34D399;
             }
+                
             @keyframes blink {
                 0% { opacity: 1; }
                 50% { opacity: 0; }
@@ -110,6 +113,14 @@ class TerminalPrompt extends HTMLElement {
         `;
     }
 
+    eListeners() {
+        const skipBtn = this.shadowRoot.querySelector(".skip-btn");
+        skipBtn.addEventListener("click", () => {
+            this.cancelPrint = true;
+            this.loadMap();
+        });
+    }
+    
     render() {
         this.shadowRoot.innerHTML = `
             <style>${this.style()}</style>
@@ -124,13 +135,6 @@ class TerminalPrompt extends HTMLElement {
         `;
     }
 
-    eListeners() {
-        const skipBtn = this.shadowRoot.querySelector(".skip-btn");
-        skipBtn.addEventListener("click", () => {
-            this.cancelPrint = true;   // <-- STOPPA ALL UTSKRIFT
-            this.loadMap();            // <-- LADDAR KARTAN DIREKT
-        });
-    }
     loadText() {
 
         this.lines = [
@@ -199,6 +203,11 @@ class TerminalPrompt extends HTMLElement {
         ];
     }
 
+    // START PRINTING
+    initTerminal() {
+        this.printLines(this.lines, () => this.showInput())
+    }
+
     // PRINT LINE (one)
     printLine(text) {
 
@@ -231,9 +240,14 @@ class TerminalPrompt extends HTMLElement {
     // PRINT LINES (arr)
     printLines(lines, done) {
 
+        // skip directly
+        if (this.cancelPrint) return done();
+
         let i = 0;
         const printNext = () => {
-            if (this.cancelPrint) return;
+
+            // skip directly
+            if (this.cancelPrint) return done();
             if (i >= lines.length) return done();
 
             const text = lines[i];
