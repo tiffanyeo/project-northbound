@@ -209,6 +209,7 @@ class TerminalPrompt extends HTMLElement {
 
     // Load map and fade out terminal
     loadMap() {
+        const app = document.querySelector("#app");
         document.removeEventListener("keydown", this.keyHandler);
 
         const loadLines = [
@@ -222,7 +223,7 @@ class TerminalPrompt extends HTMLElement {
         this.printLines(loadLines, () => {
             // Append map
             const target = document.createElement("country-landing");
-            document.body.appendChild(target);
+            app.appendChild(target);
 
             // Wait for map animations then fade out
             setTimeout(() => {
