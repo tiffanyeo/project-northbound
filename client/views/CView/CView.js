@@ -4,7 +4,7 @@ import "../../components/RadarChart.js"
 import "./components/locationComparison/locationComparison.js"
 import "./components/agentDeepDive/agentDeepDive.js"
 
-class CView extends HTMLElement {
+export class CView extends HTMLElement {
 
     constructor() {
         super();
