@@ -10,7 +10,6 @@ import { buildCountriesAgentsCharts } from "./service.js";
 import { buildAvergeSkillChart } from "./service.js";
 
 
-
 const agent = {
     "id": 192,
     "name": "Aksel",
@@ -20,7 +19,21 @@ const agent = {
 
 // SECTION 1
 
+const agentAllSkills = Agents.getAllSkillFactors(agent["id"])
+// console.log(agentAllSkills)
+const radarParent = document.querySelector(".all-skills-chart")
 
+const rLabels = Object.keys(agentAllSkills);
+const rValues = Object.values(agentAllSkills); 
+/* 
+bmuildCountriesAgentsCharts(countryId, parent = null) {
+    const dataObj = {
+        parent: parent || document.querySelector("body"),
+        location: { id: countryId }
+    };
+    createRadarChart("agent", dataObj)
+}
+ */
 
 
 
@@ -76,7 +89,7 @@ function buildBarChartData(arr) {
 }
 
 function createBarChart(chartData, parent) {
-    // SE ÖVER HEIGGHT MODULÄR
+    // SE ÖVER HEIGGHT /padding MODULÄRT
     const hw = {
         hSvg: 500,
         wSvg: 600,
@@ -86,7 +99,7 @@ function createBarChart(chartData, parent) {
     const barChart = document.createElement("bar-chart");
     barChart.hw = hw;
     barChart.data = chartData;
-    parent.appendChild(barChart);
+    // parent.appendChild(barChart);
 }
 
 const chartData = buildBarChartData(showPlacement)
@@ -98,7 +111,7 @@ createBarChart(chartData, parentElem)
 
 
 // SECTION 3 
-//  sstyle elem?
+// styling endast elem?
 
 
 

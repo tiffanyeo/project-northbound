@@ -20,10 +20,11 @@ let data = {
                 value: 32
             }
         }
-    ],
+    ], 
     max: 100,
     min: 0
-    
+    color: "#3EB51C"
+    markedBar: "ØreByte"
 }
 */
 /* OM man vill ha en liggande chart behöver man inte ange sideways, annars anropar man sideways = false */
@@ -47,6 +48,7 @@ export class BarChart extends HTMLElement{
 
         const hViz = hSvg - hPadding * 2;
         const wViz = wSvg - wPadding * 2;
+        const color = this.data.color || "#3EB51C";
 
         let svg = d3.select(this.shadowRoot.querySelector("#chart"));
 
@@ -80,7 +82,7 @@ export class BarChart extends HTMLElement{
                 .attr("y", d => yScale(d.label))
                 .attr("width", d => xScale(d.value) - wPadding)
                 .attr("height", yScale.bandwidth())
-                .attr("fill", "#3EB51C")
+                .attr("fill", d => d.label.includes(this.data.markedBar) ? color : "#3EB51C")
                 .attr("stroke", "#a8eb95a6")
         } else {
             const xScale = d3.scaleBand(this.data.bars.map(d=> d.label),[wPadding, wPadding + wViz])
@@ -94,14 +96,14 @@ export class BarChart extends HTMLElement{
                 .selectAll("text")
                 .attr("font-size", "12px")
                 .attr("font-family", "monospace");
-            
+
             svg.append("g")
                 .attr("transform", `translate(${wPadding}, 0)`)
                 .call(d3.axisLeft(yScale))
                 .selectAll("text")
                 .attr("font-size", "12px")
                 .attr("font-family", "monospace");
-            
+
             svg.selectAll("rect")
                 .data(this.data.bars)
                 .enter()
@@ -110,8 +112,8 @@ export class BarChart extends HTMLElement{
                 .attr("y", d=> yScale(d.value))
                 .attr("width", xScale.bandwidth())
                 .attr("height", d=> yScale(this.data.min) - yScale(d.value))
-                .attr("fill", "#3EB51C")
-        
+                .attr("fill", color)
+
         }
     }
 
@@ -121,7 +123,6 @@ export class BarChart extends HTMLElement{
         `;
     }
 
-    
 
 }
 
