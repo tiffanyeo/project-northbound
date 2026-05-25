@@ -27,7 +27,8 @@ export class LocationComparison extends HTMLElement {
         return `
             .country-title-container {
                 text-align: center;
-                margin-top: 40px;
+                margin-top: 80px;
+                margin-bottom: 40px;
             }
 
             .country-title {
@@ -96,6 +97,7 @@ export class LocationComparison extends HTMLElement {
                     0 0 15px rgba(55, 255, 20, 0.47),
                     inset 0 0 10px rgba(57,255,20,0.15);
                 border: 1px solid rgba(57,255,20,0.4)
+                box-sizing: border-box;
             }
             
             .compare-chart-container {
@@ -211,7 +213,7 @@ export class LocationComparison extends HTMLElement {
             <style>${this.style()}</style>
             <div class="country-title-container">
                 <h1 class="country-title"></h1>
-                <p class="country-subtitle page-text">Here you can view all the agent originating from <span class="text-highlight">this location</span>, and their skill-sets. You can compare this locations agents with the overall best average skill-set agent, either <span class="text-highlight"> across all of the locations</span> or get <span class="text-highlight">one countries</span> best averaging agent.</p>
+                <p class="country-subtitle page-text">Here you can view all the agents originating from <span class="text-highlight">this location</span>, and their skill-sets. You can compare this locations agents with the overall best average skill-set agent, either <span class="text-highlight"> across all of the locations</span> or get <span class="text-highlight">one country's</span> best averaging agent.</p>
             </div>
 
             <div class="tooltip" id="tooltip">

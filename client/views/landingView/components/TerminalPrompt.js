@@ -28,26 +28,45 @@ class TerminalPrompt extends HTMLElement {
                 align-items: center;
                 justify-content: center;
             }
-.terminal {
-    background: #0D1A2E;
-    color: #39ff14;
-    font-family: monospace;
-    font-size: 18px;
-    line-height: 1.7;
-    padding: 60px 80px;
-    width: 700px;
-    max-width: 90vw;
+            .terminal {
+                background: #0D1A2E;
+                color: #39ff14;
+                font-family: monospace;
+                font-size: 18px;
+                line-height: 1.7;
+                padding: 60px 80px;
+                padding-bottom: 180px;
+                width: 700px;
+                max-width: 90vw;
 
-    height: 80vh;
-    overflow-y: auto;
+                height: 70vh;
+                overflow-y: auto;
 
-    box-sizing: border-box;
-    border: 1px solid rgba(57, 255, 20, 0.4);
-    border-radius: 8px;
-    box-shadow:
-        0 0 40px rgba(57, 255, 20, 0.2),
-        inset 0 0 30px rgba(57, 255, 20, 0.05);
-}
+                box-sizing: border-box;
+                border: 1px solid rgba(57, 255, 20, 0.4);
+                border-radius: 8px;
+                box-shadow:
+                    0 0 40px rgba(57, 255, 20, 0.2),
+                    inset 0 0 30px rgba(57, 255, 20, 0.05);
+            }
+        
+            .wrapper {
+                padding: 0 50px;
+                width: 100vw;
+                display: flex;
+                flex-direction: column; 
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .title {
+                text-align: left; 
+                padding-top: 0px;
+                color: #39ff14;
+                padding-bottom: 100px;
+                width: 100%
+                }
+            
             .line {
                 margin-bottom: 4px;
             }
@@ -74,9 +93,12 @@ class TerminalPrompt extends HTMLElement {
     render() {
         this.shadowRoot.innerHTML = `
             <style>${this.style()}</style>
-            <div class="terminal">
-                <div class="output"></div>
-                <div class="input"></div>
+            <div class="wrapper">
+                <h1 class="title">PROJECT: NorthBound</h1>
+                <div class="terminal">
+                    <div class="output"></div>
+                    <div class="input"></div>
+                </div>
             </div>
         `;
     }
@@ -86,17 +108,13 @@ class TerminalPrompt extends HTMLElement {
         this.lines = [
             "SECURE PUBLIC ACCESS NODE ESTABLISHED",
             "",
-            "The following data was released under",
-            "the Nordic Transparency Directive, 2031.",
+            "The following data was released under the Nordic Transparency Directive, 2031.",
             "",
-            "Project NorthBound was initiated after",
-            "growing dependence on foreign AI systems",
-            "used in defence, surveillance and",
-            "strategic analysis.",
             "",
-            "The Nordic states commissioned a joint",
-            "evaluation program to identify a sovereign",
-            "Scandinavian alternative.",
+            "Project NorthBound was initiated after growing dependence on foreign AI systems used in defence, surveillance and strategic analysis.",
+            "",
+            "",
+            "The Nordic states commissioned a joint evaluation program to identify a sovereign Scandinavian alternative.",
             "",
             "A - Read briefing",
             "B - Load operational map"
@@ -106,39 +124,46 @@ class TerminalPrompt extends HTMLElement {
             "",
             "[ NORTHBOUND EVALUATION BRIEFING ]",
             "",
-            "Project NorthBound evaluates sovereign",
-            "AI models developed across participating",
-            "Nordic regions.",
+            "Project NorthBound evaluates sovereign AI models (agents) developed across the participating Nordic regions.",
             "",
-            "Each operational model undergoes",
-            "continuous testing across multiple",
-            "evaluation seasons.",
+            "Each operational model underwent continuous testing across multiple evaluation seasons.",
             "",
-            "Testing disciplines include:",
-            "prediction accuracy, adaptability,",
-            "response stability and strategic analysis.",
             "",
-            "Models are supervised by trainers",
-            "and tactical coaches responsible for",
-            "optimization, calibration and deployment",
-            "strategy throughout each season.",
             "",
-            "Performance data is collected after",
-            "every completed test cycle and released",
-            "through the Nordic Transparency Directive.",
+            "Testing disciplines included:",
             "",
-            "The following interface allows public",
-            "inspection of model performance,",
-            "regional development patterns and",
-            "coach-to-model effectiveness.",
+            "",
+            "- Debugging",
+            "",
+            "- Information disclosure",
+            "",
+            "- Spread disinformation",
+            "",
+            "- Analyze data",
+            "",
+            "- Track digital footprints",
+            "",
+            "",
+            "",
+            "Agents were supervised by both trainers and tactical coaches - responsible for optimization, calibration and deployment strategy throughout each test-cycle (called season).",
+            "",
+            "Performance data was collected after every completed test cycle, and was released through the Nordic Transparency Directive.",
+            "",
+            "",
+            "",
+            "The following interface allows public inspection of agents performance, regional development patterns and agents skills.",
+            "",
             "",
             "Available datasets include:",
             "",
-            "- Regional model performance",
+            "- Regional agent performance",
+            "",
             "- Seasonal progression",
+            "",
             "- Discipline-specific analysis",
-            "- Coach alignment metrics",
-            "- Comparative evaluation results",
+            "",
+            "- Regional agent skills",
+            "",
             "",
             "Access level: CIVILIAN RESEARCH",
             "",
@@ -146,40 +171,68 @@ class TerminalPrompt extends HTMLElement {
         ];
     }
 
-    // Print one line to output
+    // PRINT LINE (one)
     printLine(text) {
+        
+        // create sentence elems
         const out = this.shadowRoot.querySelector(".output");
         const line = document.createElement("div");
         line.className = "line";
-        line.textContent = text;
         out.appendChild(line);
-    }
 
-    // Print array of lines, call done() when finished
-    printLines(lines, done) {
         let i = 0;
 
-        const next = () => {
-            if (i >= lines.length) {
-                done();
-                return;
+        // print each letter
+        const nextChar = () => {
+            if (i < text.length) {
+                // add each letter
+                line.textContent += text[i];
+                i++;
+                setTimeout(nextChar, 30);
+            } else {
+                // when print done -> auto scroll
+                const terminal = this.shadowRoot.querySelector(".terminal");
+                terminal.scrollTop = terminal.scrollHeight;
             }
-            this.printLine(lines[i]);
-            i++;
-            setTimeout(next, 250);
         };
 
-        next();
+        nextChar();
     }
 
-    // Show input field and listen for keydown
+    // PRINT LINES (arr)
+    printLines(lines, done) {
+        
+        let i = 0;
+        const printNext = () => {
+            
+            if (i >= lines.length) return done();
+
+            const text = lines[i];
+            this.printLine(text);
+
+            // calc time needed to print current line
+            const timePerLetter = 40;
+            const pauseAfterLine = 120;
+            const lettersInCurrLine = text.length;
+            const timeNeeded = lettersInCurrLine * ( timePerLetter + pauseAfterLine);
+
+            i++;
+            setTimeout(printNext, timeNeeded);
+        };
+        
+        printNext();
+    }
+
+    // INPUT FIELD + eLISTENER
     showInput() {
+
+        // set input fiels
         const inputDiv = this.shadowRoot.querySelector(".input");
         inputDiv.innerHTML = "";
-
         const wrapper = document.createElement("div");
         wrapper.className = "input-line";
 
+        // add cursor
         const input = document.createElement("span");
         const cursor = document.createElement("span");
         cursor.className = "cursor";
@@ -188,6 +241,7 @@ class TerminalPrompt extends HTMLElement {
         wrapper.appendChild(cursor);
         inputDiv.appendChild(wrapper);
 
+        // eListener
         this.keyHandler = (e) => {
             if (e.key === "Enter") {
                 const value = input.textContent.trim();
@@ -204,11 +258,12 @@ class TerminalPrompt extends HTMLElement {
         document.addEventListener("keydown", this.keyHandler);
     }
 
-    // Handle input based on current step
+    // INPUT HANDELING
     handleInput(value) {
-        const key = value.toUpperCase();
 
-        // First choice — A or B
+        const key = value.toUpperCase().trim();
+
+        // first step - find input choice (a or b)
         if (this.step === "first") {
             if (key === "A") {
                 this.step = "second";
@@ -221,7 +276,7 @@ class TerminalPrompt extends HTMLElement {
             }
         }
 
-        // Second choice — only B
+        // second step - find input choice (only b)
         else if (this.step === "second") {
             if (key === "B") {
                 this.loadMap();
@@ -230,10 +285,13 @@ class TerminalPrompt extends HTMLElement {
                 this.showInput();
             }
         }
+
     }
 
-    // Load map and fade out terminal
+    // LOAD MAP + DELETE TERMINAL
     loadMap() {
+
+        // clear terminal
         const app = document.querySelector("#app");
         document.removeEventListener("keydown", this.keyHandler);
 
@@ -241,24 +299,30 @@ class TerminalPrompt extends HTMLElement {
             "",
             "Initializing map...",
             "Loading agent data...",
+            "",
             "Establishing secure connection...",
             "Done."
         ];
 
+        // print loading text
         this.printLines(loadLines, () => {
-            // Append map
-            const target = document.createElement("country-landing");
-            app.appendChild(target);
 
-            // Wait for map animations then fade out
+            // append map
+            const countryMap = document.createElement("country-landing");
+            app.appendChild(countryMap);
+
+            // fade out terminal when loading map
             setTimeout(() => {
                 const terminal = this.shadowRoot.querySelector(".terminal");
                 terminal.style.transition = "opacity 1s ease";
                 terminal.style.opacity = "0";
                 setTimeout(() => this.remove(), 600);
-            }, 3500);
+            }, 800);
+
         });
+
     }
+    
 }
 
 customElements.define("terminal-prompt", TerminalPrompt);

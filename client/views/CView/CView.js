@@ -9,7 +9,6 @@ export class CView extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: "open" });
-        this.locationView = this.getAttribute("locationView");
     }
 
     connectedCallback() {
@@ -59,7 +58,7 @@ export class CView extends HTMLElement {
     }
 
 render() {
-    
+    this.locationView = this.getAttribute("locationView");
     console.log("location:", this.locationView)
     this.shadowRoot.innerHTML = `
         <style>${this.style()}</style>
