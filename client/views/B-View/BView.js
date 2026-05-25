@@ -24,6 +24,7 @@ export class BView extends HTMLElement{
     }
     
     connectedCallback(){
+
         this.color = DB.participants.find(p=> p.id == this.id).color;
         const gadfd = this.getAgentDataForDiscipline(this.disciplineId);
         this.render();
@@ -33,6 +34,7 @@ export class BView extends HTMLElement{
 
         this.eList();        
     }
+
 
     getAgentDataForDiscipline(disciplineId){
         let seasonScores = this.getCalculatedScores();
@@ -221,6 +223,7 @@ export class BView extends HTMLElement{
         })
 
         this.shadowRoot.querySelector("#backBtn").addEventListener("click", () => {
+            document.body.style.overflow = "";
             this.remove();
         });
 
@@ -267,6 +270,7 @@ export class BView extends HTMLElement{
     }
 
     render(){
+        document.body.style.overflow = "hidden";
         this.shadowRoot.innerHTML = `
         <style>
 
