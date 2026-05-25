@@ -12,7 +12,7 @@ export class BView extends HTMLElement{
         this.disciplineId = disciplineId;
         this.allDisciplines = DB.disciplines;
         this.discipline = this.allDisciplines.find(d=> d.id == this.disciplineId);
-        this.discColors = ["#27B2E8", "#F06129", "#4FE125","#C82EF5", "#f40000"];
+        this.discColors = ["#9790ec", "#F06129", "#e3fd40","#C82EF5", "#D3346E"];
         this.skillColors = ["#94D5FD", "#FA9C89", "#B8FEB0","#E6BBFB", "#FF7171"];
 
         this.lineHw = {
@@ -279,7 +279,7 @@ export class BView extends HTMLElement{
 
             #all{
                 margin: 0px auto;
-                color: #3EB51C;
+                color: #34D399;
                 display: grid;
                 grid-template-columns: 2fr 1fr;
                 overflow: clip;
@@ -333,7 +333,7 @@ export class BView extends HTMLElement{
                 width: 28px;
                 padding: 2px 0px;
                 height: 16px;
-                color: rgba(184, 254, 176);
+                color: #34D399;
                 text-align: center;
                 border: 0.5px solid rgba(184, 254, 176, 0.5);
                 border-radius: 4px;
@@ -376,7 +376,7 @@ export class BView extends HTMLElement{
                 left: -8px;
                 background-color: #0D1A2E;
                 display: none;
-                box-shadow: 1px 3px 2px rgba(184, 254, 176, 0.5);
+                box-shadow: 1px 3px 2px rgba(184, 254, 176, 0.25);
 
             }
 
@@ -388,7 +388,7 @@ export class BView extends HTMLElement{
             }
 
             .list-item:hover{
-                color: #4FE125;
+                color: #34D399;
                 text-shadow: 1px 1px 2px rgba(184, 254, 176, 0.5);
             }
             #chart-container{
@@ -409,7 +409,7 @@ export class BView extends HTMLElement{
 
             }
             #disc-btn:hover {
-                    color: #4FE125;
+                    color: #34D399;
                     text-shadow: 1px 1px 2px rgba(184, 254, 176, 0.5);
             }
             rect.isClicked{

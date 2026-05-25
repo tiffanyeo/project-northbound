@@ -3,12 +3,12 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
     const ORIGINAL_RESULTS = results;
 
-    const color = "#3EB51C";
+    const color = "#34D399";
     const labelColor = "rgb(184, 254, 176)";
     
     let max = 0;
     
-    const seasons = cleanData(results)
+    const seasons = cleanData(results);
 
     const maxScore = 15;
 
@@ -29,7 +29,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
     const yAxis = d3.axisLeft(yScale)
                     .tickValues([0, 1, 3, 6, 10, 15]);
 
-    const yGrid = d3.axisLeft(yScale).tickSize(-wSvg).tickFormat("");
+    const yGrid = d3.axisLeft(yScale).tickValues([0, 1, 3, 6, 10, 15]).tickSize(-wSvg).tickFormat("");
 
     let dMakerFunc = d3.line()
                         .x(d=> xScale(d.x))
