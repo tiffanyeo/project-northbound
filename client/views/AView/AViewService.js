@@ -4,9 +4,8 @@ import { DB } from "../../../backend/services/DBAccess.js";
 
 export const ASections = {
 
-    compDaysLocation: [],
     eventsLocation: [],
-    totalParticipants: { all: [], discipline: { id: 0, participants: [] }, season: { id: 0, participants: [] } },
+    totalParticipants: { allLocation: { participants: [] }, discipline: { id: 0, participants: [] }, season: { id: 0, participants: [] } },
 
 
     getSeasons: function (seasonYear) {
@@ -42,7 +41,7 @@ export const ASections = {
     resetCurrentFilter: function (categoryName, categoryId) {
 
         if (this.totalParticipants[categoryName].participants.length == 0) {
-            this.totalParticipants[categoryName].participants = structuredClone(this.totalParticipants.all);
+            this.totalParticipants[categoryName].participants = structuredClone(this.totalParticipants.allLocation.participants);
         }
 
         this.totalParticipants[categoryName].id = Number(categoryId);
@@ -129,21 +128,27 @@ export const ASections = {
 
 
     mainFilterLocationScore: function (locationId) {
+        this.totalParticipants.allLocation.participants = [];
+        this.totalParticipants.season.id = 0;
+        this.totalParticipants.season.participants = [];
+        this.totalParticipants.discipline.id = 0;
+        this.totalParticipants.discipline.participants = [];
+
+        let compDaysLocation = [];
 
         // LOOPING THROUGH SEASONS
         let compDays = this.getSeasons().flatMap(season => season.competitionDays);
 
         for (let compDay of compDays) {
             if (locationId == compDay.locationId) {
-                this.compDaysLocation.push(compDay);
+                compDaysLocation.push(compDay);
             }
         }
 
         // LOOPING THROUGH COMPDAYS
-        let events = this.compDaysLocation.flatMap(compDay => compDay.events);
+        let events = compDaysLocation.flatMap(compDay => compDay.events);
 
         this.eventsLocation = events;
-
 
 
 
@@ -153,12 +158,12 @@ export const ASections = {
 
             for (let participant of event.scores) {
 
-                let savedParticipant = this.totalParticipants.all.find(partici => partici.participantId == participant.participantId);
+                let savedParticipant = this.totalParticipants.allLocation.participants.find(partici => partici.participantId == participant.participantId);
 
                 let participantColor = this.getParticipants(participant.participantId).color;
 
                 if (!savedParticipant) {
-                    this.totalParticipants.all.push({ participantId: participant.participantId, score: participant.score, competeingTimes: 1, color: participantColor });
+                    this.totalParticipants.allLocation.participants.push({ participantId: participant.participantId, score: participant.score, competeingTimes: 1, color: participantColor });
 
                 } else {
                     savedParticipant.score += participant.score;
@@ -168,19 +173,20 @@ export const ASections = {
         }
 
 
-
         // FILTER OUT WRONG PARTICIPANT FOR LOCATION AND CALCULATE AVERGAE SCORE AND ADD NAME
-        for (let participant of this.totalParticipants.all) {
+        for (let participant of this.totalParticipants.allLocation.participants) {
             let storedParticipant = DB.participants.find(partici => partici.id == participant.participantId);
             if (storedParticipant.locationId != locationId) {
-                this.totalParticipants.all = this.totalParticipants.all.filter(partici => partici.participantId != storedParticipant.id);
+                this.totalParticipants.allLocation.participants = this.totalParticipants.allLocation.participants.filter(partici => partici.participantId != storedParticipant.id);
             }
 
             participant.name = storedParticipant.name;
-            participant.score = Math.round(participant.score / participant.competeingTimes);
+
         }
 
-        return this.totalParticipants.all;
+        this.getAverageScore(this.totalParticipants.allLocation.participants);
+
+        return this.totalParticipants.allLocation.participants;
     },
 
 
@@ -193,7 +199,6 @@ export const ASections = {
 
             for (let compDay of compDays) {
                 for (let event of compDay.events) {
-
 
                     if (event.disciplineId == disciplineId) {
                         eventsPerDiscipline.push(event);
