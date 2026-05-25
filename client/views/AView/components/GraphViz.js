@@ -177,7 +177,6 @@ class GraphViz extends HTMLElement {
                 for (let selectedColor of seasonDropDownSelections) {
                     selectedColor.style.backgroundColor = "";
                 }
-                console.log("This is selection", selection);
                 currentFiltersSeason.textContent = selection.textContent;
                 selection.style.backgroundColor = "rgba(0, 255, 0, 0.14)";
                 this.getParticipantsBySeason(selection.id);
@@ -216,7 +215,6 @@ class GraphViz extends HTMLElement {
         let allAgents = this.shadowRoot.querySelectorAll(".bar-group");
         console.log(allAgents)
         for (let agent of allAgents) {
-            console.log(agent)
             agent.addEventListener("click", (event) => {
 
                 let data = { participantId: event.currentTarget.id };
