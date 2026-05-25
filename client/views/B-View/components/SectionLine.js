@@ -37,7 +37,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
     let areaMaker = d3.area()
                         .x(d => xScale(d.x))
-                        .y0(yScale(-1))
+                        .y0(yScale(-0.7))
                         .y1(yScale(maxScore + hPadding));
     const bridgeArea = d3.area()
                     .x(d=> xScale(d.x))
