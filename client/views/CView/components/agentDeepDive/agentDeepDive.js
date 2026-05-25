@@ -36,17 +36,17 @@ export class AgentDeepDive extends HTMLElement {
                 max-height: 90vh;
                 overflow-y: auto; /* scroll här istället */
                 background:rgba(55, 255, 20, 0.05);;
-                border: 1px solid rgba(57,255,20,0.4);
+                border: 1px solid #34D399;
                 border-radius: 14px;
                 padding: 50px;
                 padding-top: 100px;
                 box-sizing: border-box;
-                color: #adf7a0;
+                color: #34D399;
                 display: flex;
                 flex-direction: column;
                 gap: 30px;
                 box-shadow:
-                    0 0 20px rgba(57,255,20,0.25),
+                    0 0 20px #34d39971,
                     inset 0 0 12px rgba(57,255,20,0.15);
             }
 
@@ -55,7 +55,7 @@ export class AgentDeepDive extends HTMLElement {
                 text-align: center;
                 margin: 0;
                 font-size: 38px;
-                color: #39ff14;
+                color: #34D399;
             }
                 
             .ranking-value {
@@ -78,7 +78,7 @@ export class AgentDeepDive extends HTMLElement {
             .section h2 {
                 margin: 0;
                 font-size: 26px;
-                color: #39ff14;
+                color: #34D399;
                 text-align: center;
             }
 
@@ -87,12 +87,12 @@ export class AgentDeepDive extends HTMLElement {
                 margin: 0 auto;
                 font-size: 15px;
                 line-height: 150%;
-                color: #adf7a0;
+                color: #34D399;
                 text-align: center;
             }
 
             .text-highlight {
-                color: rgba(57,255,20,0.9);
+                color: #d0c85b;
                 font-weight: bold;
             }
 
@@ -109,8 +109,8 @@ export class AgentDeepDive extends HTMLElement {
                 position: absolute;
                 top: 20px;
                 right: 20px;
-                border: 1px solid #39ff14;
-                color: #39ff14;
+                border: 1px solid #34D399;
+                color: #34D399;
                 padding: 8px 12px;
                 cursor: pointer;
                 border-radius: 6px;
@@ -118,7 +118,7 @@ export class AgentDeepDive extends HTMLElement {
             }
 
             button.close:hover {
-                background: #39ff14;
+                background: #34D399;
                 color: #0D1A2E;
             }
         `;

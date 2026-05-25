@@ -33,14 +33,14 @@ export class LocationComparison extends HTMLElement {
 
             .country-title {
                 font-size: 48px;
-                color: #39ff14;
+                color: #34D399;
             }
 
             .country-subtitle {
                 font-size: 14px;
                 opacity: 0.8;
                 margin-top: 8px;
-                color: #39ff14;
+                color:  #34D399;
                 max-width: 1200px;
                 text-align: center;
                 line-height: 130%;
@@ -49,13 +49,13 @@ export class LocationComparison extends HTMLElement {
 
             .titles {
                 text-align: center;
-                color: #39ff14;
+                color:  #34D399;
                 margin: 0;
             }
                 
             .page-text {
                 font-size: 20px;
-                color: #adf7a0;
+                color:  #34D399;
             }
                 
             .country-agent-container {
@@ -79,7 +79,7 @@ export class LocationComparison extends HTMLElement {
             }
 
             .text-highlight {
-                color: rgba(57,255,20,0.8);
+                color:  #d0c85b;
                 font-weight: bold;
             }
                 
@@ -94,9 +94,9 @@ export class LocationComparison extends HTMLElement {
             radar-chart:hover {
                 border-radius: 12px;
                 box-shadow:
-                    0 0 15px rgba(55, 255, 20, 0.47),
-                    inset 0 0 10px rgba(57,255,20,0.15);
-                border: 1px solid rgba(57,255,20,0.4)
+                    0 0 15px  #34D399,
+                    inset 0 0 10px #34d39986;
+                border: 1px solid  #34D399;
                 box-sizing: border-box;
             }
             
@@ -107,11 +107,11 @@ export class LocationComparison extends HTMLElement {
                 gap: 40px;
                 padding: 30px;
 
-                border: 1px solid rgba(57,255,20,0.4)
+                border: 1px solid  #34d39986;
                 border-radius: 12px;
 
                 box-shadow:
-                    0 0 15px rgba(57,255,20,0.25),
+                    0 0 15px  #34d39986,
                     inset 0 0 10px rgba(57,255,20,0.15);
             }
 
@@ -138,8 +138,8 @@ export class LocationComparison extends HTMLElement {
             }
 
             .dropdown-selected {
-                color: #39ff14;
-                border: 2px solid #39ff14;
+                color:  #34D399;
+                border: 2px solid  #34D399;
                 border-radius: 10px;
                 padding: 12px 16px;
                 display: flex;
@@ -147,14 +147,14 @@ export class LocationComparison extends HTMLElement {
                 align-items: center;
                 cursor: pointer;
                 box-shadow:
-                    0 0 8px rgba(57,255,20,0.5),
+                    0 0 8px #34d39986,
                     inset 0 0 8px rgba(57,255,20,0.15);
                 transition: .2s;
             }
 
             .dropdown-selected:hover {
                 box-shadow:
-                    0 0 14px rgba(57,255,20,0.8),
+                    0 0 14px  #34d39986,
                     inset 0 0 12px rgba(57,255,20,0.2);
             }
 
@@ -164,7 +164,7 @@ export class LocationComparison extends HTMLElement {
                 left: 0;
                 width: 100%;
                 background: #0D1A2E;
-                border: 2px solid #39ff14;
+                border: 2px solid  #34D399;
                 border-radius: 10px;
                 overflow: hidden;
                 display: none;
@@ -177,21 +177,21 @@ export class LocationComparison extends HTMLElement {
 
             .dropdown-option {
                 padding: 12px 16px;
-                color: #39ff14;
+                color:  #34D399;
                 cursor: pointer;
                 transition: .15s;
             }
 
             .dropdown-option:hover {
-                background: #37ff14bd;
+                background:  #34D399;
                 color: #0D1A2E;
             }
 
             .tooltip {
                 position: fixed;
                 background: #0D1A2E;
-                color: #39ff14;
-                border: 1px solid #39ff14;
+                color:  #34D399;
+                border: 1px solid  #34D399;
                 padding: 8px 12px;
                 border-radius: 6px;
                 font-size: 12px;

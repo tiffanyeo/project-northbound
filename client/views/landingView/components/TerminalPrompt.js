@@ -10,11 +10,13 @@ class TerminalPrompt extends HTMLElement {
         super();
         this.attachShadow({ mode: "open" });
         this.step = "first";
+        this.cancelPrint = false;
     }
 
     connectedCallback() {
         this.loadText();
         this.render();
+        this.eListeners()
         this.printLines(this.lines, () => this.showInput());
     }
 
@@ -30,7 +32,7 @@ class TerminalPrompt extends HTMLElement {
             }
             .terminal {
                 background: #0D1A2E;
-                color: #39ff14;
+                color: #34D399;
                 font-family: monospace;
                 font-size: 18px;
                 line-height: 1.7;
@@ -43,10 +45,10 @@ class TerminalPrompt extends HTMLElement {
                 overflow-y: auto;
 
                 box-sizing: border-box;
-                border: 1px solid rgba(57, 255, 20, 0.4);
+                border: 1px solid #34D399;
                 border-radius: 8px;
                 box-shadow:
-                    0 0 40px rgba(57, 255, 20, 0.2),
+                    0 0 40px #34d39966,
                     inset 0 0 30px rgba(57, 255, 20, 0.05);
             }
         
@@ -62,7 +64,7 @@ class TerminalPrompt extends HTMLElement {
             .title {
                 text-align: left; 
                 padding-top: 0px;
-                color: #39ff14;
+                color: #34D399;
                 padding-bottom: 100px;
                 width: 100%
                 }
@@ -74,13 +76,31 @@ class TerminalPrompt extends HTMLElement {
                 display: flex;
                 margin-top: 8px;
             }
+                
+            .skip-btn {
+                background: transparent;
+                border: none;
+                border-bottom: 1px solid #34D399;
+                color: #34D399;
+                padding: 6px 14px;
+                font-family: monospace;
+                cursor: pointer;
+                margin-top: 30px;
+                transition: 0.2s;
+            }
+
+            .skip-btn:hover {
+                background: #34d39964;
+                border-radius: 5px;
+            }
+
             .cursor {
                 width: 10px;
                 height: 18px;
-                background: #39ff14;
+                background: #34D399;
                 margin-left: 4px;
                 animation: blink 0.7s infinite;
-                box-shadow: 0 0 8px #39ff14;
+                box-shadow: 0 0 8px #34D399;
             }
             @keyframes blink {
                 0% { opacity: 1; }
@@ -99,10 +119,18 @@ class TerminalPrompt extends HTMLElement {
                     <div class="output"></div>
                     <div class="input"></div>
                 </div>
+                <button class="skip-btn">SKIP</button>
             </div>
         `;
     }
 
+    eListeners() {
+        const skipBtn = this.shadowRoot.querySelector(".skip-btn");
+        skipBtn.addEventListener("click", () => {
+            this.cancelPrint = true;   // <-- STOPPA ALL UTSKRIFT
+            this.loadMap();            // <-- LADDAR KARTAN DIREKT
+        });
+    }
     loadText() {
 
         this.lines = [
@@ -173,7 +201,7 @@ class TerminalPrompt extends HTMLElement {
 
     // PRINT LINE (one)
     printLine(text) {
-        
+
         // create sentence elems
         const out = this.shadowRoot.querySelector(".output");
         const line = document.createElement("div");
@@ -184,6 +212,7 @@ class TerminalPrompt extends HTMLElement {
 
         // print each letter
         const nextChar = () => {
+            if (this.cancelPrint) return;
             if (i < text.length) {
                 // add each letter
                 line.textContent += text[i];
@@ -201,10 +230,10 @@ class TerminalPrompt extends HTMLElement {
 
     // PRINT LINES (arr)
     printLines(lines, done) {
-        
+
         let i = 0;
         const printNext = () => {
-            
+            if (this.cancelPrint) return;
             if (i >= lines.length) return done();
 
             const text = lines[i];
@@ -214,12 +243,12 @@ class TerminalPrompt extends HTMLElement {
             const timePerLetter = 40;
             const pauseAfterLine = 120;
             const lettersInCurrLine = text.length;
-            const timeNeeded = lettersInCurrLine * ( timePerLetter + pauseAfterLine);
+            const timeNeeded = (lettersInCurrLine * timePerLetter) + pauseAfterLine;
 
             i++;
             setTimeout(printNext, timeNeeded);
         };
-        
+
         printNext();
     }
 
@@ -291,6 +320,7 @@ class TerminalPrompt extends HTMLElement {
     // LOAD MAP + DELETE TERMINAL
     loadMap() {
 
+        console.log("LOAD MAP")
         // clear terminal
         const app = document.querySelector("#app");
         document.removeEventListener("keydown", this.keyHandler);
@@ -322,7 +352,7 @@ class TerminalPrompt extends HTMLElement {
         });
 
     }
-    
+
 }
 
 customElements.define("terminal-prompt", TerminalPrompt);
