@@ -28,24 +28,26 @@ class TerminalPrompt extends HTMLElement {
                 align-items: center;
                 justify-content: center;
             }
-            .terminal {
-                background: #0D1A2E;
-                color: #39ff14;
-                font-family: monospace;
-                font-size: 18px;
-                line-height: 1.7;
-                padding: 60px 80px;
-                width: 700px;
-                max-width: 90vw;
-                min-height: 80vh;
-                overflow-y: auto;
-                box-sizing: border-box;
-                border: 1px solid rgba(57, 255, 20, 0.4);
-                border-radius: 8px;
-                box-shadow:
-                    0 0 40px rgba(57, 255, 20, 0.2),
-                    inset 0 0 30px rgba(57, 255, 20, 0.05);
-            }
+.terminal {
+    background: #0D1A2E;
+    color: #39ff14;
+    font-family: monospace;
+    font-size: 18px;
+    line-height: 1.7;
+    padding: 60px 80px;
+    width: 700px;
+    max-width: 90vw;
+
+    height: 80vh;
+    overflow-y: auto;
+
+    box-sizing: border-box;
+    border: 1px solid rgba(57, 255, 20, 0.4);
+    border-radius: 8px;
+    box-shadow:
+        0 0 40px rgba(57, 255, 20, 0.2),
+        inset 0 0 30px rgba(57, 255, 20, 0.05);
+}
             .line {
                 margin-bottom: 4px;
             }
@@ -82,43 +84,66 @@ class TerminalPrompt extends HTMLElement {
     loadText() {
 
         this.lines = [
-            "Connecting to secure network...",
-            "Authentication successful.",
+            "SECURE PUBLIC ACCESS NODE ESTABLISHED",
             "",
-            "Welcome to Project Northbound.",
+            "The following data was released under",
+            "the Nordic Transparency Directive, 2031.",
             "",
-            "A - Learn more about Project Northbound",
-            "B - Load map"
+            "Project NorthBound was initiated after",
+            "growing dependence on foreign AI systems",
+            "used in defence, surveillance and",
+            "strategic analysis.",
+            "",
+            "The Nordic states commissioned a joint",
+            "evaluation program to identify a sovereign",
+            "Scandinavian alternative.",
+            "",
+            "A - Read briefing",
+            "B - Load operational map"
         ];
 
         this.moreLines = [
             "",
-            "[ PROJECT NORTHBOUND — CLASSIFIED ]",
+            "[ NORTHBOUND EVALUATION BRIEFING ]",
             "",
-            "In 2031, the Nordic states initiated a joint",
-            "program to develop the next generation AI model.",
+            "Project NorthBound evaluates sovereign",
+            "AI models developed across participating",
+            "Nordic regions.",
             "",
-            "Five nations. Five laboratories. One winner.",
+            "Each operational model undergoes",
+            "continuous testing across multiple",
+            "evaluation seasons.",
             "",
-            "Each nation has recruited a team of AI agents —",
-            "specialized in different areas of machine learning.",
-            "They are trained by world-leading trainers and",
-            "evaluated continuously in standardized tests",
-            "referred to as 'seasons'.",
+            "Testing disciplines include:",
+            "prediction accuracy, adaptability,",
+            "response stability and strategic analysis.",
             "",
-            "Criteria: precision, speed, adaptability",
-            "and stability under extreme load.",
+            "Models are supervised by trainers",
+            "and tactical coaches responsible for",
+            "optimization, calibration and deployment",
+            "strategy throughout each season.",
             "",
-            "The winning nation delivers their model to",
-            "the Nordic Council — and makes history.",
+            "Performance data is collected after",
+            "every completed test cycle and released",
+            "through the Nordic Transparency Directive.",
             "",
-            "Current season: 7",
-            "Active agents: 312",
-            "Completed tests: 4 891",
+            "The following interface allows public",
+            "inspection of model performance,",
+            "regional development patterns and",
+            "coach-to-model effectiveness.",
             "",
-            "B - Load map"
+            "Available datasets include:",
+            "",
+            "- Regional model performance",
+            "- Seasonal progression",
+            "- Discipline-specific analysis",
+            "- Coach alignment metrics",
+            "- Comparative evaluation results",
+            "",
+            "Access level: CIVILIAN RESEARCH",
+            "",
+            "B - Load operational map"
         ];
-
     }
 
     // Print one line to output
@@ -209,6 +234,7 @@ class TerminalPrompt extends HTMLElement {
 
     // Load map and fade out terminal
     loadMap() {
+        const app = document.querySelector("#app");
         document.removeEventListener("keydown", this.keyHandler);
 
         const loadLines = [
@@ -222,14 +248,14 @@ class TerminalPrompt extends HTMLElement {
         this.printLines(loadLines, () => {
             // Append map
             const target = document.createElement("country-landing");
-            document.body.appendChild(target);
+            app.appendChild(target);
 
             // Wait for map animations then fade out
             setTimeout(() => {
                 const terminal = this.shadowRoot.querySelector(".terminal");
                 terminal.style.transition = "opacity 1s ease";
                 terminal.style.opacity = "0";
-                setTimeout(() => this.remove(), 1000);
+                setTimeout(() => this.remove(), 600);
             }, 3500);
         });
     }
