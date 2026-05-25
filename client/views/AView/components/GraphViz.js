@@ -9,7 +9,7 @@ class GraphViz extends HTMLElement {
         this.locationId;
         this.maxDomain = ASections.getMaxDomain();
         this.render();
-        this.addEventListeners();
+        this.filterListeners();
     }
 
 
@@ -156,9 +156,11 @@ class GraphViz extends HTMLElement {
             }
         }
 
+        this.agentsListeners()
+
     }
 
-    addEventListeners() {
+    filterListeners() {
 
         let seasonDropDownSelections = this.shadowRoot.querySelectorAll("#seasonDropdown div");
         let disciplineDropDownSelections = this.shadowRoot.querySelectorAll("#disciplineDropdown div");
@@ -181,10 +183,13 @@ class GraphViz extends HTMLElement {
         }
 
 
+    }
+
+    agentsListeners() {
         let allAgents = this.shadowRoot.querySelectorAll(".bar-group");
-
+        console.log(allAgents)
         for (let agent of allAgents) {
-
+            console.log(agent)
             agent.addEventListener("click", (event) => {
 
                 let data = { participantId: event.currentTarget.id };
@@ -197,11 +202,6 @@ class GraphViz extends HTMLElement {
 
             })
         }
-
-
-    }
-
-    eventListeners() {
 
 
     }
