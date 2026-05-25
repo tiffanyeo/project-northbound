@@ -27,13 +27,13 @@ export class LocationComparison extends HTMLElement {
         return `
             .country-title-container {
                 text-align: center;
-                margin-top: 80px;
                 margin-bottom: 40px;
             }
 
             .country-title {
                 font-size: 48px;
                 color: #34D399;
+                margin-top: 0;
             }
 
             .country-subtitle {
@@ -61,6 +61,7 @@ export class LocationComparison extends HTMLElement {
             .country-agent-container {
                 display: flex;
                 padding: 40px;
+                margin-bottom: 300px;
             }
 
             .containers {

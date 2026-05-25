@@ -57,6 +57,8 @@ class OutroTerminalPrompt extends HTMLElement {
             }
         
             .wrapper {
+                justify-self: center;
+                align-self: center;
                 padding: 0 50px;
                 width: 100vw;
                 display: flex;
