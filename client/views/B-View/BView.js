@@ -457,6 +457,20 @@ export class BView extends HTMLElement{
                 stroke: rgba(184, 254, 176, 0.5);
                 opacity: 0.3;
             }
+
+            .tool {
+                z-index: 10000;
+                position: absolute;
+                text-align: left;
+                padding: 0px 6px;
+                background: rgba(184, 254, 176);
+                font-size: 12px;
+                color: #0D1A2E;
+                border: 1px solid rgba(184, 254, 176, 0.5);
+                border-radius: 4px;
+                pointer-events: none;
+                line-height: 0.2;
+            }
         </style>
             <div id="all">
                 <div class="left" class="half">
@@ -478,6 +492,7 @@ export class BView extends HTMLElement{
                         <svg id="chart" width="800" height="500"></svg>
                         <svg id="btn-container" width="800" height="60"></svg>
                         <button id="all-seasons">All Seasons</button>
+                        <div class="tool"></div>
                     </div>
                 </div>
                 <div class="right">
