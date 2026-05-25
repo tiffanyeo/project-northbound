@@ -2,7 +2,6 @@
 import { DB } from "../../services/DBAccess.js"
 import { Agents } from "../../services/Agents/Agents.js";
 
-
 class CViewService {
 
     buildRadarData(labels, values, meta = {}) {

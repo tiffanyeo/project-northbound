@@ -1,4 +1,10 @@
-/* BODY */
+#app {
+    display: flex;
+    flex-direction: column;
+    gap: 300px;
+    width: 95%;
+}
+
 body {
     background-color: #0D1A2E;
     margin: 0;
