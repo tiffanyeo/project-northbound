@@ -7,7 +7,9 @@ class GraphViz extends HTMLElement {
         super();
         this.attachShadow({ mode: "open" });
         this.locationId;
+        this.maxDomain = ASections.getMaxDomain();
         this.render();
+        this.addEventListeners();
     }
 
 
@@ -42,20 +44,20 @@ class GraphViz extends HTMLElement {
 
         // Rensa allt ur SVG elementet genom selectAll * och remove()
 
-
-        function getMax() {
-            let maxValue = 0;
-            for (let object of data) {
-                if (object.score > maxValue) {
-                    maxValue = object.score;
-                }
-            }
-            return maxValue;
-        }
+        console.log(data)
+        // function getMax() {
+        //     let maxValue = 0;
+        //     for (let object of data) {
+        //         if (object.score > maxValue) {
+        //             maxValue = object.score;
+        //         }
+        //     }
+        //     return maxValue;
+        // }
 
 
         let scaleX = d3.scaleLinear()
-            .domain([1000, getMax()])
+            .domain([1000, this.maxDomain])
             .range([125, 225]);
 
         let scaleY = d3.scaleBand()
@@ -141,14 +143,12 @@ class GraphViz extends HTMLElement {
 
         // Move into a method instead
         let notCompeted = data.filter(participant => participant.competeingTimes == 0);
-        console.log(notCompeted)
 
         if (notCompeted.length >= 1) {
             for (let participant of notCompeted) {
                 if (notCompeted.length >= 1) {
-                    let group = this.shadowRoot.getElementById(`${participant.participantId}`);
-                    let rect = group.childNodes[0];
-                    let text = group.childNodes[2];
+                    let rect = allMerged.select("#score-text");
+                    let text = allMerged.select("#score-rect")
 
                     rect.style.fill = "grey";
                     text.textContent = "DNS";
@@ -156,8 +156,6 @@ class GraphViz extends HTMLElement {
             }
         }
 
-
-        this.addEventListeners();
     }
 
     addEventListeners() {
@@ -166,8 +164,8 @@ class GraphViz extends HTMLElement {
         let disciplineDropDownSelections = this.shadowRoot.querySelectorAll("#disciplineDropdown div");
 
         for (let selection of seasonDropDownSelections) {
-
-            selection.addEventListener("click", () => {
+            selection.addEventListener("click", (event) => {
+                console.log("This is selection", selection);
 
                 this.getParticipantsBySeason(selection.id);
 
@@ -184,7 +182,6 @@ class GraphViz extends HTMLElement {
 
 
         let allAgents = this.shadowRoot.querySelectorAll(".bar-group");
-        console.log(allAgents)
 
         for (let agent of allAgents) {
 
@@ -309,34 +306,34 @@ class GraphViz extends HTMLElement {
                     <p>&#128197 SEASONS</p>
                     <div id="seasonDropdown" class="dropDown">
                         <div id="0">
-                            <p>Year: 00</p>
+                            <p>Season 1</p>
                         </div>
                         <div id="1">
-                            <p>Year: 01</p>
+                            <p>Season 2</p>
                         </div>
                         <div id="2">
-                            <p>Year: 02</p>
+                            <p>Season 3</p>
                         </div>
                         <div id="3">
-                            <p>Year: 03</p>
+                            <p>Season 4</p>
                         </div>
                         <div id="4">
-                            <p>Year: 04</p>
+                            <p>Season 5</p>
                         </div>
                         <div id="5">
-                            <p>Year: 05</p>
+                            <p>Season 6</p>
                         </div>
                         <div id="6">
-                            <p>Year: 06</p>
+                            <p>Season 7</p>
                         </div>
                         <div id="7">
-                            <p>Year: 07</p>
+                            <p>Season 8</p>
                         </div>
                         <div id="8">
-                            <p>Year: 08</p>
+                            <p>Season 9</p>
                         </div>
                         <div id="9">
-                            <p>Year: 09</p>
+                            <p>Season 10</p>
                         </div>
                     </div>
                 </div>

@@ -70,10 +70,61 @@ export const ASections = {
     },
 
 
-    getAverageScore: function (category) {
-        for (let participant of this.totalParticipants[category].participants) {
+    getAverageScore: function (categoryArray) {
+        for (let participant of categoryArray) {
             participant.score = Math.round(participant.score / participant.competeingTimes);
         }
+    },
+
+
+    getMaxDomain() {
+        let seasons = this.getSeasons();
+
+        let allEvents = [];
+        let allScores = [];
+        let allParticipants = [];
+
+        for (let season of seasons) {
+            for (let compDay of season.competitionDays) {
+                allEvents.push(compDay.events);
+            }
+        }
+
+        allEvents = allEvents.flatMap(event => event);
+
+        for (let event of allEvents) {
+            for (let score of event.scores) {
+                allScores.push(score);
+            }
+        }
+
+        for (let score of allScores) {
+            let findParticipant = allParticipants.find(participant => participant.participantId == score.participantId);
+
+            if (!findParticipant) {
+                allParticipants.push({ participantId: score.participantId, competeingTimes: 1, score: score.score });
+
+            } else {
+                findParticipant.score += score.score;
+                findParticipant.competeingTimes++;
+            }
+
+        }
+
+        this.getAverageScore(allParticipants);
+
+        let maxValue = 0;
+        for (let participant of allParticipants) {
+            if (participant.score > maxValue) {
+                maxValue = participant.score;
+            }
+        }
+
+        console.log(maxValue)
+
+        return maxValue;
+
+
     },
 
 
@@ -81,14 +132,13 @@ export const ASections = {
 
         // LOOPING THROUGH SEASONS
         let compDays = this.getSeasons().flatMap(season => season.competitionDays);
-        console.log(compDays)
+
         for (let compDay of compDays) {
             if (locationId == compDay.locationId) {
                 this.compDaysLocation.push(compDay);
             }
         }
 
-        console.log(this.compDaysLocation)
         // LOOPING THROUGH COMPDAYS
         let events = this.compDaysLocation.flatMap(compDay => compDay.events);
 
@@ -121,9 +171,7 @@ export const ASections = {
 
         // FILTER OUT WRONG PARTICIPANT FOR LOCATION AND CALCULATE AVERGAE SCORE AND ADD NAME
         for (let participant of this.totalParticipants.all) {
-            console.log(participant)
             let storedParticipant = DB.participants.find(partici => partici.id == participant.participantId);
-            console.log(storedParticipant)
             if (storedParticipant.locationId != locationId) {
                 this.totalParticipants.all = this.totalParticipants.all.filter(partici => partici.participantId != storedParticipant.id);
             }
@@ -132,7 +180,6 @@ export const ASections = {
             participant.score = Math.round(participant.score / participant.competeingTimes);
         }
 
-        console.log(this.totalParticipants.all)
         return this.totalParticipants.all;
     },
 
@@ -154,7 +201,6 @@ export const ASections = {
                 }
             }
 
-            console.log(eventsPerDiscipline)
 
         } else {
             for (let event of this.eventsLocation) {
@@ -166,8 +212,6 @@ export const ASections = {
 
         }
 
-        console.log(eventsPerDiscipline)
-
 
         this.resetCurrentFilter("discipline", disciplineId);
 
@@ -175,10 +219,9 @@ export const ASections = {
         this.extractParticipants("discipline", eventsPerDiscipline);
 
 
-        this.getAverageScore("discipline");
+        this.getAverageScore(this.totalParticipants.discipline.participants);
 
 
-        console.log(this.totalParticipants);
         return this.totalParticipants.discipline.participants;
 
     },
@@ -193,7 +236,6 @@ export const ASections = {
         let compDays = this.getSeasons(seasonYear).competitionDays;
 
         for (let compDay of compDays) {
-            console.log(event)
             eventsPerSeason.push(compDay.events);
         }
 
@@ -211,10 +253,11 @@ export const ASections = {
         this.extractParticipants("season", eventsPerSeason);
 
 
-        this.getAverageScore("season");
+        this.getAverageScore(this.totalParticipants.season.participants);
 
-        console.log(this.totalParticipants)
         return this.totalParticipants.season.participants;
 
     }
 }
+
+ASections.getMaxDomain();
