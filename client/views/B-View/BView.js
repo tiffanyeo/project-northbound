@@ -24,6 +24,7 @@ export class BView extends HTMLElement{
     }
     
     connectedCallback(){
+
         this.color = DB.participants.find(p=> p.id == this.id).color;
         const gadfd = this.getAgentDataForDiscipline(this.disciplineId);
         this.render();
@@ -33,6 +34,7 @@ export class BView extends HTMLElement{
 
         this.eList();        
     }
+
 
     getAgentDataForDiscipline(disciplineId){
         let seasonScores = this.getCalculatedScores();
@@ -221,6 +223,7 @@ export class BView extends HTMLElement{
         })
 
         this.shadowRoot.querySelector("#backBtn").addEventListener("click", () => {
+            document.body.style.overflow = "";
             this.remove();
         });
 
@@ -267,6 +270,7 @@ export class BView extends HTMLElement{
     }
 
     render(){
+        document.body.style.overflow = "hidden";
         this.shadowRoot.innerHTML = `
         <style>
 
@@ -457,6 +461,23 @@ export class BView extends HTMLElement{
                 stroke: rgba(184, 254, 176, 0.5);
                 opacity: 0.3;
             }
+            rect.selected{
+                fill: rgba(184, 254, 176, 0.2);
+            }
+
+            .tool {
+                z-index: 10000;
+                position: absolute;
+                text-align: left;
+                padding: 0px 6px;
+                background: rgba(184, 254, 176);
+                font-size: 12px;
+                color: #0D1A2E;
+                border: 1px solid rgba(184, 254, 176, 0.5);
+                border-radius: 4px;
+                pointer-events: none;
+                line-height: 0.2;
+            }
         </style>
             <div id="all">
                 <div class="left" class="half">
@@ -478,6 +499,7 @@ export class BView extends HTMLElement{
                         <svg id="chart" width="800" height="500"></svg>
                         <svg id="btn-container" width="800" height="60"></svg>
                         <button id="all-seasons">All Seasons</button>
+                        <div class="tool"></div>
                     </div>
                 </div>
                 <div class="right">
