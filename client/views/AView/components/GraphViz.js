@@ -139,21 +139,22 @@ class GraphViz extends HTMLElement {
 
 
 
-
-
         // Move into a method instead
         let notCompeted = data.filter(participant => participant.competeingTimes == 0);
 
         if (notCompeted.length >= 1) {
             for (let participant of notCompeted) {
-                if (notCompeted.length >= 1) {
-                    let rect = allMerged.select("#score-text");
-                    let text = allMerged.select("#score-rect")
-
-                    rect.style.fill = "grey";
-                    text.textContent = "DNS";
-                }
+                let partici = this.shadowRoot.getElementById(participant.participantId);
+                console.log(partici)
+                let rect = partici.childNodes[0];
+                let text = partici.childNodes[2];
+                console.log(text);
+                console.log(rect)
+                
+                rect.style.fill = "grey";
+                text.textContent = "DNS";
             }
+
         }
 
         this.agentsListeners()
