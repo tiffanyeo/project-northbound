@@ -1,11 +1,8 @@
 export default function createLineChartForAgent(hW, results, container, btnCont, hostC){
     const host = hostC;
     const tooltip = d3.select(host.shadowRoot).select(".tool").style("opacity", 0);
-    console.log(tooltip);
 
     const ORIGINAL_RESULTS = results;
-
-    console.log(results);
 
     const color = "#34D399";
     const labelColor = "rgb(184, 254, 176)";
