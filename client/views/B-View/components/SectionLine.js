@@ -39,7 +39,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
     let areaMaker = d3.area()
                         .x(d => xScale(d.x))
                         .y0(yScale(-0.7))
-                        .y1(yScale(maxScore + hPadding));
+                        .y1(d =>yScale(d.points));
     const bridgeArea = d3.area()
                     .x(d=> xScale(d.x))
                     .y0(yScale(0))
@@ -146,7 +146,8 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
             .attr("id", "b0")
             .attr("fill", "transparent")
             .attr("stroke", "none")
-            .attr("d", bridgeArea);
+            .attr("d", bridgeArea)
+            .attr("pointer-events", "none");
 
 
         for (let i = 0; i < seasons.length - 1; i++){
@@ -200,7 +201,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                 .on("mouseover", function(){
                     const index = Number(this.id.slice(1) - 1);
                     d3.select(this).attr("fill", "rgba(184, 254, 176, 0.2)");
-                    d3.select(this.ownerSVGElement).select(`#b${index}`).attr("fill", "url(#bridgeGradient");
+                    d3.select(this.ownerSVGElement).select(`#b${index}`).attr("fill", "url(#bridgeGradient)");
 
                 })
                 .on("mouseout", function(){
@@ -208,19 +209,22 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                     d3.select(this).attr("fill", "transparent");
                     d3.select(this.ownerSVGElement).select(`#b${index}`).attr("fill", "transparent");
                 })
-        
+        })
+
         seasons.forEach((s, sIndex) =>{
             if (s.matches.length !== 7){
-                svg.selectAll(`.circle-${sIndex}`)
+                const group = svg.append("g");
+                group.selectAll("circle")
                     .data(s.matches)
                     .enter()
                     .append("circle")
-                    .attr("class", `circle${sIndex} point-circle`)
+                    .attr("class", "point-circle")
                     .attr("fill", "transparent")
                     .attr("cx", d=> xScale(d.x))
                     .attr("cy", d=> yScale(d.points))
                     .attr("r", 3)
                     .attr("fill", "transparent")
+                    .attr("pointer-events", "none")
                     .on("mouseover", function (event, d){
                         d3.select(this).attr("r", 5)
                         tooltip.transition()
@@ -233,7 +237,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
                     })
                     .on("mouseout", function (event, d){
-                        d3.select(this).attr("r", 2)
+                        d3.select(this).attr("r", 3)
                         tooltip.transition()
                             .duration(50)
                             .style("opacity", 0);
@@ -241,7 +245,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
             }
 
         })
-        })
+
 
     }
 
@@ -339,11 +343,14 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                 .ease(d3.easeCubicOut)
                 .attr("display", "block");
             
+            areaMaker.y1(d =>yScale(d.points))
 
             svg.selectAll(".season-area").attr("pointer-events", "none");
+            
 
             svg.selectAll(".bridge-line").attr("stroke", "none")
 
+            
             svg.selectAll(".point-circle")
                 .attr("cx", d=> xScale(d.x))
                 .attr("cy", d=> yScale(d.points))
@@ -352,7 +359,8 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                 .ease(d3.easeElastic)
                 .attr("fill", labelColor)
                 .attr("pointer-events", "auto")
-
+            
+            svg.selectAll(".point-circle").raise();
         } else {
             xScale.domain([0, lastx]);
             svg.selectAll(".season-area")
