@@ -2,6 +2,7 @@
 import "./views/countryLandingView/countryLandingView.js";
 import "./views/AView/AView.js";
 import "./views/CView/CView.js"
+import "./views/LandingView/components/OutroPrompt.js"
 
 import { BView } from "./views/B-View/BView.js"
 import { CView } from "./views/CView/CView.js"
@@ -15,16 +16,13 @@ window.addEventListener("selected-agent", (data) => {
 
 // C-View (skills)
 window.addEventListener("selected-country", (data) => {
-    console.log(data)
     const app = document.querySelector("#app");
-    const el = document.createElement("c-view");
-el.setAttribute("locationView", data.detail.id);
-app.appendChild(el);
+    const cview = document.createElement("c-view");
+    cview.setAttribute("locationView", data.detail.id);
+    app.appendChild(cview);
 
-    console.log("CREATE C-VIEW WITH ID:", data.detail.id)
-    console.log("CREATE THIS ELEM:", ` <c-view locationView=${data.detail.id}></c-view>`)
-    //app.appendChild(`<c-view locationView=${data.detail.id}></c-view>`)
-    console.log("CREATED")
+    const outroTerminal = document.createElement("outro-terminal-prompt");
+    app.appendChild(outroTerminal);
 })
 
 //TestView för BarChart just nu.

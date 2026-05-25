@@ -79,7 +79,7 @@ export class LocationComparison extends HTMLElement {
             }
 
             .text-highlight {
-                color:  #d0c85b;
+                color:  #ccddc7;
                 font-weight: bold;
             }
                 

@@ -34,8 +34,8 @@ export class AgentDeepDive extends HTMLElement {
                 width: 90%;
                 max-width: 1100px;
                 max-height: 90vh;
-                overflow-y: auto; /* scroll här istället */
-                background:rgba(55, 255, 20, 0.05);;
+                overflow-y: auto;
+                background: #34d3991b;
                 border: 1px solid #34D399;
                 border-radius: 14px;
                 padding: 50px;
@@ -64,7 +64,7 @@ export class AgentDeepDive extends HTMLElement {
                 
             .section {
                 background: #0D1A2E;
-                border: 1px solid rgba(57,255,20,0.25);
+                border: 1px solid #34d39976;
                 border-radius: 12px;
                 padding: 30px 40px;
                 display: flex;
@@ -92,7 +92,7 @@ export class AgentDeepDive extends HTMLElement {
             }
 
             .text-highlight {
-                color: #d0c85b;
+                color: #ccddc7;
                 font-weight: bold;
             }
 
