@@ -1,5 +1,6 @@
 export default function createLineChartForAgent(hW, results, container, btnCont, hostC){
     const host = hostC;
+    const tooltip = d3.select(host.shadowRoot).select(".tool").style("opacity", 0);
 
     const ORIGINAL_RESULTS = results;
 
@@ -33,16 +34,16 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
     let dMakerFunc = d3.line()
                         .x(d=> xScale(d.x))
-                        .y(d=> yScale(d.score));
+                        .y(d=> yScale(d.points));
 
     let areaMaker = d3.area()
                         .x(d => xScale(d.x))
                         .y0(yScale(-0.7))
-                        .y1(yScale(maxScore + hPadding));
+                        .y1(d =>yScale(d.points));
     const bridgeArea = d3.area()
                     .x(d=> xScale(d.x))
                     .y0(yScale(0))
-                    .y1(d=> yScale(d.score))
+                    .y1(d=> yScale(d.points))
 
     const svg = d3.select(container);
 
@@ -101,9 +102,9 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
             const start = seasons[i+1].matches[0];
             svg.append("line")
                 .datum({x1: end.x,
-                        y1: end.score,
+                        y1: end.points,
                         x2: start.x,
-                        y2: start.score
+                        y2: start.points
                 })
                 .attr("class", "bridge-line")
                 .attr("x1", d => xScale(d.x1))
@@ -117,7 +118,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                 x1: 0,
                 y1: 0,
                 x2: 1,
-                y2: seasons[0].matches[0].score
+                y2: seasons[0].matches[0].points
                 })
             .attr("class", "bridge-line")
             .attr("x1", d => xScale(d.x1))
@@ -135,8 +136,8 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
         const first = seasons[0].matches[0];
         const firstBridge = [
-            {x: 0, score: 0},
-            {x: first.x, score: first.score},
+            {x: 0, points: 0},
+            {x: first.x, points: first.points},
         ];
 
         svg.append("path")
@@ -145,7 +146,8 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
             .attr("id", "b0")
             .attr("fill", "transparent")
             .attr("stroke", "none")
-            .attr("d", bridgeArea);
+            .attr("d", bridgeArea)
+            .attr("pointer-events", "none");
 
 
         for (let i = 0; i < seasons.length - 1; i++){
@@ -156,8 +158,8 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
             const start = seasons[i + 1].matches[0];
 
             const bridge = [
-                {x: end.x, score: end.score},
-                {x: start.x, score: start.score}
+                {x: end.x, points: end.points},
+                {x: start.x, points: start.points}
             ];
 
 
@@ -199,7 +201,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                 .on("mouseover", function(){
                     const index = Number(this.id.slice(1) - 1);
                     d3.select(this).attr("fill", "rgba(184, 254, 176, 0.2)");
-                    d3.select(this.ownerSVGElement).select(`#b${index}`).attr("fill", "url(#bridgeGradient");
+                    d3.select(this.ownerSVGElement).select(`#b${index}`).attr("fill", "url(#bridgeGradient)");
 
                 })
                 .on("mouseout", function(){
@@ -208,6 +210,43 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                     d3.select(this.ownerSVGElement).select(`#b${index}`).attr("fill", "transparent");
                 })
         })
+
+        seasons.forEach((s, sIndex) =>{
+            if (s.matches.length !== 7){
+                const group = svg.append("g");
+                group.selectAll("circle")
+                    .data(s.matches)
+                    .enter()
+                    .append("circle")
+                    .attr("class", "point-circle")
+                    .attr("fill", "transparent")
+                    .attr("cx", d=> xScale(d.x))
+                    .attr("cy", d=> yScale(d.points))
+                    .attr("r", 3)
+                    .attr("fill", "transparent")
+                    .attr("pointer-events", "none")
+                    .on("mouseover", function (event, d){
+                        d3.select(this).attr("r", 5)
+                        tooltip.transition()
+                            .duration(50)
+                            .style("opacity", 1);
+
+                        tooltip.html(`<p>Game: ${d.matchOfSeason + 1}, season ${sIndex + 1}</p><p>Game score: ${d.score}</p><p>Points rewarded: ${d.points}`)
+                             .style("left", (event.clientX + 10) + "px")
+                             .style("top", (event.clientY -50) + "px");
+
+                    })
+                    .on("mouseout", function (event, d){
+                        d3.select(this).attr("r", 3)
+                        tooltip.transition()
+                            .duration(50)
+                            .style("opacity", 0);
+                    })
+            }
+
+        })
+
+
     }
 
     allSeasonsLineChart();
@@ -246,7 +285,9 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                     d3.select(this).attr("fill", "transparent");
                 })
                 .on("click", function(){
-                    d3.selectAll("rect").attr("fill", "transparent");
+                    clearSelectedSeason();
+                    d3.select(this).classed("selected", true);
+
                     stretchZoom(s.matches);
                     const event = new CustomEvent("B: season-select", {
                       detail: s.season,
@@ -254,6 +295,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                       composed: true
                     });
                     this.ownerSVGElement.dispatchEvent(event);
+                    svg.selectAll(`.point-circle`).attr("fill", "transparent")
                 })
         
             btnG.append("text")
@@ -269,6 +311,10 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
 
     renderButtons();
+
+    function clearSelectedSeason(){
+        d3.select(btnCont).selectAll(".season-btn").classed("selected", false).attr("fill", "transparent")
+    }
 
     function stretchZoom(matches){
         if (matches) {
@@ -297,13 +343,24 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                 .ease(d3.easeCubicOut)
                 .attr("display", "block");
             
-            areaMaker.y1(d=> yScale(d.score))
+            areaMaker.y1(d =>yScale(d.points))
 
-            svg.selectAll(".season-area")
-                .call(areaMaker)
+            svg.selectAll(".season-area").attr("pointer-events", "none");
+            
 
             svg.selectAll(".bridge-line").attr("stroke", "none")
 
+            
+            svg.selectAll(".point-circle")
+                .attr("cx", d=> xScale(d.x))
+                .attr("cy", d=> yScale(d.points))
+                .transition()
+                .duration(300)
+                .ease(d3.easeElastic)
+                .attr("fill", labelColor)
+                .attr("pointer-events", "auto")
+            
+            svg.selectAll(".point-circle").raise();
         } else {
             xScale.domain([0, lastx]);
             svg.selectAll(".season-area")
@@ -324,6 +381,14 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
             svg.selectAll(".season-area")
                 .call(areaMaker)
+
+            svg.selectAll(".point-circle")
+                .transition()
+                .duration(300)
+                .ease(d3.easeCubicOut)
+                .attr("fill", "transparent")
+                .attr("pointer-events", "none")
+            
         }
 
 
@@ -358,11 +423,17 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
     host.addEventListener("B: all-seasons", () =>{
         stretchZoom();
+
+        clearSelectedSeason()
+
     })
+
+    function showInfo(){
+
+    }
 }
 
 function cleanData(results){
-    console.log(results);
     let offset = 0;
     const seasons = results.map((seasonData, index) => {
         let matches = [];
@@ -370,7 +441,7 @@ function cleanData(results){
             for (let i = 0; i < 7; i++){
                 matches.push({
                     x: offset + i + 1,
-                    score: 0
+                    points: 0
                 })
             }
             offset += 7;
@@ -378,7 +449,8 @@ function cleanData(results){
             for (let j = 0; j < seasonData.scores.length; j++) {
                 matches.push({
                     x: offset + j + 1,
-                    score: seasonData.scores[j].leagueScores,
+                    points: seasonData.scores[j].leagueScores,
+                    score: seasonData.scores[j].score,
                     matchOfSeason: j
                 });
             }
@@ -388,7 +460,6 @@ function cleanData(results){
 
         return{season: seasonData.season, matches}
     });
-    console.log(seasons);
     return seasons;
 
 }

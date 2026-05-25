@@ -1,10 +1,13 @@
-import "../../countryLandingView/components/CountryLandscape.js"
+
+
+import { Agents } from "../../../services/Agents/Agents.js";
+import { DB } from "../../../services/DBAccess.js"
 
 /*
-    <terminal-prompt></terminal-prompt>
+    <outro-terminal-prompt></outro-terminal-prompt>
 */
 
-class TerminalPrompt extends HTMLElement {
+class OutroTerminalPrompt extends HTMLElement {
 
     constructor() {
         super();
@@ -16,19 +19,19 @@ class TerminalPrompt extends HTMLElement {
     connectedCallback() {
         this.loadText();
         this.render();
-        this.eListeners();
-        this.initTerminal();
+        this.eListeners()
     }
 
     style() {
         return `
             :host {
-                position: fixed;
+                position: relative; 
                 inset: 0;
                 z-index: 9999;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                min-height: 100vh; 
             }
                 
             .terminal {
@@ -39,7 +42,7 @@ class TerminalPrompt extends HTMLElement {
                 line-height: 1.7;
                 padding: 60px 80px;
                 padding-bottom: 180px;
-                width: 700px;
+                width: 800px;
                 max-width: 90vw;
 
                 height: 70vh;
@@ -54,6 +57,8 @@ class TerminalPrompt extends HTMLElement {
             }
         
             .wrapper {
+                justify-self: center;
+                align-self: center;
                 padding: 0 50px;
                 width: 100vw;
                 display: flex;
@@ -63,12 +68,13 @@ class TerminalPrompt extends HTMLElement {
             }
             
             .title {
+                margin-top: 100px;
                 text-align: left; 
                 padding-top: 0px;
                 color: #34D399;
-                padding-bottom: 100px;
+                padding-bottom: 50px;
                 width: 100%
-                }
+            }
             
             .line {
                 margin-bottom: 4px;
@@ -79,7 +85,7 @@ class TerminalPrompt extends HTMLElement {
                 margin-top: 8px;
             }
                 
-            .skip-btn {
+            .start-btn {
                 background: transparent;
                 border: none;
                 border-bottom: 1px solid #34D399;
@@ -87,11 +93,11 @@ class TerminalPrompt extends HTMLElement {
                 padding: 6px 14px;
                 font-family: monospace;
                 cursor: pointer;
-                margin-top: 30px;
+                margin-bottom: 30px;
                 transition: 0.2s;
             }
 
-            .skip-btn:hover {
+            .start-btn:hover {
                 background: #34d39964;
                 border-radius: 5px;
             }
@@ -113,94 +119,109 @@ class TerminalPrompt extends HTMLElement {
         `;
     }
 
-    eListeners() {
-        const skipBtn = this.shadowRoot.querySelector(".skip-btn");
-        skipBtn.addEventListener("click", () => {
-            this.cancelPrint = true;
-            this.loadMap();
-        });
-    }
-    
     render() {
+        // 0: Object { participantId: 154, name: "ØreByte", skillFactor: 74 }
+        /*         const agentTop = Agents.getAgentsAverage();
+                console.log("TOP 5 AGENTS (best average skill-factors, across all skill-factors)", agentTop)
+                const skills = agentTop.map(currAgent => Agents.getAllSkillFactors(currAgent.participantId))
+                console.log("TOP 5 AGENTS SKILL-FACTORS", skills)
+                console.log("AGENTS LOCATIONS", agentTop.map(
+                    currAgent => DB.participants.find(
+                        currP => currP.id === currAgent.participantId)))
+                console.log("ALL LOCATIONS:", DB.locations)
+                console.log("ALL DICIPLINES", DB.disciplines)
+                console.log("ALL REQUIRED SKILLFACTORS IN EACH DISIPLINE", DB.disciplines.map(currDisc => currDisc.skillFactors)) */
+
         this.shadowRoot.innerHTML = `
             <style>${this.style()}</style>
             <div class="wrapper">
-                <h1 class="title">PROJECT: NorthBound</h1>
+                <h1 class="title">FINAL REPORT</h1>
+                <button class="start-btn">RUN REPORT</button>
                 <div class="terminal">
                     <div class="output"></div>
                     <div class="input"></div>
                 </div>
-                <button class="skip-btn">SKIP</button>
             </div>
         `;
     }
-
+    
+    eListeners() {
+        const runBtn = this.shadowRoot.querySelector(".start-btn")
+        runBtn.addEventListener("click", () => {
+            this.shadowRoot.querySelector(".start-btn").remove();
+            this.initTerminal();
+        });
+    }
+    
     loadText() {
 
         this.lines = [
-            "SECURE PUBLIC ACCESS NODE ESTABLISHED",
+            "[ PROJECT: NORTHBOUND 2031 ]",
             "",
-            "The following data was released under the Nordic Transparency Directive, 2031.",
-            "",
-            "",
-            "PROJECT: NorthBound was initiated after growing dependence on foreign AI systems used in defence, surveillance and strategic analysis.",
+            "The 2031 evaluation cycle is complete. All Nordic sovereign agents have been tested across every discipline.",
             "",
             "",
-            "The Nordic states commissioned a joint evaluation program to identify a sovereign Scandinavian alternative.",
+            "One model achieved the strongest overall alignment with Nordic operational needs:",
             "",
-            "A - Read briefing",
-            "B - Load operational map"
+            "→ ØreByte — Denmark",
+            "",
+            "",
+            "Press A to view the top 5 agents and their projected future performance."
         ];
 
         this.moreLines = [
+            "[ MOST PROMISING AGENTS — NEXT PROCUREMENT CYCLE ]",
             "",
-            "[ NORTHBOUND EVALUATION BRIEFING ]",
+            "The following agents show the strongest potential for future Nordic deployment.",
+            "Based on skill‑factor averages (avr. s.f), alignment with Nordic priority and performing stable scores across the test cycles.",
             "",
-            "Project NorthBound evaluates sovereign AI models (agents) developed across the participating Nordic regions.",
-            "",
-            "Each operational agent underwent continuous testing across multiple evaluation seasons.",
-            "",
-            "",
-            "",
-            "Testing disciplines included:",
-            "",
-            "",
-            "- Debugging",
-            "",
-            "- Information disclosure",
-            "",
-            "- Spread disinformation",
-            "",
-            "- Analyze data",
-            "",
-            "- Track digital footprints",
+            "-",
+            "1. ØreByte — Denmark (74 avr. s.f)",
+            "Selected as the top candidate.",
+            "Although tied with Wulkaino in total score, ØreByte exceeds Nordic priority metrics in Accuracy and Intelligence.",
             "",
             "",
-            "",
-            "Agents were supervised by both trainers and tactical coaches - responsible for optimization, calibration and deployment strategy throughout each test-cycle (called season).",
-            "",
-            "Performance data was collected after every completed test cycle, and was released through the Nordic Transparency Directive.",
-            "",
+            "2. Wulkaino — Iceland (74 avr. s.f)",
+            "Strong Token Power and high Speed.",
+            "Promising for future procurement cycles, but slightly weaker alignment with Nordic priority disciplines compared to ØreByte.",
             "",
             "",
-            "The following interface allows public inspection of agents performance, regional development patterns and agents skills.",
+            "3. Viking — Sweden (73 avr. s.f)",
+            "Balanced skill‑profile, suggesting strong development potential with the right coaching.",
             "",
             "",
-            "Available datasets include:",
-            "",
-            "- Regional agent performance",
-            "",
-            "- Seasonal progression",
-            "",
-            "- Discipline-specific analysis",
-            "",
-            "- Regional agent skills",
+            "4. SpotifAI — Sweden",
+            "Exceptionally strong test‑cycle results, surpassing agents with higher skill‑factors.",
+            "However, its skill‑profile does not explain these outcomes. NorthBound could not determine whether the high scores reflected capability or statistical variance.",
             "",
             "",
-            "Access level: CIVILIAN RESEARCH",
+            "5. Fjordén — Norway",
+            "Highest average score per event. However, Fjordén is a newer model with fewer completed test cycles, making long‑term stability uncertain.",
+            "-",
             "",
-            "B - Load operational map"
+            "All five agents are considered promising candidates for future Nordic deployment.",
+            "If ØreByte’s license is not renewed, one of these models may be selected for procurement in the next evaluation cycle.",
+            "",
+            "",
+            "[ END OF PUBLIC SUMMARY ]",
+            "",
+            "Thank you for exploring PROJECT: NorthBound.",
+            "",
+            "",
+            "Responsible publishers:",
+            "",
+            "Philip Smith - Nordic AI Evaluation Board",
+            "",
+            "Tiffany Larsson - Office for Sovereign Model Oversight",
+            "",
+            "Alina Björkén - Scandinavian Digital Integrity Council",
+            "",
+            "",
+            "This concludes the public exploration module.",
+            "",
+            "[ CONNECTION TERMINATED ]",
         ];
+
     }
 
     // START PRINTING
@@ -306,66 +327,19 @@ class TerminalPrompt extends HTMLElement {
 
         const key = value.toUpperCase().trim();
 
-        // first step - find input choice (a or b)
+        // first step - read more
         if (this.step === "first") {
             if (key === "A") {
                 this.step = "second";
                 this.printLines(this.moreLines, () => this.showInput());
-            } else if (key === "B") {
-                this.loadMap();
             } else {
                 this.printLine("Invalid input. Try again.");
                 this.showInput();
             }
         }
 
-        // second step - find input choice (only b)
-        else if (this.step === "second") {
-            if (key === "B") {
-                this.loadMap();
-            } else {
-                this.printLine("Invalid input. Press B to load map.");
-                this.showInput();
-            }
-        }
-
-    }
-
-    // LOAD MAP + DELETE TERMINAL
-    loadMap() {
-
-        // clear terminal
-        const app = document.querySelector("#app");
-        document.removeEventListener("keydown", this.keyHandler);
-
-        const loadLines = [
-            "",
-            "Initializing map...",
-            "Loading agent data...",
-            "",
-            "Establishing secure connection...",
-            "Done."
-        ];
-
-        // print loading text
-        this.printLines(loadLines, () => {
-
-            // append map
-            const countryMap = document.createElement("country-landing");
-            app.appendChild(countryMap);
-
-            // fade out terminal when loading map
-            setTimeout(() => {
-                const terminal = this.shadowRoot.querySelector(".terminal");
-                terminal.style.transition = "opacity 1s ease";
-                terminal.style.opacity = "0";
-                setTimeout(() => this.remove(), 600);
-            }, 800);
-
-        });
-
-    }
+    } 
 
 }
 
-customElements.define("terminal-prompt", TerminalPrompt);
+customElements.define("outro-terminal-prompt", OutroTerminalPrompt);
