@@ -67,9 +67,7 @@ export class RadarChart extends HTMLElement {
 
     // readable data
     setAttributes() {
-        console.log("before")
         this.participantId = this.data.participantId || null;
-        console.log("after")
         this.category = this.data.category || null;
         this.categoryId = this.data.categoryId || null;
         this.setAttribute("participantId", this.participantId || "");
