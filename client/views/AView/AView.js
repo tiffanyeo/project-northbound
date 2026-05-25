@@ -1,6 +1,6 @@
 import "./components/GraphViz.js";
 import "./components/CountrySide.js";
-import { countriesView } from "../countryLandingView/countryLandingView.js";
+import "../countryLandingView/countryLandingView.js";
 
 class AView {
 
@@ -17,7 +17,9 @@ class AView {
             countrySideComp.windowDetails(event.detail)
 
             document.querySelector("#bckButton").addEventListener("click", () => {
-                countriesView.render();
+                const app = document.querySelector("#app");
+                app.innerHTML = ``
+                app.innerHTML = `<country-landing></country-landing>`
             })
 
         })
