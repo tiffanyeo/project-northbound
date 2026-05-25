@@ -461,6 +461,9 @@ export class BView extends HTMLElement{
                 stroke: rgba(184, 254, 176, 0.5);
                 opacity: 0.3;
             }
+            rect.selected{
+                fill: rgba(184, 254, 176, 0.2);
+            }
 
             .tool {
                 z-index: 10000;

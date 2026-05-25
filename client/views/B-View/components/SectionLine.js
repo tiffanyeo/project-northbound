@@ -225,13 +225,12 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                     .attr("r", 3)
                     .attr("fill", "transparent")
                     .on("mouseover", function (event, d){
-                        console.log(event);
                         d3.select(this).attr("r", 5)
                         tooltip.transition()
                             .duration(50)
                             .style("opacity", 1);
 
-                        tooltip.html(`<p>Game: ${d.matchOfSeason + 1}</p><p>Game score: ${d.score}</p><p>Points rewarded: ${d.points}`)
+                        tooltip.html(`<p>Game: ${d.matchOfSeason + 1}, season ${sIndex + 1}</p><p>Game score: ${d.score}</p><p>Points rewarded: ${d.points}`)
                              .style("left", (event.clientX + 10) + "px")
                              .style("top", (event.clientY -50) + "px");
 
@@ -285,7 +284,9 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                     d3.select(this).attr("fill", "transparent");
                 })
                 .on("click", function(){
-                    d3.selectAll("rect").attr("fill", "transparent");
+                    clearSelectedSeason();
+                    d3.select(this).classed("selected", true);
+
                     stretchZoom(s.matches);
                     const event = new CustomEvent("B: season-select", {
                       detail: s.season,
@@ -309,6 +310,10 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
 
     renderButtons();
+
+    function clearSelectedSeason(){
+        d3.select(btnCont).selectAll(".season-btn").classed("selected", false).attr("fill", "transparent")
+    }
 
     function stretchZoom(matches){
         if (matches) {
@@ -349,6 +354,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                 .duration(300)
                 .ease(d3.easeElastic)
                 .attr("fill", labelColor)
+                .attr("pointer-events", "auto")
 
         } else {
             xScale.domain([0, lastx]);
@@ -376,6 +382,7 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
                 .duration(300)
                 .ease(d3.easeCubicOut)
                 .attr("fill", "transparent")
+                .attr("pointer-events", "none")
             
         }
 
@@ -411,6 +418,9 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
     host.addEventListener("B: all-seasons", () =>{
         stretchZoom();
+
+        clearSelectedSeason()
+
     })
 
     function showInfo(){
