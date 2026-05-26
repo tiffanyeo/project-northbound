@@ -1,6 +1,6 @@
 //VIEWS
-import "./views/countryLandingView/countryLandingView.js";
 import "./views/AView/AView.js";
+import "./views/countryLandingView/CountryLandingView.js";
 import "./views/CView/CView.js"
 import "./views/LandingView/components/OutroPrompt.js"
 
