@@ -1,6 +1,6 @@
 // USE FUNCTION, AND ONLY ONE FUNCTION FOR ALL FILTERS, DISCIPLINES, LOCATIONS and SEASONS, and SEND IN THE ARGUMENTS AS AN OBJECT IN FUNCTION
 
-import { DB } from "../../../backend/services/DBAccess.js";
+import { DB } from "../../services/DBAccess.js";
 
 export const ASections = {
 

@@ -1,4 +1,4 @@
-import { DB } from "../../../backend/services/DBAccess.js";
+import { DB } from "../../services/DBAccess.js";
 import { RadarChart } from "../../components/RadarChart.js";
 import createLineChartForAgent from "./components/SectionLine.js"
 

@@ -1,4 +1,4 @@
-import { countries } from "../../../../backend/services/countriesDBAccess.js";
+import { countries } from "../../../services/countriesDBAccess.js";
 
 class CountryLandscape extends HTMLElement {
 
