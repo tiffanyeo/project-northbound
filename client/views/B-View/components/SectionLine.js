@@ -428,9 +428,6 @@ export default function createLineChartForAgent(hW, results, container, btnCont,
 
     })
 
-    function showInfo(){
-
-    }
 }
 
 function cleanData(results){
